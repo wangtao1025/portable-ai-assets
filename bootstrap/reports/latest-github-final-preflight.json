@@ -1,6 +1,6 @@
 {
   "mode": "github-final-preflight",
-  "generated_at": "2026-04-27T09:43:34",
+  "generated_at": "2026-04-27T19:43:46",
   "host_home": "/Users/example",
   "engine_root": "/Users/example/AI-Assets",
   "root": "/Users/example/AI-Assets",
@@ -80,22 +80,22 @@
     {
       "name": "archive-file-exists",
       "status": "pass",
-      "detail": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-094316.tar.gz"
+      "detail": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-150713.tar.gz"
     },
     {
       "name": "archive-checksum-file-exists",
       "status": "pass",
-      "detail": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-094316.tar.gz.sha256"
+      "detail": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-150713.tar.gz.sha256"
     },
     {
       "name": "archive-sha256-matches",
       "status": "pass",
-      "detail": "recorded=0ab9c6376b6addba6b2979f71d65a5e27882311ff3a385649e5080750436c0b0 computed=0ab9c6376b6addba6b2979f71d65a5e27882311ff3a385649e5080750436c0b0"
+      "detail": "recorded=77d6290cdf0d3798686477c92170b5032659edcbe749da98de5851e728a1e3d4 computed=77d6290cdf0d3798686477c92170b5032659edcbe749da98de5851e728a1e3d4"
     },
     {
       "name": "handoff-files-exist",
       "status": "pass",
-      "detail": "/Users/example/AI-Assets/dist/github-handoff/portable-ai-assets-handoff-20260427-094332"
+      "detail": "/Users/example/AI-Assets/dist/github-handoff/portable-ai-assets-handoff-20260427-150729"
     },
     {
       "name": "handoff-tree-forbidden-clean",
@@ -105,13 +105,13 @@
   ],
   "paths": {
     "staging_dir": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
-    "handoff_dir": "/Users/example/AI-Assets/dist/github-handoff/portable-ai-assets-handoff-20260427-094332",
-    "archive_path": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-094316.tar.gz",
-    "checksum_path": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-094316.tar.gz.sha256"
+    "handoff_dir": "/Users/example/AI-Assets/dist/github-handoff/portable-ai-assets-handoff-20260427-150729",
+    "archive_path": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-150713.tar.gz",
+    "checksum_path": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-150713.tar.gz.sha256"
   },
   "artifact_sha256": {
-    "recorded": "0ab9c6376b6addba6b2979f71d65a5e27882311ff3a385649e5080750436c0b0",
-    "computed": "0ab9c6376b6addba6b2979f71d65a5e27882311ff3a385649e5080750436c0b0"
+    "recorded": "77d6290cdf0d3798686477c92170b5032659edcbe749da98de5851e728a1e3d4",
+    "computed": "77d6290cdf0d3798686477c92170b5032659edcbe749da98de5851e728a1e3d4"
   },
   "command_drafts": [
     {
@@ -166,7 +166,7 @@
   "source_summaries": {
     "public_safety": {
       "status": "pass",
-      "scanned_files": 130,
+      "scanned_files": 131,
       "findings": 0,
       "blockers": 0,
       "warnings": 0,
@@ -184,8 +184,8 @@
     },
     "public_release_archive": {
       "file_count": 195,
-      "archive_size_bytes": 354565,
-      "archive_sha256": "0ab9c6376b6addba6b2979f71d65a5e27882311ff3a385649e5080750436c0b0"
+      "archive_size_bytes": 359310,
+      "archive_sha256": "77d6290cdf0d3798686477c92170b5032659edcbe749da98de5851e728a1e3d4"
     },
     "public_release_smoke_test": {
       "status": "pass",
@@ -203,7 +203,7 @@
     },
     "public_repo_staging": {
       "status": "ready",
-      "files_in_staging": 176,
+      "files_in_staging": 177,
       "skipped": 0,
       "checks": 6,
       "passed": 6,
@@ -217,11 +217,11 @@
       "git_initialized": true,
       "branch": "main",
       "remote_configured": false,
-      "changed_files": 17,
+      "changed_files": 18,
       "category_counts": {
         "adapters": 1,
         "docs_policy": 4,
-        "other": 12
+        "other": 13
       },
       "forbidden_findings": 0
     },
@@ -236,11 +236,11 @@
     },
     "github_handoff_pack": {
       "status": "ready",
-      "checks": 9,
-      "pass": 9,
+      "checks": 12,
+      "pass": 12,
       "warn": 0,
       "fail": 0,
-      "included_files": 13,
+      "included_files": 14,
       "executes_anything": false,
       "forbidden_findings": 0
     }

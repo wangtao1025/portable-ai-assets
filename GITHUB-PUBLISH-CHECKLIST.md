@@ -7,7 +7,8 @@ This staging tree is generated for manual review before creating or pushing a pu
 - [ ] Review README, docs, examples, schemas, and adapter registry.
 - [ ] Confirm `LICENSE`, `SECURITY.md`, `CHANGELOG.md`, and `RELEASE_NOTES-v0.1.md` are acceptable.
 - [ ] Run `python3 -m unittest tests/test_bootstrap_phase4.py` if tests are included and local Python supports it.
-- [ ] Run `/bin/bash bootstrap/setup/bootstrap-ai-assets.sh --public-safety-scan --both` inside this staging repo.
+- [ ] Run `./bin/paa install` and `paa doctor` if validating global CLI installation locally.
+- [ ] Run `./bin/paa safety --both` (or `/bin/bash bootstrap/setup/bootstrap-ai-assets.sh --public-safety-scan --both`) inside this staging repo.
 - [ ] Confirm no private memory, runtime DBs/logs, backups, candidates, machine-local config, or secrets are present.
 - [ ] Create the GitHub repo manually and push only after review.
 

@@ -1240,6 +1240,7 @@ PUBLIC_SAFETY_SCAN_DIRS = [
     "schemas",
     "adapters/registry",
     "bootstrap/setup",
+    "bin",
     "sample-assets",
     "examples/redacted",
 ]
@@ -3416,6 +3417,7 @@ PUBLIC_REPO_STAGING_INCLUDE_PATHS = [
     "adapters/README.md",
     "adapters/registry",
     "bootstrap/setup",
+    "bin",
     "tests",
     "sample-assets",
     "examples/README.md",
@@ -3449,7 +3451,7 @@ def _iter_public_repo_staging_source_files(root: Path) -> List[Path]:
             relative = candidate.relative_to(root) if candidate.is_relative_to(root) else candidate
             if _is_public_repo_staging_excluded(relative):
                 continue
-            if candidate.suffix not in TEXT_FILE_SUFFIXES:
+            if candidate.suffix not in TEXT_FILE_SUFFIXES and candidate.name != "paa":
                 continue
             files.append(candidate)
     return sorted(set(files))
@@ -3467,7 +3469,8 @@ def _write_github_publish_checklist(staging_dir: Path) -> Path:
         "- [ ] Review README, docs, examples, schemas, and adapter registry.",
         "- [ ] Confirm `LICENSE`, `SECURITY.md`, `CHANGELOG.md`, and `RELEASE_NOTES-v0.1.md` are acceptable.",
         "- [ ] Run `python3 -m unittest tests/test_bootstrap_phase4.py` if tests are included and local Python supports it.",
-        "- [ ] Run `/bin/bash bootstrap/setup/bootstrap-ai-assets.sh --public-safety-scan --both` inside this staging repo.",
+        "- [ ] Run `./bin/paa install` and `paa doctor` if validating global CLI installation locally.",
+        "- [ ] Run `./bin/paa safety --both` (or `/bin/bash bootstrap/setup/bootstrap-ai-assets.sh --public-safety-scan --both`) inside this staging repo.",
         "- [ ] Confirm no private memory, runtime DBs/logs, backups, candidates, machine-local config, or secrets are present.",
         "- [ ] Create the GitHub repo manually and push only after review.",
         "",
@@ -3502,6 +3505,7 @@ def build_public_repo_staging_report(root: Path = ASSETS) -> Dict[str, Any]:
         target.parent.mkdir(parents=True, exist_ok=True)
         try:
             target.write_text(_redact_public_text(source.read_text(encoding="utf-8", errors="replace")), encoding="utf-8")
+            target.chmod(source.stat().st_mode & 0o777)
             copied.append(str(relative))
         except Exception as exc:
             skipped.append({"path": str(relative), "reason": str(exc)})

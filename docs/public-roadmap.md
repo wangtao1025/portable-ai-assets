@@ -676,3 +676,39 @@ The project is succeeding if users can say:
 - harden the final `release-closure` rollup so it explicitly requires the manual reviewer handoff freeze check, the GitHub handoff freshness-after-freeze check, and the completed-work external learning / anti-closed-door pass
 - extend release closure regression coverage to prove those final publication-readiness evidence items are present and passing before manual release review is considered ready
 - keep final rollup local/report-only: no release approval, go/no-go decision, final feedback fabrication, reviewer invitation, sharing automation, remote issue creation, issue/backlog mutation, commit, push, repo/remote/tag/release creation, provider/API call, credential validation, hook/action/command execution, publication automation, upload, or runtime/admin/provider-state mutation
+
+### Phase 119 — Short `paa` command wrapper ✅
+- add a Codex/Hermes-style `./bin/paa` short command so common workflows can be run as `./bin/paa project-pack-preview --both` or `./bin/paa ppack --both` instead of the long bootstrap path
+- keep the legacy `./bootstrap/setup/bootstrap-ai-assets.sh --<mode>` wrapper fully compatible while documenting short aliases for project/team packs, safety, readiness, completed-work review, release closure, handoff freeze, handoff pack, and preflight
+- keep the wrapper local/thin: it only delegates to the existing bootstrap script and does not add release approval, remote mutation, credential validation, publishing, upload, sharing, invitation, or issue/backlog side effects
+
+### Phase 120 — Hermes-style `paa setup` entrypoint ✅
+- extend the short wrapper with `./bin/paa setup`, mirroring the simple Hermes setup entrypoint pattern while delegating to the existing private-assets initialization flow
+- support `./bin/paa setup [asset-root] [options]`, defaulting to `${PAA_DEFAULT_ASSET_ROOT:-$HOME/AI-Assets-private}` and translating to `--init-private-assets`
+- keep setup explicit and local: it scaffolds/configures the chosen private asset root through the existing bootstrap path and does not publish, push, create remote repos, validate credentials, upload, share, invite reviewers, or mutate issues/backlogs
+
+### Phase 121 — User-level `paa install` global command ✅
+- add `./bin/paa install [bin-dir]` so users can link the wrapper into `${PAA_INSTALL_BIN_DIR:-$HOME/.local/bin}` and then run `paa setup`, `paa ppack`, or `paa safety` from anywhere without relative or absolute project paths
+- verify install behavior with a temp-bin symlink regression and keep project-local `./bin/paa ...` compatibility
+- keep install user-local and non-publishing: it creates a local symlink only and does not create remotes, push, tag, release, upload, validate credentials, invite reviewers, share handoff material, or mutate issues/backlogs
+
+### Phase 122 — Hermes/Codex-style CLI discovery commands ✅
+- add `paa doctor` for local CLI/bootstrap readiness checks and `paa list` for common commands/aliases so installed users can discover setup and preview flows without knowing repository paths
+- verify installed PATH invocation for `paa --help`, `paa list`, and `paa doctor` through the temp-bin symlink regression
+- keep discovery commands local and non-networked: no credential validation, provider/API calls, publishing, remote mutation, upload, reviewer invitation, handoff sharing, or issue/backlog mutation
+
+### Phase 123 — Public staging preserves global CLI entrypoint ✅
+- include the executable `bin/paa` wrapper in GitHub-facing public staging so the public repository can expose `./bin/paa install`, `paa setup`, `paa doctor`, and short aliases instead of requiring long bootstrap script paths
+- extend the public safety scan scope to include `bin/` so newly public executable entrypoints are scanned for secrets/private paths before publication
+- update the GitHub publish checklist to validate the new CLI-first flow while preserving the legacy bootstrap command as a fallback
+- keep the staging refresh local-only: no push, tag, release, upload, reviewer invitation, handoff sharing, credential validation, issue/backlog mutation, or external publication side effects without explicit owner approval
+
+### Phase 124 — CLI lifecycle polish: `paa version` and `paa uninstall` ✅
+- add `paa version` so users can see the CLI source path, repo root, and git commit without knowing where the wrapper lives
+- add `paa uninstall [bin-dir]` so user-level symlink installs can be cleanly removed from the invocation directory or configured install bin directory
+- keep lifecycle polish local-only and non-networked: no credential validation, provider/API calls, publishing, remote mutation, upload, reviewer invitation, handoff sharing, or issue/backlog mutation
+
+### Phase 125 — `paa uninstall` negative safety regressions ✅
+- add explicit regressions proving `paa uninstall` refuses to delete a regular `paa` file or a symlink pointing at another target
+- verify refused targets remain in place and that the command emits a clear refusal message instead of silently deleting user files
+- keep uninstall hardening local-only and non-networked: no credential validation, provider/API calls, publishing, remote mutation, upload, reviewer invitation, handoff sharing, or issue/backlog mutation

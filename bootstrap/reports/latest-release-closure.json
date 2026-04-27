@@ -1,18 +1,18 @@
 {
   "mode": "release-closure",
-  "generated_at": "2026-04-27T09:22:34",
+  "generated_at": "2026-04-27T19:43:46",
   "host_home": "/Users/example",
   "engine_root": "/Users/example/AI-Assets",
   "root": "/Users/example/AI-Assets",
   "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
   "summary": {
     "status": "ready-for-manual-release-review",
-    "checks": 43,
-    "pass": 43,
+    "checks": 48,
+    "pass": 48,
     "warn": 0,
     "fail": 0,
     "missing": 0,
-    "required_evidence": 15,
+    "required_evidence": 16,
     "executes_anything": false,
     "remote_configured": false,
     "command_drafts": 16,
@@ -30,6 +30,7 @@
     "public-repo-staging-status",
     "github-publish-dry-run",
     "github-handoff-pack",
+    "manual-reviewer-handoff-freeze-check",
     "github-final-preflight",
     "release-provenance",
     "verify-release-provenance",
@@ -92,6 +93,11 @@
       "detail": "present"
     },
     {
+      "name": "evidence:manual-reviewer-handoff-freeze-check:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
       "name": "evidence:github-final-preflight:present",
       "status": "pass",
       "detail": "present"
@@ -139,7 +145,7 @@
     {
       "name": "public-release-archive-ready",
       "status": "pass",
-      "detail": "b0b305f57aae478df320dbca80242dc00aafcd81e02b97515de910db7407c5ff"
+      "detail": "77d6290cdf0d3798686477c92170b5032659edcbe749da98de5851e728a1e3d4"
     },
     {
       "name": "public-release-smoke-pass",
@@ -172,6 +178,16 @@
       "detail": "ready"
     },
     {
+      "name": "manual-reviewer-handoff-freeze-check-frozen",
+      "status": "pass",
+      "detail": "frozen-for-human-handoff"
+    },
+    {
+      "name": "github-handoff-fresh-after-freeze",
+      "status": "pass",
+      "detail": "handoff-generated-after-freeze-report=pass"
+    },
+    {
       "name": "github-final-preflight-ready",
       "status": "pass",
       "detail": "ready"
@@ -197,6 +213,11 @@
       "detail": "aligned"
     },
     {
+      "name": "completed-work-external-learning-pass",
+      "status": "pass",
+      "detail": "pass"
+    },
+    {
       "name": "command-drafts-non-executing",
       "status": "pass",
       "detail": "command_drafts=16"
@@ -218,6 +239,11 @@
     },
     {
       "name": "github-handoff-pack-non-executing",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "manual-reviewer-handoff-freeze-check-non-executing",
       "status": "pass",
       "detail": "False"
     },
@@ -255,7 +281,7 @@
   "source_summaries": {
     "public-safety-scan": {
       "status": "pass",
-      "scanned_files": 130,
+      "scanned_files": 131,
       "findings": 0,
       "blockers": 0,
       "warnings": 0,
@@ -282,8 +308,8 @@
     },
     "public-release-archive": {
       "file_count": 195,
-      "archive_size_bytes": 354229,
-      "archive_sha256": "b0b305f57aae478df320dbca80242dc00aafcd81e02b97515de910db7407c5ff"
+      "archive_size_bytes": 359310,
+      "archive_sha256": "77d6290cdf0d3798686477c92170b5032659edcbe749da98de5851e728a1e3d4"
     },
     "public-release-smoke-test": {
       "status": "pass",
@@ -301,7 +327,7 @@
     },
     "public-repo-staging": {
       "status": "ready",
-      "files_in_staging": 176,
+      "files_in_staging": 177,
       "skipped": 0,
       "checks": 6,
       "passed": 6,
@@ -315,11 +341,11 @@
       "git_initialized": true,
       "branch": "main",
       "remote_configured": false,
-      "changed_files": 17,
+      "changed_files": 18,
       "category_counts": {
         "adapters": 1,
         "docs_policy": 4,
-        "other": 12
+        "other": 13
       },
       "forbidden_findings": 0
     },
@@ -334,13 +360,33 @@
     },
     "github-handoff-pack": {
       "status": "ready",
-      "checks": 9,
-      "pass": 9,
+      "checks": 12,
+      "pass": 12,
       "warn": 0,
       "fail": 0,
-      "included_files": 11,
+      "included_files": 14,
       "executes_anything": false,
       "forbidden_findings": 0
+    },
+    "manual-reviewer-handoff-freeze-check": {
+      "status": "frozen-for-human-handoff",
+      "checks": 10,
+      "pass": 10,
+      "warn": 0,
+      "fail": 0,
+      "manual_review_required": true,
+      "human_feedback_pending": true,
+      "shares_anything": false,
+      "sends_invitations": false,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "auto_approves_release": false,
+      "remote_issues_created": 0,
+      "issue_backlog_mutation_allowed": false,
+      "remote_configured": false
     },
     "github-final-preflight": {
       "status": "ready",

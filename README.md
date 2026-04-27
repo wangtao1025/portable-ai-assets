@@ -43,6 +43,13 @@ For the longer public thesis, see `docs/public-facing-thesis.md`.
 To see the smallest public-safe story, run:
 
 ```bash
+./bin/paa demo-story --both
+./bin/paa public-demo-pack --both
+```
+
+The long bootstrap wrapper still works for compatibility:
+
+```bash
 ./bootstrap/setup/bootstrap-ai-assets.sh --demo-story --both
 ./bootstrap/setup/bootstrap-ai-assets.sh --public-demo-pack --both
 ```
@@ -184,7 +191,31 @@ default_sync_mode: review-before-commit
 allow_auto_commit: false
 ```
 
-Commands:
+Commands can use the short `paa` wrapper. Install it once to run `paa` from anywhere:
+
+```bash
+./bin/paa install
+paa setup                         # initialize/configure ~/AI-Assets-private
+paa doctor                        # check local CLI/bootstrap readiness
+paa list                          # list common commands and aliases
+paa version                       # show CLI source/repo/commit
+paa setup ~/AI-Assets-private --both
+paa project-pack-preview --both
+paa ppack --both                 # alias for project-pack-preview
+paa team-pack-preview --both
+paa safety --both                # alias for public-safety-scan
+paa closure --both               # alias for release-closure
+paa uninstall                    # remove the user-level symlink when needed
+```
+
+Without installing, the project-local form also works:
+
+```bash
+./bin/paa setup
+./bin/paa project-pack-preview --both
+```
+
+The legacy long wrapper remains available for scripts and compatibility:
 
 ```bash
 # inspect current binding

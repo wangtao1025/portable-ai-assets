@@ -1,0 +1,295 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ORIGINAL_SOURCE="${BASH_SOURCE[0]}"
+SOURCE="${ORIGINAL_SOURCE}"
+while [[ -L "${SOURCE}" ]]; do
+  SOURCE_DIR="$(cd "$(dirname "${SOURCE}")" && pwd)"
+  LINK_TARGET="$(readlink "${SOURCE}")"
+  if [[ "${LINK_TARGET}" == /* ]]; then
+    SOURCE="${LINK_TARGET}"
+  else
+    SOURCE="${SOURCE_DIR}/${LINK_TARGET}"
+  fi
+done
+SCRIPT_DIR="$(cd "$(dirname "${SOURCE}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+BOOTSTRAP="${REPO_ROOT}/bootstrap/setup/bootstrap-ai-assets.sh"
+
+usage() {
+  cat <<'USAGE'
+Portable AI Assets short command
+
+Usage:
+  paa install [bin-dir]
+  paa uninstall [bin-dir]
+  paa doctor
+  paa list
+  paa version
+  paa setup [asset-root] [options]
+  paa <command> [options]
+  paa <alias> [options]
+  paa --<legacy-mode> [options]
+
+Examples:
+  paa install
+  paa install ~/.local/bin
+  paa uninstall
+  paa doctor
+  paa list
+  paa version
+  paa setup
+  paa setup ~/AI-Assets-private --both
+  paa project-pack-preview --both
+  paa ppack --both
+  paa team-pack-preview --both
+  paa safety --both
+  paa release-closure --both
+
+Setup:
+  install               Install/link `paa` into a user bin directory.
+                        Defaults to ${PAA_INSTALL_BIN_DIR:-$HOME/.local/bin}.
+                        After this, run `paa setup` from anywhere.
+  uninstall             Remove the user-level `paa` symlink from a bin directory.
+                        Defaults to ${PAA_INSTALL_BIN_DIR:-$HOME/.local/bin}.
+  setup                 Initialize/configure a private asset root.
+                        Defaults to ${PAA_DEFAULT_ASSET_ROOT:-$HOME/AI-Assets-private}.
+                        Delegates to --init-private-assets.
+  doctor                Check local CLI/bootstrap prerequisites without network or credentials.
+  list                  Show common commands and aliases.
+  version               Show CLI source, repo root, and git commit if available.
+
+Aliases:
+  ppack                 project-pack-preview
+  tpack                 team-pack-preview
+  safety                public-safety-scan
+  readiness             release-readiness
+  completed             completed-work-review
+  closure               release-closure
+  handoff-freeze        manual-reviewer-handoff-freeze-check
+  handoff-pack          github-handoff-pack
+  preflight             github-final-preflight
+
+Notes:
+  This is a thin Codex/Hermes-style convenience wrapper around:
+  ./bootstrap/setup/bootstrap-ai-assets.sh --<mode> [options]
+USAGE
+}
+
+show_command_list() {
+  cat <<'COMMANDS'
+Common PAA commands:
+  setup [asset-root]       initialize/configure private assets
+  doctor                   check local CLI/bootstrap readiness
+  list                     show this command list
+  version                  show CLI source and git commit
+  uninstall [bin-dir]      remove user-level paa symlink
+  ppack                    alias: project-pack-preview
+  tpack                    alias: team-pack-preview
+  safety                   alias: public-safety-scan
+  readiness                alias: release-readiness
+  completed                alias: completed-work-review
+  closure                  alias: release-closure
+  handoff-freeze           alias: manual-reviewer-handoff-freeze-check
+  handoff-pack             alias: github-handoff-pack
+  preflight                alias: github-final-preflight
+
+Any bootstrap mode can also be run by name:
+  paa project-pack-preview --both
+  paa capability-policy-preview --both
+COMMANDS
+}
+
+require_bootstrap() {
+  if [[ ! -x "${BOOTSTRAP}" && ! -f "${BOOTSTRAP}" ]]; then
+    echo "Missing bootstrap wrapper: ${BOOTSTRAP}" >&2
+    exit 1
+  fi
+}
+
+run_doctor() {
+  echo "PAA doctor"
+  echo "repo root: ${REPO_ROOT}"
+  if [[ -f "${BOOTSTRAP}" ]]; then
+    echo "bootstrap wrapper: ok"
+  else
+    echo "bootstrap wrapper: missing (${BOOTSTRAP})"
+    return 1
+  fi
+  if [[ -x "${BOOTSTRAP}" ]]; then
+    echo "bootstrap executable: ok"
+  else
+    echo "bootstrap executable: warn (will run via bash/python path if invoked directly)"
+  fi
+  if command -v python3 >/dev/null 2>&1; then
+    echo "python3: ok ($(command -v python3))"
+  else
+    echo "python3: missing"
+    return 1
+  fi
+  if command -v git >/dev/null 2>&1; then
+    echo "git: ok ($(command -v git))"
+  else
+    echo "git: missing"
+    return 1
+  fi
+  echo "network/API/credential checks: skipped"
+}
+
+show_version() {
+  echo "Portable AI Assets CLI"
+  echo "source: ${SOURCE}"
+  echo "repo root: ${REPO_ROOT}"
+  if command -v git >/dev/null 2>&1 && git -C "${REPO_ROOT}" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "git commit: $(git -C "${REPO_ROOT}" rev-parse --short HEAD 2>/dev/null || true)"
+  else
+    echo "git commit: unavailable"
+  fi
+}
+
+uninstall_paa() {
+  local install_bin_dir="${PAA_INSTALL_BIN_DIR:-${HOME}/.local/bin}"
+  if [[ -z "${PAA_INSTALL_BIN_DIR:-}" && -L "${ORIGINAL_SOURCE}" ]]; then
+    install_bin_dir="$(cd "$(dirname "${ORIGINAL_SOURCE}")" && pwd)"
+  fi
+  if [[ $# -gt 0 && "${1}" != --* ]]; then
+    install_bin_dir="$1"
+    shift
+  fi
+  if [[ $# -gt 0 ]]; then
+    echo "Unknown uninstall argument: $1" >&2
+    echo "Usage: paa uninstall [bin-dir]" >&2
+    exit 1
+  fi
+  local installed="${install_bin_dir}/paa"
+  if [[ ! -e "${installed}" && ! -L "${installed}" ]]; then
+    echo "No paa symlink found at ${installed}"
+    return 0
+  fi
+  if [[ -L "${installed}" ]]; then
+    local target
+    target="$(readlink "${installed}")"
+    if [[ "${target}" == "${SCRIPT_DIR}/paa" || "${target}" == "${SOURCE}" ]]; then
+      rm -f "${installed}"
+      echo "Uninstalled paa from ${installed}"
+      return 0
+    fi
+  fi
+  echo "Refusing to remove non-matching paa at ${installed}" >&2
+  return 1
+}
+
+if [[ $# -eq 0 ]]; then
+  usage
+  exit 0
+fi
+
+case "${1}" in
+  -h|--help|help)
+    usage
+    exit 0
+    ;;
+  list)
+    show_command_list
+    exit 0
+    ;;
+  doctor)
+    run_doctor
+    exit $?
+    ;;
+  version)
+    show_version
+    exit 0
+    ;;
+  install)
+    shift
+    INSTALL_BIN_DIR="${PAA_INSTALL_BIN_DIR:-${HOME}/.local/bin}"
+    if [[ $# -gt 0 && "${1}" != --* ]]; then
+      INSTALL_BIN_DIR="$1"
+      shift
+    fi
+    if [[ $# -gt 0 ]]; then
+      echo "Unknown install argument: $1" >&2
+      echo "Usage: paa install [bin-dir]" >&2
+      exit 1
+    fi
+    mkdir -p "${INSTALL_BIN_DIR}"
+    ln -sfn "${SCRIPT_DIR}/paa" "${INSTALL_BIN_DIR}/paa"
+    echo "Installed paa -> ${INSTALL_BIN_DIR}/paa"
+    case ":${PATH}:" in
+      *":${INSTALL_BIN_DIR}:"*) ;;
+      *) echo "Note: add ${INSTALL_BIN_DIR} to PATH to run 'paa' from anywhere." ;;
+    esac
+    exit 0
+    ;;
+  uninstall)
+    shift
+    uninstall_paa "$@"
+    exit $?
+    ;;
+  setup)
+    require_bootstrap
+    shift
+    ASSET_ROOT="${PAA_DEFAULT_ASSET_ROOT:-${HOME}/AI-Assets-private}"
+    if [[ $# -gt 0 && "${1}" != --* ]]; then
+      ASSET_ROOT="$1"
+      shift
+    fi
+    exec "${BOOTSTRAP}" --init-private-assets "${ASSET_ROOT}" "$@"
+    ;;
+  --*)
+    require_bootstrap
+    exec "${BOOTSTRAP}" "$@"
+    ;;
+  ppack)
+    require_bootstrap
+    shift
+    exec "${BOOTSTRAP}" --project-pack-preview "$@"
+    ;;
+  tpack)
+    require_bootstrap
+    shift
+    exec "${BOOTSTRAP}" --team-pack-preview "$@"
+    ;;
+  safety)
+    require_bootstrap
+    shift
+    exec "${BOOTSTRAP}" --public-safety-scan "$@"
+    ;;
+  readiness)
+    require_bootstrap
+    shift
+    exec "${BOOTSTRAP}" --release-readiness "$@"
+    ;;
+  completed)
+    require_bootstrap
+    shift
+    exec "${BOOTSTRAP}" --completed-work-review "$@"
+    ;;
+  closure)
+    require_bootstrap
+    shift
+    exec "${BOOTSTRAP}" --release-closure "$@"
+    ;;
+  handoff-freeze)
+    require_bootstrap
+    shift
+    exec "${BOOTSTRAP}" --manual-reviewer-handoff-freeze-check "$@"
+    ;;
+  handoff-pack)
+    require_bootstrap
+    shift
+    exec "${BOOTSTRAP}" --github-handoff-pack "$@"
+    ;;
+  preflight)
+    require_bootstrap
+    shift
+    exec "${BOOTSTRAP}" --github-final-preflight "$@"
+    ;;
+  *)
+    require_bootstrap
+    COMMAND="$1"
+    shift
+    exec "${BOOTSTRAP}" --"${COMMAND}" "$@"
+    ;;
+esac

@@ -1,18 +1,18 @@
 # AI-Assets Release Closure
 
-Generated: 2026-04-27T09:22:34
+Generated: 2026-04-27T19:43:46
 
 This is a report-only closure gate for manual release review. It does not publish, push, create remotes, or execute command drafts.
 
 ## Summary
 
 - status: ready-for-manual-release-review
-- checks: 43
-- pass: 43
+- checks: 48
+- pass: 48
 - warn: 0
 - fail: 0
 - missing: 0
-- required_evidence: 15
+- required_evidence: 16
 - executes_anything: False
 - remote_configured: False
 - command_drafts: 16
@@ -20,17 +20,18 @@ This is a report-only closure gate for manual release review. It does not publis
 
 ## Required evidence
 
-- `public-safety-scan`: `{'status': 'pass', 'scanned_files': 130, 'findings': 0, 'blockers': 0, 'warnings': 0, 'unreadable_files': 0}`
+- `public-safety-scan`: `{'status': 'pass', 'scanned_files': 131, 'findings': 0, 'blockers': 0, 'warnings': 0, 'unreadable_files': 0}`
 - `release-readiness`: `{'readiness': 'ready', 'checks': 31, 'pass': 31, 'warn': 0, 'fail': 0, 'schema_invalid': 0, 'safety_blockers': 0, 'safety_warnings': 0}`
 - `public-demo-pack`: `{'files_in_pack': 15}`
 - `public-release-pack`: `{'files_in_pack': 192, 'skipped': 0, 'public_safety_status': 'pass', 'release_readiness': 'ready'}`
-- `public-release-archive`: `{'file_count': 195, 'archive_size_bytes': 354229, 'archive_sha256': 'b0b305f57aae478df320dbca80242dc00aafcd81e02b97515de910db7407c5ff'}`
+- `public-release-archive`: `{'file_count': 195, 'archive_size_bytes': 359310, 'archive_sha256': '77d6290cdf0d3798686477c92170b5032659edcbe749da98de5851e728a1e3d4'}`
 - `public-release-smoke-test`: `{'status': 'pass', 'checks': 11, 'passed': 11, 'failed': 0, 'forbidden_findings': 0}`
 - `github-publish-check`: `{'status': 'ready', 'checks': 18, 'pass': 18, 'warn': 0, 'fail': 0}`
-- `public-repo-staging`: `{'status': 'ready', 'files_in_staging': 176, 'skipped': 0, 'checks': 6, 'passed': 6, 'failed': 0, 'forbidden_findings': 0, 'git_initialized': True}`
-- `public-repo-staging-status`: `{'status': 'ready', 'staging_exists': True, 'git_initialized': True, 'branch': 'main', 'remote_configured': False, 'changed_files': 17, 'category_counts': {'adapters': 1, 'docs_policy': 4, 'other': 12}, 'forbidden_findings': 0}`
+- `public-repo-staging`: `{'status': 'ready', 'files_in_staging': 177, 'skipped': 0, 'checks': 6, 'passed': 6, 'failed': 0, 'forbidden_findings': 0, 'git_initialized': True}`
+- `public-repo-staging-status`: `{'status': 'ready', 'staging_exists': True, 'git_initialized': True, 'branch': 'main', 'remote_configured': False, 'changed_files': 18, 'category_counts': {'adapters': 1, 'docs_policy': 4, 'other': 13}, 'forbidden_findings': 0}`
 - `github-publish-dry-run`: `{'status': 'ready', 'checks': 4, 'pass': 4, 'warn': 0, 'fail': 0, 'commands': 8, 'executes_anything': False}`
-- `github-handoff-pack`: `{'status': 'ready', 'checks': 9, 'pass': 9, 'warn': 0, 'fail': 0, 'included_files': 11, 'executes_anything': False, 'forbidden_findings': 0}`
+- `github-handoff-pack`: `{'status': 'ready', 'checks': 12, 'pass': 12, 'warn': 0, 'fail': 0, 'included_files': 14, 'executes_anything': False, 'forbidden_findings': 0}`
+- `manual-reviewer-handoff-freeze-check`: `{'status': 'frozen-for-human-handoff', 'checks': 10, 'pass': 10, 'warn': 0, 'fail': 0, 'manual_review_required': True, 'human_feedback_pending': True, 'shares_anything': False, 'sends_invitations': False, 'writes_anything': False, 'writes': 0, 'executes_anything': False, 'remote_mutation_allowed': False, 'credential_validation_allowed': False, 'auto_approves_release': False, 'remote_issues_created': 0, 'issue_backlog_mutation_allowed': False, 'remote_configured': False}`
 - `github-final-preflight`: `{'status': 'ready', 'checks': 17, 'pass': 17, 'warn': 0, 'fail': 0, 'executes_anything': False, 'command_drafts': 8, 'remote_configured': False, 'forbidden_findings': 0}`
 - `release-provenance`: `{'status': 'ready', 'checks': 10, 'pass': 10, 'warn': 0, 'fail': 0, 'executes_anything': False, 'forbidden_findings': 0}`
 - `verify-release-provenance`: `{'status': 'ready', 'checks': 14, 'pass': 14, 'fail': 0, 'executes_anything': False, 'forbidden_findings': 0}`
@@ -49,6 +50,7 @@ This is a report-only closure gate for manual release review. It does not publis
 - **pass** `evidence:public-repo-staging-status:present`: present
 - **pass** `evidence:github-publish-dry-run:present`: present
 - **pass** `evidence:github-handoff-pack:present`: present
+- **pass** `evidence:manual-reviewer-handoff-freeze-check:present`: present
 - **pass** `evidence:github-final-preflight:present`: present
 - **pass** `evidence:release-provenance:present`: present
 - **pass** `evidence:verify-release-provenance:present`: present
@@ -58,23 +60,27 @@ This is a report-only closure gate for manual release review. It does not publis
 - **pass** `release-readiness-ready`: ready
 - **pass** `public-demo-pack-ready`: 15
 - **pass** `public-release-pack-ready`: {'files_in_pack': 192, 'skipped': 0, 'public_safety_status': 'pass', 'release_readiness': 'ready'}
-- **pass** `public-release-archive-ready`: b0b305f57aae478df320dbca80242dc00aafcd81e02b97515de910db7407c5ff
+- **pass** `public-release-archive-ready`: 77d6290cdf0d3798686477c92170b5032659edcbe749da98de5851e728a1e3d4
 - **pass** `public-release-smoke-pass`: pass
 - **pass** `github-publish-check-ready`: ready
 - **pass** `public-repo-staging-ready`: ready
 - **pass** `public-repo-staging-status-ready`: ready
 - **pass** `github-publish-dry-run-ready`: ready
 - **pass** `github-handoff-pack-ready`: ready
+- **pass** `manual-reviewer-handoff-freeze-check-frozen`: frozen-for-human-handoff
+- **pass** `github-handoff-fresh-after-freeze`: handoff-generated-after-freeze-report=pass
 - **pass** `github-final-preflight-ready`: ready
 - **pass** `release-provenance-ready`: ready
 - **pass** `release-provenance-unsigned-kind`: release-provenance
 - **pass** `verify-release-provenance-ready`: ready
 - **pass** `completed-work-review-aligned`: aligned
+- **pass** `completed-work-external-learning-pass`: pass
 - **pass** `command-drafts-non-executing`: command_drafts=16
 - **pass** `publication-command-drafts-manual-review`: manual_review_required=16/16
 - **pass** `public-demo-pack-non-executing`: None
 - **pass** `github-publish-dry-run-non-executing`: False
 - **pass** `github-handoff-pack-non-executing`: False
+- **pass** `manual-reviewer-handoff-freeze-check-non-executing`: False
 - **pass** `github-final-preflight-non-executing`: False
 - **pass** `release-provenance-non-executing`: False
 - **pass** `verify-release-provenance-non-executing`: False

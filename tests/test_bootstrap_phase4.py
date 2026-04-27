@@ -737,13 +737,20 @@ class BootstrapPhase4Tests(unittest.TestCase):
             repo_root = Path(__file__).resolve().parents[1]
             (tmp / "bootstrap" / "setup" / "bootstrap-ai-assets.sh").write_text((repo_root / "bootstrap" / "setup" / "bootstrap-ai-assets.sh").read_text(encoding="utf-8"), encoding="utf-8")
             (tmp / "bootstrap" / "setup" / "portable_ai_assets_paths.py").write_text((repo_root / "bootstrap" / "setup" / "portable_ai_assets_paths.py").read_text(encoding="utf-8"), encoding="utf-8")
+            (tmp / "bin").mkdir(parents=True)
+            paa_source = repo_root / "bin" / "paa"
+            (tmp / "bin" / "paa").write_text(paa_source.read_text(encoding="utf-8"), encoding="utf-8")
+            (tmp / "bin" / "paa").chmod(0o755)
             report = bootstrap_ai_assets.build_public_repo_staging_report(tmp)
             staging_dir = Path(report["staging_dir"])
             self.assertEqual(report["mode"], "public-repo-staging")
             self.assertEqual(report["summary"]["status"], "ready")
             self.assertTrue((staging_dir / ".git").is_dir())
             self.assertTrue((staging_dir / "GITHUB-PUBLISH-CHECKLIST.md").is_file())
+            self.assertIn("paa install", (staging_dir / "GITHUB-PUBLISH-CHECKLIST.md").read_text(encoding="utf-8"))
             self.assertTrue((staging_dir / "STAGING-MANIFEST.json").is_file())
+            self.assertTrue((staging_dir / "bin" / "paa").is_file())
+            self.assertTrue(os.access(staging_dir / "bin" / "paa", os.X_OK))
             self.assertFalse((staging_dir / "memory" / "profile" / "private.md").exists())
             self.assertEqual(report["summary"]["forbidden_findings"], 0)
 
@@ -997,6 +1004,37 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertEqual(publication_summary["by_publication_risk"]["tag"], 1)
             self.assertIn("copy/paste", " ".join(report["publication_boundary"]).lower())
             self.assertIn("credentials", " ".join(report["publication_boundary"]).lower())
+
+            # Phase118 negative regressions: final release closure must fail closed
+            # when freeze, handoff freshness, or anti-closed-door evidence is missing/failing.
+            copy = __import__("copy")
+            mutated = copy.deepcopy(ready_reports)
+            mutated.pop("manual-reviewer-handoff-freeze-check")
+            (reports / "latest-manual-reviewer-handoff-freeze-check.json").unlink()
+            for prefix, payload in mutated.items():
+                (reports / f"latest-{prefix}.json").write_text(__import__("json").dumps(payload), encoding="utf-8")
+            missing_freeze = bootstrap_ai_assets.build_release_closure_report(tmp)
+            self.assertEqual(missing_freeze["summary"]["status"], "blocked")
+            self.assertEqual({check["name"]: check for check in missing_freeze["checks"]}["manual-reviewer-handoff-freeze-check-frozen"]["status"], "fail")
+
+            mutated = copy.deepcopy(ready_reports)
+            mutated["github-handoff-pack"]["checks"] = [{"name": "handoff-generated-after-freeze-report", "status": "fail", "detail": "stale"}]
+            for prefix, payload in mutated.items():
+                (reports / f"latest-{prefix}.json").write_text(__import__("json").dumps(payload), encoding="utf-8")
+            stale_handoff = bootstrap_ai_assets.build_release_closure_report(tmp)
+            self.assertEqual(stale_handoff["summary"]["status"], "blocked")
+            self.assertEqual({check["name"]: check for check in stale_handoff["checks"]}["github-handoff-fresh-after-freeze"]["status"], "fail")
+
+            mutated = copy.deepcopy(ready_reports)
+            mutated["completed-work-review"]["review_axes"]["external_learning"]["status"] = "fail"
+            for prefix, payload in mutated.items():
+                (reports / f"latest-{prefix}.json").write_text(__import__("json").dumps(payload), encoding="utf-8")
+            closed_door = bootstrap_ai_assets.build_release_closure_report(tmp)
+            self.assertEqual(closed_door["summary"]["status"], "blocked")
+            self.assertEqual({check["name"]: check for check in closed_door["checks"]}["completed-work-external-learning-pass"]["status"], "fail")
+
+            for prefix, payload in ready_reports.items():
+                (reports / f"latest-{prefix}.json").write_text(__import__("json").dumps(payload), encoding="utf-8")
 
             (reports / "latest-public-safety-scan.json").write_text('{"summary":{"status":"blocked","blockers":1}}', encoding="utf-8")
             blocked = bootstrap_ai_assets.build_release_closure_report(tmp)
@@ -4174,15 +4212,20 @@ class BootstrapPhase4Tests(unittest.TestCase):
             (tmp / "docs").mkdir(parents=True)
             (tmp / "README.md").write_text("# Demo\n", encoding="utf-8")
             (tmp / "docs" / "safe.md").write_text("Use /Users/example/.demo only.\n", encoding="utf-8")
+            private_home = "/Users/" + "alice" + "/.demo"
             (tmp / "docs" / "unsafe.md").write_text(
-                "private path /Users/example/.demo\napi_key: abcdefghijklmnop\n",
+                f"private path {private_home}\napi_key: abcdefghijklmnop\n",
                 encoding="utf-8",
             )
             (tmp / "docs" / "redacted.md").write_text("api_key: [REDACTED]", encoding="utf-8")
+            (tmp / "bin").mkdir(parents=True)
+            (tmp / "bin" / "paa").write_text("#!/usr/bin/env bash\ntoken: abcdefghijklmnop\n", encoding="utf-8")
             report = bootstrap_ai_assets.build_public_safety_scan_report(tmp)
             self.assertEqual(report["mode"], "public-safety-scan")
-            self.assertEqual(report["summary"]["blockers"], 1)
+            self.assertEqual(report["summary"]["blockers"], 2)
             self.assertEqual(report["summary"]["warnings"], 1)
+            finding_paths = {finding["path"] for finding in report["findings"]}
+            self.assertIn("bin/paa", finding_paths)
             finding_types = {finding["type"] for finding in report["findings"]}
             self.assertIn("api-key-assignment", finding_types)
             self.assertIn("private-macos-home", finding_types)
@@ -4649,6 +4692,95 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertIn('# Hermes User', text)
             self.assertIn('Use reviewed sync safely.', text)
             self.assertNotIn('SHOULD NOT APPLY', text)
+
+    def test_short_paa_command_wrapper_supports_codex_style_subcommands(self):
+        repo_root = Path(__file__).resolve().parents[1]
+        wrapper = repo_root / 'bin' / 'paa'
+        self.assertTrue(wrapper.is_file())
+        text = wrapper.read_text(encoding='utf-8')
+        self.assertIn('bootstrap/setup/bootstrap-ai-assets.sh', text)
+        self.assertIn('project-pack-preview', text)
+        self.assertIn('--project-pack-preview', text)
+        self.assertIn('ppack', text)
+        self.assertIn('paa project-pack-preview --both', text)
+        self.assertIn('paa setup', text)
+        self.assertIn('AI-Assets-private', text)
+        self.assertIn('--init-private-assets', text)
+        self.assertIn('PAA_DEFAULT_ASSET_ROOT', text)
+        self.assertIn('paa install', text)
+        self.assertIn('paa uninstall', text)
+        self.assertIn('paa doctor', text)
+        self.assertIn('paa list', text)
+        self.assertIn('paa version', text)
+        self.assertIn('PAA_INSTALL_BIN_DIR', text)
+        self.assertIn('ln -sfn', text)
+        self.assertIn('rm -f', text)
+        self.assertIn('exec "${BOOTSTRAP}"', text)
+        self.assertTrue(os.access(wrapper, os.X_OK))
+
+    def test_paa_install_creates_global_command_symlink_in_target_bin_dir(self):
+        repo_root = Path(__file__).resolve().parents[1]
+        wrapper = repo_root / 'bin' / 'paa'
+        with tempfile.TemporaryDirectory() as tmpdir:
+            install_dir = Path(tmpdir) / 'bin'
+            command = f'PAA_INSTALL_BIN_DIR="{install_dir}" "{wrapper}" install >/tmp/paa-install-test-{os.getpid()}.out 2>&1'
+            self.assertEqual(os.system(command), 0)
+            installed = install_dir / 'paa'
+            self.assertTrue(installed.exists())
+            self.assertTrue(installed.is_symlink())
+            self.assertEqual(installed.resolve(), wrapper.resolve())
+            command = f'PATH="{install_dir}:$PATH" paa --help >/tmp/paa-installed-help-test-{os.getpid()}.out 2>&1'
+            self.assertEqual(os.system(command), 0)
+            command = f'PATH="{install_dir}:$PATH" paa list >/tmp/paa-installed-list-test-{os.getpid()}.out 2>&1'
+            self.assertEqual(os.system(command), 0)
+            list_text = Path(f'/tmp/paa-installed-list-test-{os.getpid()}.out').read_text(encoding='utf-8')
+            self.assertIn('ppack', list_text)
+            self.assertIn('project-pack-preview', list_text)
+            command = f'PATH="{install_dir}:$PATH" paa doctor >/tmp/paa-installed-doctor-test-{os.getpid()}.out 2>&1'
+            self.assertEqual(os.system(command), 0)
+            doctor_text = Path(f'/tmp/paa-installed-doctor-test-{os.getpid()}.out').read_text(encoding='utf-8')
+            self.assertIn('PAA doctor', doctor_text)
+            self.assertIn('bootstrap wrapper: ok', doctor_text)
+            command = f'PATH="{install_dir}:$PATH" paa version >/tmp/paa-installed-version-test-{os.getpid()}.out 2>&1'
+            self.assertEqual(os.system(command), 0)
+            version_text = Path(f'/tmp/paa-installed-version-test-{os.getpid()}.out').read_text(encoding='utf-8')
+            self.assertIn('Portable AI Assets CLI', version_text)
+            self.assertIn('repo root:', version_text)
+            command = f'PATH="{install_dir}:$PATH" paa uninstall >/tmp/paa-installed-uninstall-test-{os.getpid()}.out 2>&1'
+            self.assertEqual(os.system(command), 0)
+            uninstall_text = Path(f'/tmp/paa-installed-uninstall-test-{os.getpid()}.out').read_text(encoding='utf-8')
+            self.assertIn('Uninstalled paa', uninstall_text)
+            self.assertFalse(installed.exists())
+
+    def test_paa_uninstall_refuses_non_matching_or_regular_file_targets(self):
+        repo_root = Path(__file__).resolve().parents[1]
+        wrapper = repo_root / 'bin' / 'paa'
+        with tempfile.TemporaryDirectory() as tmpdir:
+            install_dir = Path(tmpdir) / 'bin'
+            install_dir.mkdir(parents=True)
+            regular = install_dir / 'paa'
+            regular.write_text('#!/usr/bin/env bash\necho not-paa\n', encoding='utf-8')
+            command = f'PAA_INSTALL_BIN_DIR="{install_dir}" "{wrapper}" uninstall >/tmp/paa-uninstall-regular-test-{os.getpid()}.out 2>&1'
+            self.assertNotEqual(os.system(command), 0)
+            self.assertTrue(regular.exists())
+            regular_text = regular.read_text(encoding='utf-8')
+            self.assertIn('not-paa', regular_text)
+            output = Path(f'/tmp/paa-uninstall-regular-test-{os.getpid()}.out').read_text(encoding='utf-8')
+            self.assertIn('Refusing to remove', output)
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            install_dir = Path(tmpdir) / 'bin'
+            install_dir.mkdir(parents=True)
+            other_target = Path(tmpdir) / 'other-paa'
+            other_target.write_text('#!/usr/bin/env bash\necho other-paa\n', encoding='utf-8')
+            installed = install_dir / 'paa'
+            installed.symlink_to(other_target)
+            command = f'PAA_INSTALL_BIN_DIR="{install_dir}" "{wrapper}" uninstall >/tmp/paa-uninstall-other-symlink-test-{os.getpid()}.out 2>&1'
+            self.assertNotEqual(os.system(command), 0)
+            self.assertTrue(installed.exists())
+            self.assertEqual(installed.resolve(), other_target.resolve())
+            output = Path(f'/tmp/paa-uninstall-other-symlink-test-{os.getpid()}.out').read_text(encoding='utf-8')
+            self.assertIn('Refusing to remove', output)
 
 
 if __name__ == "__main__":
