@@ -1,0 +1,211 @@
+{
+  "mode": "release-readiness",
+  "generated_at": "2026-04-27T15:07:12",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "summary": {
+    "readiness": "ready",
+    "checks": 31,
+    "pass": 31,
+    "warn": 0,
+    "fail": 0,
+    "schema_invalid": 0,
+    "safety_blockers": 0,
+    "safety_warnings": 0
+  },
+  "checks": [
+    {
+      "name": "required:README.md",
+      "status": "pass",
+      "severity": "required",
+      "detail": "README.md"
+    },
+    {
+      "name": "required:CONTRIBUTING.md",
+      "status": "pass",
+      "severity": "required",
+      "detail": "CONTRIBUTING.md"
+    },
+    {
+      "name": "required:LICENSE",
+      "status": "pass",
+      "severity": "required",
+      "detail": "LICENSE"
+    },
+    {
+      "name": "required:SECURITY.md",
+      "status": "pass",
+      "severity": "required",
+      "detail": "SECURITY.md"
+    },
+    {
+      "name": "required:CHANGELOG.md",
+      "status": "pass",
+      "severity": "required",
+      "detail": "CHANGELOG.md"
+    },
+    {
+      "name": "required:RELEASE_NOTES-v0.1.md",
+      "status": "pass",
+      "severity": "required",
+      "detail": "RELEASE_NOTES-v0.1.md"
+    },
+    {
+      "name": "required:docs/architecture.md",
+      "status": "pass",
+      "severity": "required",
+      "detail": "docs/architecture.md"
+    },
+    {
+      "name": "required:docs/non-goals.md",
+      "status": "pass",
+      "severity": "required",
+      "detail": "docs/non-goals.md"
+    },
+    {
+      "name": "required:docs/adapter-sdk.md",
+      "status": "pass",
+      "severity": "required",
+      "detail": "docs/adapter-sdk.md"
+    },
+    {
+      "name": "required:docs/open-source-release-plan.md",
+      "status": "pass",
+      "severity": "required",
+      "detail": "docs/open-source-release-plan.md"
+    },
+    {
+      "name": "required:docs/capability-policy-candidate-generation.md",
+      "status": "pass",
+      "severity": "required",
+      "detail": "docs/capability-policy-candidate-generation.md"
+    },
+    {
+      "name": "required:docs/reference-capability-policy-candidate-generation.md",
+      "status": "pass",
+      "severity": "required",
+      "detail": "docs/reference-capability-policy-candidate-generation.md"
+    },
+    {
+      "name": "required:docs/capability-policy-candidate-status.md",
+      "status": "pass",
+      "severity": "required",
+      "detail": "docs/capability-policy-candidate-status.md"
+    },
+    {
+      "name": "required:docs/reference-capability-policy-candidate-status.md",
+      "status": "pass",
+      "severity": "required",
+      "detail": "docs/reference-capability-policy-candidate-status.md"
+    },
+    {
+      "name": "required:schemas/README.md",
+      "status": "pass",
+      "severity": "required",
+      "detail": "schemas/README.md"
+    },
+    {
+      "name": "required:sample-assets/README.md",
+      "status": "pass",
+      "severity": "required",
+      "detail": "sample-assets/README.md"
+    },
+    {
+      "name": "required:examples/README.md",
+      "status": "pass",
+      "severity": "required",
+      "detail": "examples/README.md"
+    },
+    {
+      "name": "required:examples/redacted/README.md",
+      "status": "pass",
+      "severity": "required",
+      "detail": "examples/redacted/README.md"
+    },
+    {
+      "name": "required:bootstrap/setup/bootstrap-ai-assets.sh",
+      "status": "pass",
+      "severity": "required",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh"
+    },
+    {
+      "name": "required:bootstrap/setup/bootstrap_ai_assets.py",
+      "status": "pass",
+      "severity": "required",
+      "detail": "bootstrap/setup/bootstrap_ai_assets.py"
+    },
+    {
+      "name": "schema-validation",
+      "status": "pass",
+      "severity": "required",
+      "detail": "valid=16 invalid=0"
+    },
+    {
+      "name": "adapter-contracts",
+      "status": "pass",
+      "severity": "required",
+      "detail": "total=5 invalid=0"
+    },
+    {
+      "name": "portable-skills",
+      "status": "pass",
+      "severity": "recommended",
+      "detail": "total=1 invalid=0"
+    },
+    {
+      "name": "team-pack-preview",
+      "status": "pass",
+      "severity": "recommended",
+      "detail": "manifests=1 public_safe=1"
+    },
+    {
+      "name": "capability-risk-inventory",
+      "status": "pass",
+      "severity": "recommended",
+      "detail": "capabilities=11 risks={'read-only-data': 5, 'text-only': 3, 'write-files': 3}"
+    },
+    {
+      "name": "project-pack-preview",
+      "status": "pass",
+      "severity": "recommended",
+      "detail": "manifests=1 capabilities=2"
+    },
+    {
+      "name": "capability-policy-preview",
+      "status": "pass",
+      "severity": "recommended",
+      "detail": "added=0 removed=0 risk_upgrades=0"
+    },
+    {
+      "name": "capability-policy-candidate-generation-template",
+      "status": "pass",
+      "severity": "recommended",
+      "detail": "template present and reviewed-baseline.yaml absent"
+    },
+    {
+      "name": "capability-policy-candidate-status",
+      "status": "pass",
+      "severity": "recommended",
+      "detail": "status=needs-human-review apply_readiness=needs-human-review writes=0/0"
+    },
+    {
+      "name": "public-safety-scan",
+      "status": "pass",
+      "severity": "required",
+      "detail": "blockers=0 warnings=0"
+    },
+    {
+      "name": "public-demo-pack",
+      "status": "pass",
+      "severity": "recommended",
+      "detail": "examples/redacted/public-demo-pack/MANIFEST.json"
+    }
+  ],
+  "recommendations": [
+    "Resolve fail checks before cutting a public release.",
+    "Review warn checks and regenerate the public demo pack immediately before publication.",
+    "Keep the private asset repo separate from this public engine/demo surface."
+  ]
+}

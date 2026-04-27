@@ -1,0 +1,6 @@
+name: read-context
+description: Public-safe placeholder for a read-only context retrieval action.
+risk_class: read-only-data
+policy_outcome: allow-preview
+credential_binding: none
+endpoint: none

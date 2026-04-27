@@ -1,0 +1,267 @@
+{
+  "mode": "connector-preview",
+  "generated_at": "2026-04-25T18:40:44",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "schema_dir": "/Users/example/AI-Assets/schemas",
+  "summary": {
+    "previewable_adapters": 5,
+    "runtimes": [
+      "claude-code",
+      "codex",
+      "example-runtime",
+      "hermes",
+      "memos-local-plugin-hermes"
+    ],
+    "import_connectors": [
+      "copy-file",
+      "read-file",
+      "sqlite-summary"
+    ],
+    "export_connectors": [
+      "copy-file",
+      "manual-only",
+      "write-file"
+    ]
+  },
+  "adapters": [
+    {
+      "name": "claude-instructions",
+      "runtime": "claude-code",
+      "path": "/Users/example/AI-Assets/adapters/registry/claude-instructions.yaml",
+      "schema": "adapter-contract-v1",
+      "valid": true,
+      "errors": [],
+      "apply_policy": "human-review-required",
+      "canonical_sources": [
+        "adapters/claude/instructions.md"
+      ],
+      "live_targets": [
+        "~/.claude/CLAUDE.md"
+      ],
+      "connector": {
+        "import": "read-file",
+        "export": "write-file",
+        "notes": [
+          "Prefer preserving the current live instruction contract and appending portable addenda."
+        ]
+      },
+      "asset_class": "public",
+      "shareability": "public-safe",
+      "actions": [
+        {
+          "direction": "export",
+          "connector": "write-file",
+          "mode": "preview",
+          "source": "/Users/example/AI-Assets/adapters/claude/instructions.md",
+          "target": "/Users/example/.claude/CLAUDE.md",
+          "source_exists": true,
+          "bytes_available": 1243,
+          "description": "Would project canonical content into the live runtime target without executing writes in preview mode."
+        },
+        {
+          "direction": "import",
+          "connector": "read-file",
+          "mode": "preview",
+          "source": "/Users/example/.claude/CLAUDE.md",
+          "target": "/Users/example/AI-Assets/adapters/claude/instructions.md",
+          "source_exists": true,
+          "bytes_available": 3462,
+          "description": "Would read the live runtime target into a candidate view without modifying files."
+        }
+      ]
+    },
+    {
+      "name": "codex-instructions",
+      "runtime": "codex",
+      "path": "/Users/example/AI-Assets/adapters/registry/codex-instructions.yaml",
+      "schema": "adapter-contract-v1",
+      "valid": true,
+      "errors": [],
+      "apply_policy": "human-review-required",
+      "canonical_sources": [
+        "adapters/codex/instructions.md"
+      ],
+      "live_targets": [
+        "~/.codex/AGENTS.md"
+      ],
+      "connector": {
+        "import": "read-file",
+        "export": "write-file",
+        "notes": [
+          "Keep OMX and Codex-specific runtime instructions visible during reconciliation."
+        ]
+      },
+      "asset_class": "public",
+      "shareability": "public-safe",
+      "actions": [
+        {
+          "direction": "export",
+          "connector": "write-file",
+          "mode": "preview",
+          "source": "/Users/example/AI-Assets/adapters/codex/instructions.md",
+          "target": "/Users/example/.codex/AGENTS.md",
+          "source_exists": true,
+          "bytes_available": 1330,
+          "description": "Would project canonical content into the live runtime target without executing writes in preview mode."
+        },
+        {
+          "direction": "import",
+          "connector": "read-file",
+          "mode": "preview",
+          "source": "/Users/example/.codex/AGENTS.md",
+          "target": "/Users/example/AI-Assets/adapters/codex/instructions.md",
+          "source_exists": true,
+          "bytes_available": 29557,
+          "description": "Would read the live runtime target into a candidate view without modifying files."
+        }
+      ]
+    },
+    {
+      "name": "example-runtime-instructions",
+      "runtime": "example-runtime",
+      "path": "/Users/example/AI-Assets/sample-assets/adapters/example-runtime/adapter.yaml",
+      "schema": "adapter-contract-v1",
+      "valid": true,
+      "errors": [],
+      "apply_policy": "safe-auto-apply",
+      "canonical_sources": [
+        "sample-assets/adapters/example-runtime/canonical/instructions.md"
+      ],
+      "live_targets": [
+        "/Users/example/.example-runtime/INSTRUCTIONS.md"
+      ],
+      "connector": {
+        "import": "copy-file",
+        "export": "copy-file",
+        "notes": [
+          "This adapter is intentionally simple and safe for open-source examples."
+        ]
+      },
+      "asset_class": "public",
+      "shareability": "public-safe",
+      "actions": [
+        {
+          "direction": "export",
+          "connector": "copy-file",
+          "mode": "preview",
+          "source": "/Users/example/AI-Assets/sample-assets/adapters/example-runtime/canonical/instructions.md",
+          "target": "/Users/example/.example-runtime/INSTRUCTIONS.md",
+          "source_exists": true,
+          "bytes_available": 252,
+          "description": "Would copy bytes from source to target, but preview mode only reports the action."
+        },
+        {
+          "direction": "import",
+          "connector": "copy-file",
+          "mode": "preview",
+          "source": "/Users/example/.example-runtime/INSTRUCTIONS.md",
+          "target": "/Users/example/AI-Assets/sample-assets/adapters/example-runtime/canonical/instructions.md",
+          "source_exists": false,
+          "bytes_available": 0,
+          "description": "Would copy bytes from source to target, but preview mode only reports the action."
+        }
+      ]
+    },
+    {
+      "name": "hermes-user-memory",
+      "runtime": "hermes",
+      "path": "/Users/example/AI-Assets/adapters/registry/hermes-user-memory.yaml",
+      "schema": "adapter-contract-v1",
+      "valid": true,
+      "errors": [],
+      "apply_policy": "human-review-required",
+      "canonical_sources": [
+        "adapters/hermes/USER.md"
+      ],
+      "live_targets": [
+        "~/.hermes/memories/USER.md"
+      ],
+      "connector": {
+        "import": "read-file",
+        "export": "write-file",
+        "notes": [
+          "Preserve the Hermes runtime contract while sourcing facts from canonical memory."
+        ]
+      },
+      "asset_class": "public",
+      "shareability": "public-safe",
+      "actions": [
+        {
+          "direction": "export",
+          "connector": "write-file",
+          "mode": "preview",
+          "source": "/Users/example/AI-Assets/adapters/hermes/USER.md",
+          "target": "/Users/example/.hermes/memories/USER.md",
+          "source_exists": true,
+          "bytes_available": 603,
+          "description": "Would project canonical content into the live runtime target without executing writes in preview mode."
+        },
+        {
+          "direction": "import",
+          "connector": "read-file",
+          "mode": "preview",
+          "source": "/Users/example/.hermes/memories/USER.md",
+          "target": "/Users/example/AI-Assets/adapters/hermes/USER.md",
+          "source_exists": true,
+          "bytes_available": 1376,
+          "description": "Would read the live runtime target into a candidate view without modifying files."
+        }
+      ]
+    },
+    {
+      "name": "memos-local-plugin-hermes-runtime-backend",
+      "runtime": "memos-local-plugin-hermes",
+      "path": "/Users/example/AI-Assets/adapters/registry/memos-local-plugin-hermes.yaml",
+      "schema": "adapter-contract-v1",
+      "valid": true,
+      "errors": [],
+      "apply_policy": "manual-only",
+      "canonical_sources": [
+        "memory/runtime-backends/memos-local-plugin.md"
+      ],
+      "live_targets": [
+        "~/.hermes/memos-plugin/config.yaml",
+        "~/.hermes/memos-plugin/data/memos.db",
+        "~/.hermes/memos-plugin/skills",
+        "~/.hermes/memos-plugin/logs"
+      ],
+      "connector": {
+        "import": "sqlite-summary",
+        "export": "manual-only",
+        "notes": [
+          "Treat MemOS as a rich runtime backend, not as canonical Git memory.",
+          "Import should produce candidate summaries/policies/skills for human review.",
+          "Do not commit raw SQLite DBs, WAL/SHM files, embeddings, or logs to Git.",
+          "Enablement for Hermes should happen in a test profile first."
+        ]
+      },
+      "asset_class": "public",
+      "shareability": "public-safe",
+      "actions": [
+        {
+          "direction": "export",
+          "connector": "manual-only",
+          "mode": "preview",
+          "source": "/Users/example/AI-Assets/memory/runtime-backends/memos-local-plugin.md",
+          "target": "/Users/example/.hermes/memos-plugin/config.yaml",
+          "source_exists": true,
+          "bytes_available": 1817,
+          "description": "Unknown connector type; preview mode reports metadata only."
+        },
+        {
+          "direction": "import",
+          "connector": "sqlite-summary",
+          "mode": "preview",
+          "source": "/Users/example/.hermes/memos-plugin/config.yaml",
+          "target": "/Users/example/AI-Assets/memory/runtime-backends/memos-local-plugin.md",
+          "source_exists": false,
+          "bytes_available": 0,
+          "description": "Unknown connector type; preview mode reports metadata only."
+        }
+      ]
+    }
+  ]
+}

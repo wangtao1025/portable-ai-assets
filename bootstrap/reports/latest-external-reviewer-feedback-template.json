@@ -1,0 +1,153 @@
+{
+  "mode": "external-reviewer-feedback-template",
+  "generated_at": "2026-04-27T09:22:44",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "summary": {
+    "status": "template-ready",
+    "checks": 6,
+    "pass": 6,
+    "fail": 0,
+    "manual_review_required": true,
+    "template_written": true,
+    "feedback_file_created": false,
+    "writes_anything": true,
+    "writes": 1,
+    "template_fields": 9,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "remote_configured": false,
+    "forbidden_findings": 0,
+    "auto_approves_release": false
+  },
+  "template_file": {
+    "path": "/Users/example/AI-Assets/bootstrap/reviewer-feedback/external-reviewer-feedback.md.template",
+    "exists": true
+  },
+  "final_feedback_file": {
+    "path": "/Users/example/AI-Assets/bootstrap/reviewer-feedback/external-reviewer-feedback.md",
+    "exists": false
+  },
+  "template_fields": [
+    {
+      "id": "reviewer",
+      "description": "Human reviewer identity or handle",
+      "placeholder": "<human reviewer name/handle>",
+      "executes_anything": false
+    },
+    {
+      "id": "reviewed_at",
+      "description": "Human review timestamp",
+      "placeholder": "<YYYY-MM-DDTHH:MM:SS>",
+      "executes_anything": false
+    },
+    {
+      "id": "source_decision_log",
+      "description": "Decision log or notes source reviewed",
+      "placeholder": "bootstrap/reports/latest-release-reviewer-decision-log.md",
+      "executes_anything": false
+    },
+    {
+      "id": "public_private_boundary",
+      "description": "Public/private-boundary reviewer finding",
+      "placeholder": "<human finding or none>",
+      "executes_anything": false
+    },
+    {
+      "id": "publication_boundary",
+      "description": "Publication-boundary reviewer finding",
+      "placeholder": "<human finding or none>",
+      "executes_anything": false
+    },
+    {
+      "id": "first_ten_minutes_usability",
+      "description": "External reviewer first-10-minutes usability notes",
+      "placeholder": "<human usability notes>",
+      "executes_anything": false
+    },
+    {
+      "id": "follow_up_items",
+      "description": "Local follow-up items or explicit none",
+      "placeholder": "- <follow-up item or none>",
+      "executes_anything": false
+    },
+    {
+      "id": "approval_recorded",
+      "description": "Must remain false; this template is not approval",
+      "placeholder": "false",
+      "executes_anything": false
+    },
+    {
+      "id": "go_no_go_decision_recorded",
+      "description": "Must remain false; this template is not a go/no-go decision",
+      "placeholder": "false",
+      "executes_anything": false
+    }
+  ],
+  "source_summaries": {
+    "external-reviewer-feedback-status": {
+      "status": "needs-human-feedback",
+      "checks": 23,
+      "pass": 13,
+      "fail": 10,
+      "manual_review_required": true,
+      "feedback_file_present": false,
+      "decision_recorded": false,
+      "approval_recorded": false,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "required_fields": 9,
+      "present_required_fields": 0,
+      "follow_up_items": 0,
+      "auto_approves_release": false
+    }
+  },
+  "checks": [
+    {
+      "name": "feedback-status:needs-human-feedback",
+      "status": "pass",
+      "detail": "needs-human-feedback"
+    },
+    {
+      "name": "template:file-written",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reviewer-feedback/external-reviewer-feedback.md.template"
+    },
+    {
+      "name": "template:final-feedback-not-created",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reviewer-feedback/external-reviewer-feedback.md"
+    },
+    {
+      "name": "docs:release-plan-documents-external-reviewer-feedback-template",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents feedback template and template-only/report-only boundary."
+    },
+    {
+      "name": "roadmap:phase87-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md records Phase 87 external reviewer feedback template scope."
+    },
+    {
+      "name": "shell:external-reviewer-feedback-template-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes --external-reviewer-feedback-template."
+    }
+  ],
+  "review_boundary": [
+    "This external reviewer feedback template generator is template-only/report-only; it is not release approval.",
+    "It writes only `external-reviewer-feedback.md.template` and does not create the final human feedback file, does not mutate issues or backlogs, publish, push, commit, create remotes/repositories/tags/releases, upload artifacts, call provider APIs, validate credentials, execute hooks/actions/commands, or mutate runtime/admin/provider state.",
+    "The Phase 86 status gate should remain needs-human-feedback until a human copies, fills, and saves the final `external-reviewer-feedback.md` file."
+  ],
+  "recommendations": [
+    "Have a human copy bootstrap/reviewer-feedback/external-reviewer-feedback.md.template to external-reviewer-feedback.md only after filling the required fields.",
+    "Rerun /bin/bash ./bootstrap/setup/bootstrap-ai-assets.sh --external-reviewer-feedback-status --both after the human-filled file exists.",
+    "Do not treat template-ready as release approval, go/no-go decision, issue creation, publication approval, or remote mutation permission."
+  ]
+}

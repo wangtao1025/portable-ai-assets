@@ -1,0 +1,329 @@
+{
+  "mode": "initial-completion-review",
+  "generated_at": "2026-04-27T09:22:47",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "summary": {
+    "status": "machine-ready-human-feedback-pending",
+    "checks": 22,
+    "pass": 20,
+    "warn": 2,
+    "fail": 0,
+    "machine_readiness_ready": true,
+    "human_feedback_complete": false,
+    "human_action_required": true,
+    "followup_candidates_ready": false,
+    "writes_anything": false,
+    "writes": 0,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "remote_configured": false,
+    "auto_approves_release": false
+  },
+  "source_summaries": {
+    "public-safety-scan": {
+      "status": "pass",
+      "scanned_files": 130,
+      "findings": 0,
+      "blockers": 0,
+      "warnings": 0,
+      "unreadable_files": 0
+    },
+    "release-readiness": {
+      "readiness": "ready",
+      "checks": 31,
+      "pass": 31,
+      "warn": 0,
+      "fail": 0,
+      "schema_invalid": 0,
+      "safety_blockers": 0,
+      "safety_warnings": 0
+    },
+    "public-release-archive": {
+      "file_count": 195,
+      "archive_size_bytes": 354229,
+      "archive_sha256": "b0b305f57aae478df320dbca80242dc00aafcd81e02b97515de910db7407c5ff"
+    },
+    "public-release-smoke-test": {
+      "status": "pass",
+      "checks": 11,
+      "passed": 11,
+      "failed": 0,
+      "forbidden_findings": 0
+    },
+    "public-release-pack": {
+      "files_in_pack": 192,
+      "skipped": 0,
+      "public_safety_status": "pass",
+      "release_readiness": "ready"
+    },
+    "public-repo-staging": {
+      "status": "ready",
+      "files_in_staging": 176,
+      "skipped": 0,
+      "checks": 6,
+      "passed": 6,
+      "failed": 0,
+      "forbidden_findings": 0,
+      "git_initialized": true
+    },
+    "public-repo-staging-status": {
+      "status": "ready",
+      "staging_exists": true,
+      "git_initialized": true,
+      "branch": "main",
+      "remote_configured": false,
+      "changed_files": 17,
+      "category_counts": {
+        "adapters": 1,
+        "docs_policy": 4,
+        "other": 12
+      },
+      "forbidden_findings": 0
+    },
+    "public-package-freshness-review": {
+      "status": "ready",
+      "checks": 16,
+      "pass": 16,
+      "warn": 0,
+      "fail": 0,
+      "forbidden_findings": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false
+    },
+    "completed-work-review": {
+      "status": "aligned",
+      "checks": 5,
+      "pass": 5,
+      "warn": 0,
+      "fail": 0,
+      "executes_anything": false
+    },
+    "external-reviewer-feedback-template": {
+      "status": "template-ready",
+      "checks": 6,
+      "pass": 6,
+      "fail": 0,
+      "manual_review_required": true,
+      "template_written": true,
+      "feedback_file_created": false,
+      "writes_anything": true,
+      "writes": 1,
+      "template_fields": 9,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "auto_approves_release": false
+    },
+    "external-reviewer-feedback-status": {
+      "status": "needs-human-feedback",
+      "checks": 23,
+      "pass": 13,
+      "fail": 10,
+      "manual_review_required": true,
+      "feedback_file_present": false,
+      "decision_recorded": false,
+      "approval_recorded": false,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "required_fields": 9,
+      "present_required_fields": 0,
+      "follow_up_items": 0,
+      "auto_approves_release": false
+    },
+    "external-reviewer-feedback-followup-index": {
+      "status": "ready",
+      "checks": 24,
+      "pass": 24,
+      "fail": 0,
+      "manual_review_required": true,
+      "packet_items": 5,
+      "feedback_file_present": false,
+      "decision_recorded": false,
+      "approval_recorded": false,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "auto_approves_release": false
+    },
+    "external-reviewer-feedback-followup-candidates": {
+      "status": "blocked",
+      "checks": 15,
+      "pass": 12,
+      "fail": 3,
+      "manual_review_required": true,
+      "feedback_file_present": false,
+      "follow_up_items": 0,
+      "candidate_files_written": 0,
+      "remote_issues_created": 0,
+      "decision_recorded": false,
+      "approval_recorded": false,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "auto_approves_release": false
+    },
+    "external-reviewer-feedback-followup-candidate-status": {
+      "status": "blocked",
+      "checks": 12,
+      "pass": 9,
+      "fail": 3,
+      "manual_review_required": true,
+      "candidate_bundle_present": false,
+      "candidate_files_scanned": 0,
+      "human_reviewed_candidates": 0,
+      "unsafe_candidates": 0,
+      "remote_issues_created": 0,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "auto_approves_release": false
+    }
+  },
+  "checks": [
+    {
+      "name": "evidence:public-safety-scan:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:release-readiness:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:public-release-archive:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:public-release-smoke-test:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:public-release-pack:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:public-repo-staging:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:public-repo-staging-status:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:public-package-freshness-review:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:completed-work-review:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:external-reviewer-feedback-template:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:external-reviewer-feedback-status:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:external-reviewer-feedback-followup-index:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:external-reviewer-feedback-followup-candidates:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:external-reviewer-feedback-followup-candidate-status:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "machine-readiness:public-release-gates-ready",
+      "status": "pass",
+      "detail": "public safety/readiness/archive/smoke/pack/staging/freshness/completed-work reports are ready/aligned"
+    },
+    {
+      "name": "external-reviewer:navigation-and-template-ready",
+      "status": "pass",
+      "detail": "template and follow-up index exist without creating final human feedback"
+    },
+    {
+      "name": "human-feedback:final-feedback-file-status",
+      "status": "warn",
+      "detail": "needs-human-feedback"
+    },
+    {
+      "name": "human-feedback:followup-candidates-status",
+      "status": "warn",
+      "detail": "pending until human final feedback is supplied"
+    },
+    {
+      "name": "boundary:no-execution-remote-mutation-credential-approval",
+      "status": "pass",
+      "detail": "all source summaries remain local/report-only"
+    },
+    {
+      "name": "docs:release-plan-documents-initial-completion-review",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents initial completion review and its non-mutating boundary."
+    },
+    {
+      "name": "roadmap:phase91-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md records Phase 91 initial completion / MVP closure review."
+    },
+    {
+      "name": "shell:initial-completion-review-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes --initial-completion-review."
+    }
+  ],
+  "human_handoff_required": [
+    "Manual: a human reviewer must create/fill bootstrap/reviewer-feedback/external-reviewer-feedback.md from the template before feedback follow-up candidates can become ready.",
+    "Manual: publication, repository creation, push/tag/release, credential checks, uploads, issue/backlog mutation, and go/no-go approval stay outside automation."
+  ],
+  "review_boundary": [
+    "This initial completion review is local-only/report-only and does not approve a release.",
+    "It reads latest local reports/docs only; it does not publish, push, commit, tag, create releases/repos/remotes, call APIs/providers, validate credentials, upload artifacts, execute hooks/actions/commands, or mutate issues/backlogs.",
+    "Machine readiness can be true while human feedback remains pending; this is expected and must not be auto-filled."
+  ],
+  "recommendations": [
+    "If status is machine-ready-human-feedback-pending, treat engineering MVP closure as locally ready for human handoff, not as publication approval.",
+    "Have a human copy and fill bootstrap/reviewer-feedback/external-reviewer-feedback.md from the template before rerunning follow-up candidate gates.",
+    "Keep final publication and go/no-go decisions manual and explicit."
+  ]
+}

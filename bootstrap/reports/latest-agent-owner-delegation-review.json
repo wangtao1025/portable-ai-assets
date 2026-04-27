@@ -1,0 +1,160 @@
+{
+  "mode": "agent-owner-delegation-review",
+  "generated_at": "2026-04-27T09:22:52",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "required_reports": [
+    "manual-reviewer-handoff-freeze-check"
+  ],
+  "source_summaries": {
+    "manual-reviewer-handoff-freeze-check": {
+      "status": "frozen-for-human-handoff",
+      "checks": 6,
+      "pass": 6,
+      "warn": 0,
+      "fail": 0,
+      "manual_review_required": true,
+      "human_feedback_pending": true,
+      "shares_anything": false,
+      "sends_invitations": false,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "auto_approves_release": false,
+      "remote_issues_created": 0,
+      "issue_backlog_mutation_allowed": false,
+      "remote_configured": false
+    }
+  },
+  "delegated_agent_responsibilities": [
+    {
+      "area": "engineering-review",
+      "owner": "agent",
+      "requires_user_code_review": false,
+      "description": "Agent owns implementation review, safety invariants, and regression checks before asking for external owner decisions."
+    },
+    {
+      "area": "code-review",
+      "owner": "agent",
+      "requires_user_code_review": false,
+      "description": "Agent may use independent subagents/fresh contexts for code review instead of requiring user code review."
+    },
+    {
+      "area": "verification",
+      "owner": "agent",
+      "requires_user_code_review": false,
+      "description": "Agent owns TDD, target tests, module tests, full suite, public gate chain, and local report inspection."
+    },
+    {
+      "area": "product-material-review",
+      "owner": "agent",
+      "requires_user_code_review": false,
+      "description": "Agent owns docs/roadmap/release material self-review and consistency checks within local non-mutating boundaries."
+    }
+  ],
+  "reserved_owner_external_decisions": [
+    {
+      "area": "real-sharing",
+      "reserved_for": "owner",
+      "automation_allowed": false,
+      "description": "Whether/where/how to share artifacts with real people or services."
+    },
+    {
+      "area": "reviewer-invitation",
+      "reserved_for": "owner",
+      "automation_allowed": false,
+      "description": "Inviting named external reviewers or sending messages outside the local repo."
+    },
+    {
+      "area": "publication",
+      "reserved_for": "owner",
+      "automation_allowed": false,
+      "description": "Creating remotes/repos/tags/releases, pushing, publishing, or uploading artifacts."
+    },
+    {
+      "area": "external-feedback-authorship",
+      "reserved_for": "real-human-reviewer",
+      "automation_allowed": false,
+      "description": "Final external reviewer feedback must come from a real human and cannot be fabricated by automation."
+    },
+    {
+      "area": "final-go-no-go",
+      "reserved_for": "owner",
+      "automation_allowed": false,
+      "description": "Final release approval/go-no-go remains an explicit owner decision."
+    }
+  ],
+  "delegation_checks": [
+    {
+      "name": "source:manual-reviewer-handoff-freeze-check:frozen",
+      "status": "pass",
+      "detail": "{'status': 'frozen-for-human-handoff', 'checks': 6, 'pass': 6, 'warn': 0, 'fail': 0, 'manual_review_required': True, 'human_feedback_pending': True, 'shares_anything': False, 'sends_invitations': False, 'writes_anything': False, 'writes': 0, 'executes_anything': False, 'remote_mutation_allowed': False, 'credential_validation_allowed': False, 'auto_approves_release': False, 'remote_issues_created': 0, 'issue_backlog_mutation_allowed': False, 'remote_configured': False}"
+    },
+    {
+      "name": "delegation:agent-internal-review-owned",
+      "status": "pass",
+      "detail": "engineering/code/verification/material review delegated to agent"
+    },
+    {
+      "name": "boundary:external-owner-decisions-reserved",
+      "status": "pass",
+      "detail": "real sharing/invitation/publication/feedback/go-no-go remain external decisions"
+    },
+    {
+      "name": "docs:release-plan-documents-phase98",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents Phase 98 delegation boundary"
+    },
+    {
+      "name": "roadmap:phase98-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md documents Phase 98"
+    },
+    {
+      "name": "shell:agent-owner-delegation-review-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes Phase 98 flag"
+    }
+  ],
+  "summary": {
+    "status": "agent-review-delegated",
+    "checks": 6,
+    "pass": 6,
+    "warn": 0,
+    "fail": 0,
+    "agent_engineering_review_delegated": true,
+    "agent_code_review_delegated": true,
+    "agent_verification_delegated": true,
+    "agent_product_material_review_delegated": true,
+    "requires_user_code_review": false,
+    "external_owner_decision_required": true,
+    "manual_review_required": true,
+    "human_feedback_pending": true,
+    "shares_anything": false,
+    "sends_invitations": false,
+    "writes_anything": false,
+    "writes": 0,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "auto_approves_release": false,
+    "remote_issues_created": 0,
+    "issue_backlog_mutation_allowed": false,
+    "remote_configured": false
+  },
+  "review_boundary": [
+    "Agent owns internal engineering review, code review, verification, and product-material consistency checks by default.",
+    "User code review is not required for machine-side progress; use independent agent review/fresh contexts when needed.",
+    "External side effects remain reserved: real sharing, reviewer invitations, publication, uploads, remote/repo/tag/release creation, final external feedback authorship, and final go/no-go.",
+    "Does not share artifacts, send invitations, create final feedback, execute commands, approve releases, publish, push, create remotes/repos/tags/releases, validate credentials, call providers/APIs, upload artifacts, or mutate issues/backlogs."
+  ],
+  "recommendations": [
+    "Continue agent-side review/verification without asking the user to inspect code unless a true owner/external decision is needed.",
+    "Use independent subagent review for code-quality/security verification before any commit/publish request.",
+    "Ask the user only before real external sharing, invitations, publication, credential/API use, or final go/no-go."
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "mode": "agent-complete-phase102-rollup-evidence-failclosed-review",
+  "generated_at": "2026-04-27T11:19:33",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "required_reports": [
+    "agent-complete-syntax-invalid-evidence-failclosed-review"
+  ],
+  "source_summaries": {
+    "agent-complete-syntax-invalid-evidence-failclosed-review": {
+      "status": "syntax-invalid-failclosed",
+      "checks": 5,
+      "pass": 5,
+      "warn": 0,
+      "fail": 0,
+      "agent_side_complete": false,
+      "machine_side_complete": false,
+      "syntax_invalid_evidence_blocks_completion": true,
+      "requires_user_code_review": false,
+      "external_owner_decision_required": true,
+      "manual_review_required": true,
+      "human_feedback_pending": true,
+      "shares_anything": false,
+      "sends_invitations": false,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "auto_approves_release": false,
+      "remote_issues_created": 0,
+      "issue_backlog_mutation_allowed": false,
+      "remote_configured": false
+    }
+  },
+  "phase102_rollup_checks": [
+    {
+      "name": "source:agent-complete-syntax-invalid-evidence-failclosed-review:valid",
+      "status": "pass",
+      "detail": "phase102_report_evidence_valid=True; report_type=dict; summary_type=dict; invalid_fields=none; mode=agent-complete-syntax-invalid-evidence-failclosed-review; status=syntax-invalid-failclosed; checks=5; pass=5; fail=0; warn=0",
+      "invalid_fields": []
+    },
+    {
+      "name": "rollup:completed-work-requires-phase102-report-evidence",
+      "status": "pass",
+      "detail": "['phase103_documented=True', 'phase102_report_evidence_valid=True', 'invalid_fields=none', 'phase102_report_evidence_valid=True; report_type=dict; summary_type=dict; invalid_fields=none; mode=agent-complete-syntax-invalid-evidence-failclosed-review; status=syntax-invalid-failclosed; checks=5; pass=5; fail=0; warn=0']"
+    },
+    {
+      "name": "docs:release-plan-documents-phase103",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents Phase 103 Phase102 rollup evidence boundary"
+    },
+    {
+      "name": "roadmap:phase103-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md documents Phase 103"
+    },
+    {
+      "name": "shell:agent-complete-phase102-rollup-evidence-failclosed-review-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes Phase 103 flag"
+    }
+  ],
+  "summary": {
+    "status": "phase102-evidence-failclosed",
+    "checks": 5,
+    "pass": 5,
+    "warn": 0,
+    "fail": 0,
+    "agent_side_complete": false,
+    "machine_side_complete": false,
+    "phase102_report_evidence_valid": true,
+    "phase102_report_invalid_fields": [],
+    "rollup_requires_phase102_report_evidence": true,
+    "requires_user_code_review": false,
+    "external_owner_decision_required": true,
+    "manual_review_required": true,
+    "human_feedback_pending": true,
+    "shares_anything": false,
+    "sends_invitations": false,
+    "writes_anything": false,
+    "writes": 0,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "auto_approves_release": false,
+    "remote_issues_created": 0,
+    "issue_backlog_mutation_allowed": false,
+    "remote_configured": false
+  },
+  "review_boundary": [
+    "Report-only fail-closed review for downstream Phase102 evidence rollup.",
+    "Confirms missing or malformed Phase102 report evidence blocks completed-work/agent-complete rollup continuation.",
+    "Does not share artifacts, send invitations, create final feedback, execute commands, approve releases, publish, push, create remotes/repos/tags/releases, validate credentials, call providers/APIs, upload artifacts, or mutate issues/backlogs."
+  ],
+  "recommendations": [
+    "Keep completed-work and agent-complete rollups dependent on strict latest Phase102 report evidence.",
+    "Ask the user only for real external target/action authorization."
+  ]
+}

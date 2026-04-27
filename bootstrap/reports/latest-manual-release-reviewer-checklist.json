@@ -1,0 +1,450 @@
+{
+  "mode": "manual-release-reviewer-checklist",
+  "generated_at": "2026-04-27T09:22:35",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "summary": {
+    "status": "ready-for-human-review",
+    "checks": 21,
+    "pass": 21,
+    "fail": 0,
+    "checklist_items": 7,
+    "manual_review_required": true,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "remote_configured": false,
+    "forbidden_findings": 0,
+    "command_drafts": 24
+  },
+  "required_evidence": [
+    "release-closure",
+    "github-final-preflight",
+    "public-safety-scan",
+    "release-readiness"
+  ],
+  "source_summaries": {
+    "release-closure": {
+      "status": "ready-for-manual-release-review",
+      "checks": 43,
+      "pass": 43,
+      "warn": 0,
+      "fail": 0,
+      "missing": 0,
+      "required_evidence": 15,
+      "executes_anything": false,
+      "remote_configured": false,
+      "command_drafts": 16,
+      "forbidden_findings": 0
+    },
+    "github-final-preflight": {
+      "status": "ready",
+      "checks": 17,
+      "pass": 17,
+      "warn": 0,
+      "fail": 0,
+      "executes_anything": false,
+      "command_drafts": 8,
+      "remote_configured": false,
+      "forbidden_findings": 0
+    },
+    "public-safety-scan": {
+      "status": "pass",
+      "scanned_files": 130,
+      "findings": 0,
+      "blockers": 0,
+      "warnings": 0,
+      "unreadable_files": 0
+    },
+    "release-readiness": {
+      "readiness": "ready",
+      "checks": 31,
+      "pass": 31,
+      "warn": 0,
+      "fail": 0,
+      "schema_invalid": 0,
+      "safety_blockers": 0,
+      "safety_warnings": 0
+    }
+  },
+  "checks": [
+    {
+      "name": "evidence:release-closure:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:github-final-preflight:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:public-safety-scan:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:release-readiness:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "release-closure-ready-for-manual-review",
+      "status": "pass",
+      "detail": "ready-for-manual-release-review"
+    },
+    {
+      "name": "github-final-preflight-ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "public-safety-pass",
+      "status": "pass",
+      "detail": "pass"
+    },
+    {
+      "name": "release-readiness-ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "command-drafts-non-executing",
+      "status": "pass",
+      "detail": "command_drafts=24"
+    },
+    {
+      "name": "publication-command-summary-present",
+      "status": "pass",
+      "detail": "{'total': 16, 'non_executing': 16, 'manual_review_required': 16, 'by_publication_risk': {'manual-review': 4, 'stage': 2, 'commit': 2, 'repo-create': 2, 'push': 4, 'tag': 2}}"
+    },
+    {
+      "name": "artifact-checksum-matches",
+      "status": "pass",
+      "detail": "{'recorded_sha256': 'b0b305f57aae478df320dbca80242dc00aafcd81e02b97515de910db7407c5ff', 'computed_sha256': 'b0b305f57aae478df320dbca80242dc00aafcd81e02b97515de910db7407c5ff', 'matches': True}"
+    },
+    {
+      "name": "report-only-sources",
+      "status": "pass",
+      "detail": "executes_anything=False"
+    },
+    {
+      "name": "no-remote-mutation-enabled",
+      "status": "pass",
+      "detail": "remote_configured=False"
+    },
+    {
+      "name": "public-forbidden-findings-clean",
+      "status": "pass",
+      "detail": "forbidden_findings=0"
+    },
+    {
+      "name": "checklist:release-closure-review",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "checklist:github-final-preflight-review",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "checklist:public-safety-review",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "checklist:release-readiness-review",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "checklist:publication-boundary-review",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "checklist:command-drafts-review",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "checklist:artifact-checksum-review",
+      "status": "pass",
+      "detail": "ready"
+    }
+  ],
+  "checklist": [
+    {
+      "id": "release-closure-review",
+      "title": "Confirm release closure is ready for manual release review.",
+      "evidence": "latest-release-closure",
+      "status": "ready",
+      "review_type": "manual",
+      "executes_anything": false,
+      "auto_approves_release": false
+    },
+    {
+      "id": "github-final-preflight-review",
+      "title": "Confirm GitHub final preflight is ready and non-executing.",
+      "evidence": "latest-github-final-preflight",
+      "status": "ready",
+      "review_type": "manual",
+      "executes_anything": false,
+      "auto_approves_release": false
+    },
+    {
+      "id": "public-safety-review",
+      "title": "Review public safety scan results and confirm no blockers or forbidden findings.",
+      "evidence": "latest-public-safety-scan",
+      "status": "ready",
+      "review_type": "manual",
+      "executes_anything": false,
+      "auto_approves_release": false
+    },
+    {
+      "id": "release-readiness-review",
+      "title": "Review release readiness and confirm v0.1 readiness remains ready.",
+      "evidence": "latest-release-readiness",
+      "status": "ready",
+      "review_type": "manual",
+      "executes_anything": false,
+      "auto_approves_release": false
+    },
+    {
+      "id": "publication-boundary-review",
+      "title": "Confirm publication boundary: report-only, no publish, no push, no remote creation, no credential validation.",
+      "evidence": "release closure publication_boundary/manual_review_boundary",
+      "status": "ready",
+      "review_type": "manual",
+      "executes_anything": false,
+      "auto_approves_release": false
+    },
+    {
+      "id": "command-drafts-review",
+      "title": "Manually inspect command drafts; they are reference-only and are not executed by this gate.",
+      "evidence": "release closure and final preflight command_drafts",
+      "status": "ready",
+      "review_type": "manual",
+      "executes_anything": false,
+      "auto_approves_release": false
+    },
+    {
+      "id": "artifact-checksum-review",
+      "title": "Confirm final artifact checksum evidence matches before any manual publication.",
+      "evidence": "github final preflight artifact_checksum",
+      "status": "ready",
+      "review_type": "manual",
+      "executes_anything": false,
+      "auto_approves_release": false
+    }
+  ],
+  "review_boundary": [
+    "This checklist is for human reviewer evidence only; it does not publish, push, create remotes, create tags, or execute command drafts.",
+    "It does not validate credentials, authenticate to GitHub/providers, call APIs, or mutate provider/admin/runtime state.",
+    "A human reviewer must inspect the release closure, final preflight, safety scan, readiness report, checksums, and command drafts before any manual release action."
+  ],
+  "publication_command_summary": {
+    "total": 16,
+    "non_executing": 16,
+    "manual_review_required": 16,
+    "by_publication_risk": {
+      "manual-review": 4,
+      "stage": 2,
+      "commit": 2,
+      "repo-create": 2,
+      "push": 4,
+      "tag": 2
+    }
+  },
+  "artifact_checksum": {
+    "recorded_sha256": "b0b305f57aae478df320dbca80242dc00aafcd81e02b97515de910db7407c5ff",
+    "computed_sha256": "b0b305f57aae478df320dbca80242dc00aafcd81e02b97515de910db7407c5ff",
+    "matches": true
+  },
+  "command_drafts": [
+    {
+      "step": "review",
+      "command": "git status --short",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "publication_risk": "manual-review",
+      "manual_review_required": true
+    },
+    {
+      "step": "review-diff",
+      "command": "git diff --stat",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "publication_risk": "manual-review",
+      "manual_review_required": true
+    },
+    {
+      "step": "stage",
+      "command": "git add .",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "publication_risk": "stage",
+      "manual_review_required": true
+    },
+    {
+      "step": "commit",
+      "command": "git commit -m \"Initial public release: Portable AI Assets v0.1.0\"",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "publication_risk": "commit",
+      "manual_review_required": true
+    },
+    {
+      "step": "create-repo",
+      "command": "gh repo create portable-ai-assets --public --source=. --remote=origin --description \"Portable AI Assets is a cross-agent continuity layer for owning AI memory, skills, adapters, schemas, and migration workflows outside any single runtime.\" --disable-wiki",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "publication_risk": "repo-create",
+      "manual_review_required": true
+    },
+    {
+      "step": "push",
+      "command": "git push -u origin main",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "publication_risk": "push",
+      "manual_review_required": true
+    },
+    {
+      "step": "tag",
+      "command": "git tag v0.1.0",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "publication_risk": "tag",
+      "manual_review_required": true
+    },
+    {
+      "step": "push-tag",
+      "command": "git push origin v0.1.0",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "publication_risk": "push",
+      "manual_review_required": true
+    },
+    {
+      "step": "review",
+      "command": "git status --short",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "publication_risk": "manual-review",
+      "manual_review_required": true
+    },
+    {
+      "step": "review-diff",
+      "command": "git diff --stat",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "publication_risk": "manual-review",
+      "manual_review_required": true
+    },
+    {
+      "step": "stage",
+      "command": "git add .",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "publication_risk": "stage",
+      "manual_review_required": true
+    },
+    {
+      "step": "commit",
+      "command": "git commit -m \"Initial public release: Portable AI Assets v0.1.0\"",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "publication_risk": "commit",
+      "manual_review_required": true
+    },
+    {
+      "step": "create-repo",
+      "command": "gh repo create portable-ai-assets --public --source=. --remote=origin --description \"Portable AI Assets is a cross-agent continuity layer for owning AI memory, skills, adapters, schemas, and migration workflows outside any single runtime.\" --disable-wiki",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "publication_risk": "repo-create",
+      "manual_review_required": true
+    },
+    {
+      "step": "push",
+      "command": "git push -u origin main",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "publication_risk": "push",
+      "manual_review_required": true
+    },
+    {
+      "step": "tag",
+      "command": "git tag v0.1.0",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "publication_risk": "tag",
+      "manual_review_required": true
+    },
+    {
+      "step": "push-tag",
+      "command": "git push origin v0.1.0",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "publication_risk": "push",
+      "manual_review_required": true
+    },
+    {
+      "step": "review",
+      "command": "git status --short",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false
+    },
+    {
+      "step": "review-diff",
+      "command": "git diff --stat",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false
+    },
+    {
+      "step": "stage",
+      "command": "git add .",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false
+    },
+    {
+      "step": "commit",
+      "command": "git commit -m \"Initial public release: Portable AI Assets v0.1.0\"",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false
+    },
+    {
+      "step": "create-repo",
+      "command": "gh repo create portable-ai-assets --public --source=. --remote=origin --description \"Portable AI Assets is a cross-agent continuity layer for owning AI memory, skills, adapters, schemas, and migration workflows outside any single runtime.\" --disable-wiki",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false
+    },
+    {
+      "step": "push",
+      "command": "git push -u origin main",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false
+    },
+    {
+      "step": "tag",
+      "command": "git tag v0.1.0",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false
+    },
+    {
+      "step": "push-tag",
+      "command": "git push origin v0.1.0",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false
+    }
+  ],
+  "recommendations": [
+    "If status is blocked, regenerate the failing latest-* evidence report(s) and rerun --manual-release-reviewer-checklist --both.",
+    "If status is ready-for-human-review, hand the checklist to a human reviewer; do not treat it as automatic release approval.",
+    "Keep publication, credential validation, remote creation, tag creation, and push actions outside this report-only gate."
+  ]
+}

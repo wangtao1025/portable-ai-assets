@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "required": [
+    "name",
+    "adapter_version",
+    "runtime",
+    "description",
+    "canonical_sources",
+    "live_targets",
+    "connector",
+    "detection",
+    "apply_policy"
+  ],
+  "properties": {
+    "apply_policy": {
+      "enum": ["safe-auto-apply", "human-review-required", "manual-only"]
+    }
+  }
+}

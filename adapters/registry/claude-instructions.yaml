@@ -1,0 +1,20 @@
+name: claude-instructions
+adapter_version: 1
+runtime: claude-code
+description: Projects canonical Claude instruction guidance into the live CLAUDE.md contract.
+canonical_sources:
+  - adapters/claude/instructions.md
+live_targets:
+  - ~/.claude/CLAUDE.md
+connector:
+  import: read-file
+  export: write-file
+  notes:
+    - Prefer preserving the current live instruction contract and appending portable addenda.
+detection:
+  default_paths:
+    - ~/.claude/CLAUDE.md
+  signature_markers:
+    - Portable AI Assets
+    - CLAUDE.md
+apply_policy: human-review-required

@@ -1,0 +1,13 @@
+version: 1
+updated_at: 2026-04-23
+owner: example-user
+root: /Users/example/AI-Assets
+asset_class: public
+
+canonical_model:
+  concept: portable-ai-asset-system
+  source_of_truth:
+    - /Users/example/AI-Assets/memory
+    - /Users/example/AI-Assets/capabilities
+    - /Users/example/AI-Assets/adapters
+    - /Users/example/AI-Assets/stack

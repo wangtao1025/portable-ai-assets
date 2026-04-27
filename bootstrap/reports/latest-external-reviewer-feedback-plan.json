@@ -1,0 +1,206 @@
+{
+  "mode": "external-reviewer-feedback-plan",
+  "generated_at": "2026-04-27T09:22:42",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "summary": {
+    "status": "ready-for-feedback-review",
+    "checks": 15,
+    "pass": 15,
+    "fail": 0,
+    "manual_review_required": true,
+    "decision_recorded": false,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "remote_configured": false,
+    "forbidden_findings": 0,
+    "feedback_capture_items": 5,
+    "follow_up_drafts": 3,
+    "auto_approves_release": false
+  },
+  "feedback_capture_template": [
+    {
+      "id": "reviewer-notes-source",
+      "title": "Reviewer notes source",
+      "prompt": "Identify the human-filled decision log or reviewer note document that follow-ups come from.",
+      "status": "pending-human-entry",
+      "executes_anything": false
+    },
+    {
+      "id": "public-private-boundary-finding",
+      "title": "Public/private boundary finding",
+      "prompt": "Capture any public/private-boundary issue, redaction concern, or missing evidence noted by the reviewer.",
+      "status": "pending-human-entry",
+      "executes_anything": false
+    },
+    {
+      "id": "publication-boundary-finding",
+      "title": "Publication boundary finding",
+      "prompt": "Capture any concern about publication commands, credential checks, remote mutation, or release approval wording.",
+      "status": "pending-human-entry",
+      "executes_anything": false
+    },
+    {
+      "id": "usability-follow-up",
+      "title": "External-reader usability follow-up",
+      "prompt": "Capture confusing first-10-minutes navigation, docs, demo-pack, or packet-index feedback.",
+      "status": "pending-human-entry",
+      "executes_anything": false
+    },
+    {
+      "id": "follow-up-backlog-entry",
+      "title": "Follow-up backlog entry",
+      "prompt": "Draft a local backlog/issue entry for each reviewed follow-up; do not create remote issues automatically.",
+      "status": "pending-human-entry",
+      "executes_anything": false
+    }
+  ],
+  "follow_up_backlog_drafts": [
+    {
+      "id": "public-private-boundary-follow-up",
+      "title": "Public/private boundary follow-up draft",
+      "category": "public-safety",
+      "suggested_local_backlog_text": "Review and address any external reviewer public/private-boundary or redaction findings before publication.",
+      "executes": false,
+      "mutates_issues": false
+    },
+    {
+      "id": "publication-boundary-follow-up",
+      "title": "Publication boundary follow-up draft",
+      "category": "release-boundary",
+      "suggested_local_backlog_text": "Review and address any external reviewer concerns about commands, credentials, remote mutation, upload, or release approval wording.",
+      "executes": false,
+      "mutates_issues": false
+    },
+    {
+      "id": "first-ten-minutes-usability-follow-up",
+      "title": "First-10-minutes usability follow-up draft",
+      "category": "reviewer-ergonomics",
+      "suggested_local_backlog_text": "Improve README/thesis/demo-pack/packet-index navigation based on external reviewer first-10-minutes notes.",
+      "executes": false,
+      "mutates_issues": false
+    }
+  ],
+  "source_summaries": {
+    "external-reviewer-quickstart": {
+      "status": "ready",
+      "checks": 23,
+      "pass": 23,
+      "fail": 0,
+      "manual_review_required": true,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "quickstart_items": 5,
+      "auto_approves_release": false
+    },
+    "release-reviewer-decision-log": {
+      "status": "needs-human-review",
+      "checks": 12,
+      "pass": 12,
+      "fail": 0,
+      "manual_review_required": true,
+      "decision_recorded": false,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "decision_log_items": 6,
+      "auto_approves_release": false
+    }
+  },
+  "checks": [
+    {
+      "name": "quickstart:json-present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-external-reviewer-quickstart.json"
+    },
+    {
+      "name": "quickstart:markdown-present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-external-reviewer-quickstart.md"
+    },
+    {
+      "name": "decision-log:json-present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-release-reviewer-decision-log.json"
+    },
+    {
+      "name": "decision-log:markdown-present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-release-reviewer-decision-log.md"
+    },
+    {
+      "name": "evidence:external-reviewer-quickstart:ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "evidence:release-reviewer-decision-log:needs-human-review",
+      "status": "pass",
+      "detail": "needs-human-review"
+    },
+    {
+      "name": "quickstart:not-auto-approval",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "decision-log:not-auto-approval",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "report-only-source",
+      "status": "pass",
+      "detail": "executes_anything=False"
+    },
+    {
+      "name": "no-remote-mutation-enabled",
+      "status": "pass",
+      "detail": "remote_mutation_allowed=False; remote_configured=False"
+    },
+    {
+      "name": "no-credential-validation-enabled",
+      "status": "pass",
+      "detail": "credential_validation_allowed=False"
+    },
+    {
+      "name": "public-forbidden-findings-clean",
+      "status": "pass",
+      "detail": "forbidden_findings=0"
+    },
+    {
+      "name": "docs:release-plan-documents-external-reviewer-feedback-plan",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents external reviewer feedback plan and report-only/non-approval boundary."
+    },
+    {
+      "name": "roadmap:phase85-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md records Phase 85 external reviewer feedback plan scope."
+    },
+    {
+      "name": "shell:external-reviewer-feedback-plan-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes --external-reviewer-feedback-plan."
+    }
+  ],
+  "review_boundary": [
+    "This external reviewer feedback plan is a report-only local capture/import plan for human notes; it is not release approval.",
+    "It can guide local follow-up/backlog drafts, but it does not mutate issues, publish, push, commit, create remotes/repositories/tags/releases, upload artifacts, call provider APIs, validate credentials, execute hooks/actions/commands, or mutate runtime/admin/provider state.",
+    "Any actual issue creation, backlog mutation, go/no-go decision, or real release action remains a separate explicit human operation outside this gate."
+  ],
+  "recommendations": [
+    "Run /bin/bash ./bootstrap/setup/bootstrap-ai-assets.sh --external-reviewer-feedback-plan --both after --external-reviewer-quickstart --both and --release-reviewer-decision-log --both.",
+    "Use this report to convert human reviewer notes into local follow-up drafts only; it does not create remote issues or mutate a backlog automatically.",
+    "If status is blocked, regenerate the quickstart/decision-log evidence and rerun --external-reviewer-feedback-plan --both.",
+    "Keep publication, credential validation, issue mutation, remote creation, tag creation, release creation, push, provider/API actions, command execution, and final go/no-go decisions outside this report-only gate."
+  ]
+}

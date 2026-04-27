@@ -1,0 +1,157 @@
+{
+  "mode": "release-reviewer-decision-log",
+  "generated_at": "2026-04-27T09:22:40",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "summary": {
+    "status": "needs-human-review",
+    "checks": 12,
+    "pass": 12,
+    "fail": 0,
+    "manual_review_required": true,
+    "decision_recorded": false,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "remote_configured": false,
+    "forbidden_findings": 0,
+    "decision_log_items": 6,
+    "auto_approves_release": false
+  },
+  "decision_log_template": [
+    {
+      "id": "reviewer-identity",
+      "title": "Reviewer identity and timestamp",
+      "prompt": "Record the human reviewer name/handle and review timestamp.",
+      "status": "pending-human-entry",
+      "executes_anything": false
+    },
+    {
+      "id": "evidence-reviewed",
+      "title": "Evidence reviewed",
+      "prompt": "List the packet index artifacts reviewed and any missing/stale evidence.",
+      "status": "pending-human-entry",
+      "executes_anything": false
+    },
+    {
+      "id": "public-private-boundary",
+      "title": "Public/private boundary findings",
+      "prompt": "Record whether public samples/docs/reports remain redacted and safe for publication.",
+      "status": "pending-human-entry",
+      "executes_anything": false
+    },
+    {
+      "id": "publication-boundary",
+      "title": "Publication boundary findings",
+      "prompt": "Record that no automated publish/push/tag/release/credential/API action is triggered by this gate.",
+      "status": "pending-human-entry",
+      "executes_anything": false
+    },
+    {
+      "id": "manual-decision",
+      "title": "Manual reviewer decision",
+      "prompt": "Record the human decision separately from this report; this template is not release approval.",
+      "status": "pending-human-entry",
+      "executes_anything": false
+    },
+    {
+      "id": "follow-up-notes",
+      "title": "Follow-up notes",
+      "prompt": "Record any required follow-up before a separate explicit human release action.",
+      "status": "pending-human-entry",
+      "executes_anything": false
+    }
+  ],
+  "source_summaries": {
+    "release-reviewer-packet-index": {
+      "status": "ready",
+      "checks": 28,
+      "pass": 28,
+      "fail": 0,
+      "manual_review_required": true,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "packet_items": 12,
+      "public_doc_items": 4,
+      "auto_approves_release": false
+    }
+  },
+  "checks": [
+    {
+      "name": "packet-index:json-present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-release-reviewer-packet-index.json"
+    },
+    {
+      "name": "packet-index:markdown-present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-release-reviewer-packet-index.md"
+    },
+    {
+      "name": "evidence:release-reviewer-packet-index:ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "packet-index:manual-review-required",
+      "status": "pass",
+      "detail": "{'status': 'ready', 'checks': 28, 'pass': 28, 'fail': 0, 'manual_review_required': True, 'executes_anything': False, 'remote_mutation_allowed': False, 'credential_validation_allowed': False, 'remote_configured': False, 'forbidden_findings': 0, 'packet_items': 12, 'public_doc_items': 4, 'auto_approves_release': False}"
+    },
+    {
+      "name": "packet-index:not-auto-approval",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "report-only-source",
+      "status": "pass",
+      "detail": "executes_anything=False"
+    },
+    {
+      "name": "no-remote-mutation-enabled",
+      "status": "pass",
+      "detail": "remote_mutation_allowed=False; remote_configured=False"
+    },
+    {
+      "name": "no-credential-validation-enabled",
+      "status": "pass",
+      "detail": "credential_validation_allowed=False"
+    },
+    {
+      "name": "public-forbidden-findings-clean",
+      "status": "pass",
+      "detail": "forbidden_findings=0"
+    },
+    {
+      "name": "docs:release-plan-documents-reviewer-decision-log",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents reviewer decision log and report-only/non-approval boundary."
+    },
+    {
+      "name": "roadmap:phase83-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md records Phase 83 release reviewer decision log scope."
+    },
+    {
+      "name": "shell:release-reviewer-decision-log-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes --release-reviewer-decision-log."
+    }
+  ],
+  "review_boundary": [
+    "This release reviewer decision log is a report-only local template/status artifact for human review notes; it is not release approval.",
+    "It records pending human-review fields only and does not publish, push, commit, create remotes/repositories/tags/releases, upload artifacts, call provider APIs, validate credentials, execute hooks/actions/commands, or mutate runtime/admin/provider state.",
+    "Any go/no-go decision and any real release action remain separate explicit human operations outside this gate."
+  ],
+  "recommendations": [
+    "Run /bin/bash ./bootstrap/setup/bootstrap-ai-assets.sh --release-reviewer-decision-log --both after --release-reviewer-packet-index --both.",
+    "Use this report as a local decision-log template only; needs-human-review means a human still must fill/review notes, not release approval.",
+    "If status is blocked, regenerate the missing/failing reviewer packet index evidence and rerun --release-reviewer-decision-log --both.",
+    "Keep publication, credential validation, remote creation, tag creation, release creation, push, provider/API actions, and final go/no-go decisions outside this report-only gate."
+  ]
+}

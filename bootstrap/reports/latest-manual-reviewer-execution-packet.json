@@ -1,0 +1,330 @@
+{
+  "mode": "manual-reviewer-execution-packet",
+  "generated_at": "2026-04-27T09:22:49",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "summary": {
+    "status": "ready-for-human-runbook",
+    "checks": 24,
+    "pass": 24,
+    "warn": 0,
+    "fail": 0,
+    "manual_review_required": true,
+    "human_feedback_pending": true,
+    "followup_candidates_ready": false,
+    "one_page_runbook_ready": true,
+    "writes_anything": false,
+    "writes": 0,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "remote_configured": false,
+    "auto_approves_release": false,
+    "remote_issues_created": 0,
+    "issue_backlog_mutation_allowed": false
+  },
+  "required_evidence": [
+    "human-action-closure-checklist",
+    "external-reviewer-feedback-template",
+    "external-reviewer-feedback-followup-index",
+    "external-reviewer-quickstart",
+    "release-reviewer-packet-index",
+    "public-repo-staging-status"
+  ],
+  "source_summaries": {
+    "human-action-closure-checklist": {
+      "status": "ready-for-human-action",
+      "checks": 23,
+      "pass": 23,
+      "warn": 0,
+      "fail": 0,
+      "machine_readiness_ready": true,
+      "human_feedback_complete": false,
+      "human_feedback_pending": true,
+      "manual_review_required": true,
+      "followup_candidates_ready": false,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "auto_approves_release": false,
+      "remote_issues_created": 0,
+      "issue_backlog_mutation_allowed": false
+    },
+    "external-reviewer-feedback-template": {
+      "status": "template-ready",
+      "checks": 6,
+      "pass": 6,
+      "fail": 0,
+      "manual_review_required": true,
+      "template_written": true,
+      "feedback_file_created": false,
+      "writes_anything": true,
+      "writes": 1,
+      "template_fields": 9,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "auto_approves_release": false
+    },
+    "external-reviewer-feedback-followup-index": {
+      "status": "ready",
+      "checks": 24,
+      "pass": 24,
+      "fail": 0,
+      "manual_review_required": true,
+      "packet_items": 5,
+      "feedback_file_present": false,
+      "decision_recorded": false,
+      "approval_recorded": false,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "auto_approves_release": false
+    },
+    "external-reviewer-quickstart": {
+      "status": "ready",
+      "checks": 23,
+      "pass": 23,
+      "fail": 0,
+      "manual_review_required": true,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "quickstart_items": 5,
+      "auto_approves_release": false
+    },
+    "release-reviewer-packet-index": {
+      "status": "ready",
+      "checks": 28,
+      "pass": 28,
+      "fail": 0,
+      "manual_review_required": true,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "packet_items": 12,
+      "public_doc_items": 4,
+      "auto_approves_release": false
+    },
+    "public-repo-staging-status": {
+      "status": "ready",
+      "staging_exists": true,
+      "git_initialized": true,
+      "branch": "main",
+      "remote_configured": false,
+      "changed_files": 17,
+      "category_counts": {
+        "adapters": 1,
+        "docs_policy": 4,
+        "other": 12
+      },
+      "forbidden_findings": 0
+    }
+  },
+  "checks": [
+    {
+      "name": "evidence:human-action-closure-checklist:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:external-reviewer-feedback-template:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:external-reviewer-feedback-followup-index:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:external-reviewer-quickstart:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:release-reviewer-packet-index:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:public-repo-staging-status:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:human-action-closure-checklist:ready",
+      "status": "pass",
+      "detail": "ready-for-human-action"
+    },
+    {
+      "name": "evidence:feedback-template:ready",
+      "status": "pass",
+      "detail": "template-ready"
+    },
+    {
+      "name": "evidence:followup-index:navigable",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "evidence:external-reviewer-quickstart:ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "evidence:release-reviewer-packet-index:ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "evidence:staging-status:no-remote-required",
+      "status": "pass",
+      "detail": "remote_configured=False"
+    },
+    {
+      "name": "docs:release-plan-documents-manual-reviewer-execution-packet",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents Phase 93 manual reviewer execution packet and boundaries."
+    },
+    {
+      "name": "roadmap:phase93-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md records Phase 93 manual reviewer execution packet."
+    },
+    {
+      "name": "shell:manual-reviewer-execution-packet-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes --manual-reviewer-execution-packet."
+    },
+    {
+      "name": "safety:no-execution",
+      "status": "pass",
+      "detail": "executes_anything=False"
+    },
+    {
+      "name": "safety:no-remote-mutation",
+      "status": "pass",
+      "detail": "remote_mutation_allowed=False; remote_issues_created=0"
+    },
+    {
+      "name": "safety:no-credential-validation",
+      "status": "pass",
+      "detail": "credential_validation_allowed=False"
+    },
+    {
+      "name": "safety:no-auto-release-approval",
+      "status": "pass",
+      "detail": "auto_approves_release=False"
+    },
+    {
+      "name": "human-runbook:read-one-page-packet",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "human-runbook:copy-fill-feedback-file",
+      "status": "pass",
+      "detail": "pending"
+    },
+    {
+      "name": "human-runbook:rerun-feedback-status",
+      "status": "pass",
+      "detail": "pending"
+    },
+    {
+      "name": "human-runbook:generate-and-review-local-followups",
+      "status": "pass",
+      "detail": "pending"
+    },
+    {
+      "name": "human-runbook:manual-publication-or-sharing-decision",
+      "status": "pass",
+      "detail": "pending"
+    }
+  ],
+  "human_runbook_steps": [
+    {
+      "id": "read-one-page-packet",
+      "title": "Human reads this packet, latest human-action closure checklist, external reviewer quickstart, and release reviewer packet index.",
+      "evidence": "latest-manual-reviewer-execution-packet plus latest-human-action-closure-checklist",
+      "status": "ready",
+      "review_type": "manual",
+      "executes_anything": false,
+      "auto_approves_release": false
+    },
+    {
+      "id": "copy-fill-feedback-file",
+      "title": "Human copies the template and fills bootstrap/reviewer-feedback/external-reviewer-feedback.md; automation must not fabricate it.",
+      "evidence": "bootstrap/reviewer-feedback/external-reviewer-feedback.md.template",
+      "status": "pending",
+      "review_type": "manual",
+      "executes_anything": false,
+      "auto_approves_release": false
+    },
+    {
+      "id": "rerun-feedback-status",
+      "title": "Human reruns feedback status after the filled feedback file exists.",
+      "evidence": "latest-external-reviewer-feedback-status",
+      "status": "pending",
+      "review_type": "manual",
+      "executes_anything": false,
+      "auto_approves_release": false
+    },
+    {
+      "id": "generate-and-review-local-followups",
+      "title": "After ready feedback, generate local follow-up candidates and manually review them before any issue/backlog action outside automation.",
+      "evidence": "latest-external-reviewer-feedback-followup-candidates and latest-external-reviewer-feedback-followup-candidate-status",
+      "status": "pending",
+      "review_type": "manual",
+      "executes_anything": false,
+      "auto_approves_release": false
+    },
+    {
+      "id": "manual-publication-or-sharing-decision",
+      "title": "Human makes any publication/share/go-no-go decision outside this report-only runbook.",
+      "evidence": "manual release/reviewer decision records outside automation",
+      "status": "pending",
+      "review_type": "manual",
+      "executes_anything": false,
+      "auto_approves_release": false
+    }
+  ],
+  "manual_command_sequence": [
+    "cp bootstrap/reviewer-feedback/external-reviewer-feedback.md.template bootstrap/reviewer-feedback/external-reviewer-feedback.md  # human-run outside gate, then edit manually",
+    "./bootstrap/setup/bootstrap-ai-assets.sh --external-reviewer-feedback-status --both",
+    "./bootstrap/setup/bootstrap-ai-assets.sh --external-reviewer-feedback-followup-candidates --both",
+    "./bootstrap/setup/bootstrap-ai-assets.sh --external-reviewer-feedback-followup-candidate-status --both",
+    "./bootstrap/setup/bootstrap-ai-assets.sh --initial-completion-review --both",
+    "./bootstrap/setup/bootstrap-ai-assets.sh --human-action-closure-checklist --both",
+    "./bootstrap/setup/bootstrap-ai-assets.sh --manual-reviewer-execution-packet --both"
+  ],
+  "human_owned_inputs": [
+    "bootstrap/reviewer-feedback/external-reviewer-feedback.md.template",
+    "bootstrap/reviewer-feedback/external-reviewer-feedback.md",
+    "Manual external sharing/publication/go-no-go decision outside automation."
+  ],
+  "review_boundary": [
+    "This packet is a local-only/report-only one-page human runbook index; it does not execute the manual command sequence.",
+    "It does not create/fill final feedback, approve release, record go/no-go, publish, upload, commit, push, tag, create remotes/repos/releases, validate credentials, call APIs/providers, mutate issues/backlogs, or execute hooks/actions/commands.",
+    "Human feedback can remain pending while the runbook is ready; pending items are human-owned, not automated tasks."
+  ],
+  "recommendations": [
+    "If blocked, regenerate the missing latest-* evidence reports and rerun --manual-reviewer-execution-packet --both.",
+    "If ready-for-human-runbook, give this packet to the human reviewer/operator; do not treat it as release approval.",
+    "Perform any copy/edit, issue/backlog, publication, credential, or API work manually outside this gate and outside report automation."
+  ]
+}

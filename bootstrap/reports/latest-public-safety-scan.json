@@ -1,0 +1,39 @@
+{
+  "mode": "public-safety-scan",
+  "generated_at": "2026-04-27T15:07:11",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "scan_scope": [
+    "README.md",
+    "CONTRIBUTING.md",
+    "LICENSE",
+    "SECURITY.md",
+    "CHANGELOG.md",
+    "RELEASE_NOTES-v0.1.md",
+    "GIT-POLICY.md",
+    "BACKUP-POLICY.md",
+    "docs",
+    "schemas",
+    "adapters/registry",
+    "bootstrap/setup",
+    "sample-assets",
+    "examples/redacted"
+  ],
+  "summary": {
+    "status": "pass",
+    "scanned_files": 130,
+    "findings": 0,
+    "blockers": 0,
+    "warnings": 0,
+    "unreadable_files": 0
+  },
+  "findings": [],
+  "unreadable": [],
+  "recommendations": [
+    "Fix all blocker findings before publishing a public repository or demo pack.",
+    "Review warning findings manually; example paths are preferred for public docs and sample assets.",
+    "Keep raw memory, reports, candidates, backups, DBs, logs, and runtime state out of public release surfaces."
+  ]
+}

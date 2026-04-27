@@ -1,0 +1,10 @@
+capabilities:
+  - name: example-project-pack:project-guidance
+    risk_class: text-only
+    policy_outcome: allow-preview
+  - name: example-project-pack:read-context
+    risk_class: read-only-data
+    policy_outcome: allow-preview
+  - name: example-team-pack:team-pack
+    risk_class: text-only
+    policy_outcome: review-required

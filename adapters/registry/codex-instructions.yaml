@@ -1,0 +1,20 @@
+name: codex-instructions
+adapter_version: 1
+runtime: codex
+description: Projects canonical Codex instruction guidance into the live AGENTS.md contract.
+canonical_sources:
+  - adapters/codex/instructions.md
+live_targets:
+  - ~/.codex/AGENTS.md
+connector:
+  import: read-file
+  export: write-file
+  notes:
+    - Keep OMX and Codex-specific runtime instructions visible during reconciliation.
+detection:
+  default_paths:
+    - ~/.codex/AGENTS.md
+  signature_markers:
+    - AGENTS.md
+    - OMX
+apply_policy: human-review-required

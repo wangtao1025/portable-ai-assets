@@ -1,0 +1,32 @@
+name: memos-local-plugin-hermes-runtime-backend
+adapter_version: 1
+runtime: memos-local-plugin-hermes
+description: Describes MemOS memos-local-plugin as a Hermes runtime memory backend whose SQLite/log/skill state can be inspected and summarized into canonical Portable AI Assets candidates.
+canonical_sources:
+  - memory/runtime-backends/memos-local-plugin.md
+live_targets:
+  - ~/.hermes/memos-plugin/config.yaml
+  - ~/.hermes/memos-plugin/data/memos.db
+  - ~/.hermes/memos-plugin/skills
+  - ~/.hermes/memos-plugin/logs
+connector:
+  import: sqlite-summary
+  export: manual-only
+  notes:
+    - Treat MemOS as a rich runtime backend, not as canonical Git memory.
+    - Import should produce candidate summaries/policies/skills for human review.
+    - Do not commit raw SQLite DBs, WAL/SHM files, embeddings, or logs to Git.
+    - Enablement for Hermes should happen in a test profile first.
+detection:
+  default_paths:
+    - ~/.hermes/memos-plugin/config.yaml
+    - ~/.hermes/memos-plugin/data/memos.db
+    - ~/.hermes/plugins/memos-local-plugin
+  signature_markers:
+    - memos-local-plugin
+    - Reflect2Evolve
+    - L1 trace
+    - L2 policy
+    - L3 world model
+    - skill crystallization
+apply_policy: manual-only

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Portable AI Assets Tool Manifest v1",
+  "type": "object",
+  "required": ["name", "kind", "status", "home", "paths", "preserve_in_git", "backup_but_not_git", "rebuildable", "restore_notes"],
+  "properties": {
+    "name": {"type": "string"},
+    "kind": {"type": "string"},
+    "status": {"type": ["string", "boolean"]},
+    "home": {"type": "string"},
+    "paths": {"type": "object"},
+    "preserve_in_git": {"type": "array"},
+    "backup_but_not_git": {"type": "array"},
+    "rebuildable": {"type": "array"},
+    "restore_notes": {"type": "array"},
+    "asset_class": {"type": "string", "enum": ["public", "private", "secret", "unknown"]}
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Portable AI Assets Stack Manifest v1",
+  "type": "object",
+  "required": ["version", "updated_at", "owner", "root"],
+  "properties": {
+    "version": {"type": ["integer", "string"]},
+    "updated_at": {"type": "string"},
+    "owner": {"type": "string"},
+    "root": {"type": "string"},
+    "asset_class": {"type": "string", "enum": ["public", "private", "secret", "unknown"]}
+  }
+}

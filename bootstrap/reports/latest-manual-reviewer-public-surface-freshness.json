@@ -1,0 +1,160 @@
+{
+  "mode": "manual-reviewer-public-surface-freshness",
+  "generated_at": "2026-04-27T09:22:49",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "pack_dir": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-092213",
+  "staging_dir": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+  "required_reports": [
+    "manual-reviewer-execution-packet",
+    "public-release-pack",
+    "public-repo-staging-status"
+  ],
+  "source_summaries": {
+    "manual-reviewer-execution-packet": {
+      "status": "ready-for-human-runbook",
+      "checks": 24,
+      "pass": 24,
+      "warn": 0,
+      "fail": 0,
+      "manual_review_required": true,
+      "human_feedback_pending": true,
+      "followup_candidates_ready": false,
+      "one_page_runbook_ready": true,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "auto_approves_release": false,
+      "remote_issues_created": 0,
+      "issue_backlog_mutation_allowed": false
+    },
+    "public-release-pack": {
+      "files_in_pack": 192,
+      "skipped": 0,
+      "public_safety_status": "pass",
+      "release_readiness": "ready"
+    },
+    "public-repo-staging-status": {
+      "status": "ready",
+      "staging_exists": true,
+      "git_initialized": true,
+      "branch": "main",
+      "remote_configured": false,
+      "changed_files": 17,
+      "category_counts": {
+        "adapters": 1,
+        "docs_policy": 4,
+        "other": 12
+      },
+      "forbidden_findings": 0
+    }
+  },
+  "checks": [
+    {
+      "name": "source:manual-reviewer-execution-packet:ready",
+      "status": "pass",
+      "detail": "{'status': 'ready-for-human-runbook', 'checks': 24, 'pass': 24, 'warn': 0, 'fail': 0, 'manual_review_required': True, 'human_feedback_pending': True, 'followup_candidates_ready': False, 'one_page_runbook_ready': True, 'writes_anything': False, 'writes': 0, 'executes_anything': False, 'remote_mutation_allowed': False, 'credential_validation_allowed': False, 'remote_configured': False, 'auto_approves_release': False, 'remote_issues_created': 0, 'issue_backlog_mutation_allowed': False}"
+    },
+    {
+      "name": "public-pack:latest-report",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-public-release-pack.json"
+    },
+    {
+      "name": "public-pack:dir",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-092213"
+    },
+    {
+      "name": "public-pack:manual-reviewer-execution-packet-json",
+      "status": "pass",
+      "detail": "bootstrap/reports/latest-manual-reviewer-execution-packet.json"
+    },
+    {
+      "name": "public-pack:manual-reviewer-execution-packet-md",
+      "status": "pass",
+      "detail": "bootstrap/reports/latest-manual-reviewer-execution-packet.md"
+    },
+    {
+      "name": "public-pack:manual-reviewer-public-surface-freshness-command",
+      "status": "pass",
+      "detail": "public pack documents Phase 94 freshness command"
+    },
+    {
+      "name": "github-staging:latest-status-report",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-public-repo-staging-status.json"
+    },
+    {
+      "name": "github-staging:dir",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets"
+    },
+    {
+      "name": "github-staging:manual-reviewer-execution-packet-json",
+      "status": "pass",
+      "detail": "bootstrap/reports/latest-manual-reviewer-execution-packet.json"
+    },
+    {
+      "name": "github-staging:manual-reviewer-execution-packet-md",
+      "status": "pass",
+      "detail": "bootstrap/reports/latest-manual-reviewer-execution-packet.md"
+    },
+    {
+      "name": "github-staging:manual-reviewer-public-surface-freshness-command",
+      "status": "pass",
+      "detail": "GitHub staging documents Phase 94 freshness command"
+    },
+    {
+      "name": "docs:release-plan-documents-phase94",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents Phase 94 public surface freshness boundary"
+    },
+    {
+      "name": "roadmap:phase94-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md documents Phase 94"
+    },
+    {
+      "name": "shell:manual-reviewer-public-surface-freshness-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes Phase 94 flag"
+    }
+  ],
+  "summary": {
+    "status": "ready",
+    "checks": 14,
+    "pass": 14,
+    "warn": 0,
+    "fail": 0,
+    "forbidden_findings": 0,
+    "manual_review_required": true,
+    "human_feedback_pending": true,
+    "followup_candidates_ready": false,
+    "one_page_runbook_ready": true,
+    "writes_anything": false,
+    "writes": 0,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "auto_approves_release": false,
+    "remote_issues_created": 0,
+    "issue_backlog_mutation_allowed": false,
+    "remote_configured": false
+  },
+  "review_boundary": [
+    "Report-only freshness/coverage check for Phase 93 manual reviewer execution packet across local public pack, GitHub staging, docs, and shell surfaces.",
+    "Does not create final human feedback, execute the human runbook, send invitations, approve releases, publish, push, create remotes/repos/tags/releases, validate credentials, call providers/APIs, upload artifacts, or mutate issues/backlogs.",
+    "A ready result means public surfaces include the runbook evidence and Phase 94 command wiring; it is not release approval, not a go/no-go decision, and not completion of human feedback."
+  ],
+  "recommendations": [
+    "Rerun --manual-reviewer-execution-packet --both after changing human-action closure or reviewer guidance.",
+    "Rerun --public-release-pack --both and --public-repo-staging --both after changing docs, shell wrapper, or latest reviewer packet reports.",
+    "Rerun --manual-reviewer-public-surface-freshness --both immediately before giving the local public pack/staging tree to a human reviewer."
+  ]
+}

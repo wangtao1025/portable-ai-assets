@@ -1,0 +1,319 @@
+{
+  "mode": "human-action-closure-checklist",
+  "generated_at": "2026-04-27T09:22:48",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "summary": {
+    "status": "ready-for-human-action",
+    "checks": 23,
+    "pass": 23,
+    "warn": 0,
+    "fail": 0,
+    "machine_readiness_ready": true,
+    "human_feedback_complete": false,
+    "human_feedback_pending": true,
+    "manual_review_required": true,
+    "followup_candidates_ready": false,
+    "writes_anything": false,
+    "writes": 0,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "remote_configured": false,
+    "auto_approves_release": false,
+    "remote_issues_created": 0,
+    "issue_backlog_mutation_allowed": false
+  },
+  "required_evidence": [
+    "initial-completion-review",
+    "external-reviewer-feedback-template",
+    "external-reviewer-feedback-status",
+    "external-reviewer-feedback-followup-candidates",
+    "external-reviewer-feedback-followup-candidate-status"
+  ],
+  "source_summaries": {
+    "initial-completion-review": {
+      "status": "machine-ready-human-feedback-pending",
+      "checks": 22,
+      "pass": 20,
+      "warn": 2,
+      "fail": 0,
+      "machine_readiness_ready": true,
+      "human_feedback_complete": false,
+      "human_action_required": true,
+      "followup_candidates_ready": false,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "auto_approves_release": false
+    },
+    "external-reviewer-feedback-template": {
+      "status": "template-ready",
+      "checks": 6,
+      "pass": 6,
+      "fail": 0,
+      "manual_review_required": true,
+      "template_written": true,
+      "feedback_file_created": false,
+      "writes_anything": true,
+      "writes": 1,
+      "template_fields": 9,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "auto_approves_release": false
+    },
+    "external-reviewer-feedback-status": {
+      "status": "needs-human-feedback",
+      "checks": 23,
+      "pass": 13,
+      "fail": 10,
+      "manual_review_required": true,
+      "feedback_file_present": false,
+      "decision_recorded": false,
+      "approval_recorded": false,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "required_fields": 9,
+      "present_required_fields": 0,
+      "follow_up_items": 0,
+      "auto_approves_release": false
+    },
+    "external-reviewer-feedback-followup-candidates": {
+      "status": "blocked",
+      "checks": 15,
+      "pass": 12,
+      "fail": 3,
+      "manual_review_required": true,
+      "feedback_file_present": false,
+      "follow_up_items": 0,
+      "candidate_files_written": 0,
+      "remote_issues_created": 0,
+      "decision_recorded": false,
+      "approval_recorded": false,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "auto_approves_release": false
+    },
+    "external-reviewer-feedback-followup-candidate-status": {
+      "status": "blocked",
+      "checks": 12,
+      "pass": 9,
+      "fail": 3,
+      "manual_review_required": true,
+      "candidate_bundle_present": false,
+      "candidate_files_scanned": 0,
+      "human_reviewed_candidates": 0,
+      "unsafe_candidates": 0,
+      "remote_issues_created": 0,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "auto_approves_release": false
+    }
+  },
+  "checks": [
+    {
+      "name": "evidence:initial-completion-review:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:external-reviewer-feedback-template:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:external-reviewer-feedback-status:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:external-reviewer-feedback-followup-candidates:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "evidence:external-reviewer-feedback-followup-candidate-status:present",
+      "status": "pass",
+      "detail": "present"
+    },
+    {
+      "name": "initial-completion:machine-ready-human-feedback-pending",
+      "status": "pass",
+      "detail": "machine-ready-human-feedback-pending"
+    },
+    {
+      "name": "feedback-template:present",
+      "status": "pass",
+      "detail": "bootstrap/reviewer-feedback/external-reviewer-feedback.md.template"
+    },
+    {
+      "name": "feedback-file:human-owned",
+      "status": "pass",
+      "detail": "final external-reviewer-feedback.md is never created or filled by this gate"
+    },
+    {
+      "name": "feedback-status:human-feedback-pending-visible",
+      "status": "pass",
+      "detail": "needs-human-feedback"
+    },
+    {
+      "name": "followup-candidates:blocked-until-human-feedback",
+      "status": "pass",
+      "detail": "blocked"
+    },
+    {
+      "name": "candidate-status:manual-review-state-visible",
+      "status": "pass",
+      "detail": "blocked"
+    },
+    {
+      "name": "docs:release-plan-documents-human-action-closure-checklist",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents Phase 92 human action checklist and boundaries."
+    },
+    {
+      "name": "roadmap:phase92-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md records Phase 92 human action closure checklist."
+    },
+    {
+      "name": "shell:human-action-closure-checklist-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes --human-action-closure-checklist."
+    },
+    {
+      "name": "safety:no-execution",
+      "status": "pass",
+      "detail": "executes_anything=False"
+    },
+    {
+      "name": "safety:no-remote-mutation",
+      "status": "pass",
+      "detail": "remote_mutation_allowed=False; remote_issues_created=0"
+    },
+    {
+      "name": "safety:no-credential-validation",
+      "status": "pass",
+      "detail": "credential_validation_allowed=False"
+    },
+    {
+      "name": "safety:no-auto-release-approval",
+      "status": "pass",
+      "detail": "auto_approves_release=False"
+    },
+    {
+      "name": "human-action:copy-fill-external-reviewer-feedback",
+      "status": "pass",
+      "detail": "pending"
+    },
+    {
+      "name": "human-action:rerun-external-reviewer-feedback-status",
+      "status": "pass",
+      "detail": "pending"
+    },
+    {
+      "name": "human-action:generate-local-followup-candidates",
+      "status": "pass",
+      "detail": "pending"
+    },
+    {
+      "name": "human-action:review-followup-candidates-manually",
+      "status": "pass",
+      "detail": "pending"
+    },
+    {
+      "name": "human-action:manual-publication-decision",
+      "status": "pass",
+      "detail": "pending"
+    }
+  ],
+  "human_action_checklist": [
+    {
+      "id": "copy-fill-external-reviewer-feedback",
+      "title": "Human copies the feedback template and fills bootstrap/reviewer-feedback/external-reviewer-feedback.md.",
+      "evidence": "bootstrap/reviewer-feedback/external-reviewer-feedback.md.template",
+      "status": "pending",
+      "review_type": "manual",
+      "executes_anything": false,
+      "auto_approves_release": false
+    },
+    {
+      "id": "rerun-external-reviewer-feedback-status",
+      "title": "Rerun --external-reviewer-feedback-status --both after the human-filled feedback file exists.",
+      "evidence": "latest-external-reviewer-feedback-status",
+      "status": "pending",
+      "review_type": "manual",
+      "executes_anything": false,
+      "auto_approves_release": false
+    },
+    {
+      "id": "generate-local-followup-candidates",
+      "title": "Only after ready feedback, run --external-reviewer-feedback-followup-candidates --both to create local candidate drafts.",
+      "evidence": "latest-external-reviewer-feedback-followup-candidates",
+      "status": "pending",
+      "review_type": "manual",
+      "executes_anything": false,
+      "auto_approves_release": false
+    },
+    {
+      "id": "review-followup-candidates-manually",
+      "title": "Human reviews local follow-up candidates before any issue/backlog handling outside automation.",
+      "evidence": "latest-external-reviewer-feedback-followup-candidate-status",
+      "status": "pending",
+      "review_type": "manual",
+      "executes_anything": false,
+      "auto_approves_release": false
+    },
+    {
+      "id": "manual-publication-decision",
+      "title": "Human makes any external sharing/publication decision manually; this checklist does not approve or publish.",
+      "evidence": "latest-initial-completion-review plus manual reviewer packet",
+      "status": "pending",
+      "review_type": "manual",
+      "executes_anything": false,
+      "auto_approves_release": false
+    }
+  ],
+  "human_action_required": [
+    "Human copy/fill bootstrap/reviewer-feedback/external-reviewer-feedback.md from bootstrap/reviewer-feedback/external-reviewer-feedback.md.template.",
+    "Human rerun feedback status and local follow-up candidate gates after final feedback exists.",
+    "Human manually review any local follow-up candidates before creating issues or backlog entries outside this automation.",
+    "Human make any publication/share/go-no-go decision outside this report-only gate."
+  ],
+  "review_boundary": [
+    "This checklist is local-only/report-only guidance for a human; it does not create or fill final feedback.",
+    "It does not approve release, record go/no-go, publish, upload, commit, push, tag, create remotes/repos/releases, validate credentials, call APIs/providers, mutate issues/backlogs, or execute hooks/actions/commands.",
+    "Machine readiness can be true while human feedback remains pending; the pending human actions are explicit checklist items, not automated tasks."
+  ],
+  "feedback_paths": {
+    "template": "bootstrap/reviewer-feedback/external-reviewer-feedback.md.template",
+    "final_feedback_file": "bootstrap/reviewer-feedback/external-reviewer-feedback.md",
+    "final_feedback_file_present": false
+  },
+  "recommendations": [
+    "If status is blocked, regenerate the missing latest-* evidence reports and rerun --human-action-closure-checklist --both.",
+    "If status is ready-for-human-action, hand this checklist to a human; do not treat it as release approval.",
+    "Do not create the final external reviewer feedback file, issues, backlog entries, remotes, tags, releases, uploads, or credential checks from this gate."
+  ]
+}

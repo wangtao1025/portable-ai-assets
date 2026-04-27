@@ -1,0 +1,23 @@
+name: hermes
+kind: agent-runtime
+status: detected
+home: /Users/example/.hermes
+asset_class: public
+
+paths:
+  config: /Users/example/.hermes/config.yaml
+  memories_dir: /Users/example/.hermes/memories
+
+preserve_in_git:
+  - AI-Assets/memory
+  - AI-Assets/capabilities
+
+backup_but_not_git:
+  - /Users/example/.hermes/state.db
+
+rebuildable:
+  - caches
+  - wal files
+
+restore_notes:
+  - Treat runtime memory as adapter view.

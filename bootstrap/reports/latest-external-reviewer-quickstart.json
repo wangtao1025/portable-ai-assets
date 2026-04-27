@@ -1,0 +1,234 @@
+{
+  "mode": "external-reviewer-quickstart",
+  "generated_at": "2026-04-27T09:22:41",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "summary": {
+    "status": "ready",
+    "checks": 23,
+    "pass": 23,
+    "fail": 0,
+    "manual_review_required": true,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "remote_configured": false,
+    "forbidden_findings": 0,
+    "quickstart_items": 5,
+    "auto_approves_release": false
+  },
+  "quickstart_path": [
+    {
+      "id": "readme-start-here",
+      "title": "Repository README start-here",
+      "path": "README.md",
+      "why": "Explains the Portable AI Assets positioning and first external-reader entry point.",
+      "executes_anything": false,
+      "exists": true,
+      "is_file": true,
+      "is_dir": false
+    },
+    {
+      "id": "public-facing-thesis",
+      "title": "Public-facing thesis",
+      "path": "docs/public-facing-thesis.md",
+      "why": "States why a portable AI work-environment asset layer matters and what it is not.",
+      "executes_anything": false,
+      "exists": true,
+      "is_file": true,
+      "is_dir": false
+    },
+    {
+      "id": "public-demo-pack",
+      "title": "Redacted public demo pack",
+      "path": "examples/redacted/public-demo-pack",
+      "why": "Shows safe public examples without private paths, credentials, or customer data.",
+      "executes_anything": false,
+      "exists": true,
+      "is_file": false,
+      "is_dir": true
+    },
+    {
+      "id": "reviewer-packet-index",
+      "title": "Release reviewer packet index",
+      "path": "bootstrap/reports/latest-release-reviewer-packet-index.md",
+      "why": "Single local index of final release-review artifacts for human review.",
+      "executes_anything": false,
+      "exists": true,
+      "is_file": true,
+      "is_dir": false
+    },
+    {
+      "id": "decision-log-template",
+      "title": "Reviewer decision-log template",
+      "path": "bootstrap/reports/latest-release-reviewer-decision-log.md",
+      "why": "Human-review notes and manual decision placeholder; not release approval.",
+      "executes_anything": false,
+      "exists": true,
+      "is_file": true,
+      "is_dir": false
+    }
+  ],
+  "source_summaries": {
+    "release-reviewer-packet-index": {
+      "status": "ready",
+      "checks": 28,
+      "pass": 28,
+      "fail": 0,
+      "manual_review_required": true,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "packet_items": 12,
+      "public_doc_items": 4,
+      "auto_approves_release": false
+    },
+    "release-reviewer-decision-log": {
+      "status": "needs-human-review",
+      "checks": 12,
+      "pass": 12,
+      "fail": 0,
+      "manual_review_required": true,
+      "decision_recorded": false,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "decision_log_items": 6,
+      "auto_approves_release": false
+    }
+  },
+  "checks": [
+    {
+      "name": "quickstart:readme-start-here:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/README.md"
+    },
+    {
+      "name": "quickstart:readme-start-here:non-executing",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "quickstart:public-facing-thesis:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/docs/public-facing-thesis.md"
+    },
+    {
+      "name": "quickstart:public-facing-thesis:non-executing",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "quickstart:public-demo-pack:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/examples/redacted/public-demo-pack"
+    },
+    {
+      "name": "quickstart:public-demo-pack:non-executing",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "quickstart:reviewer-packet-index:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-release-reviewer-packet-index.md"
+    },
+    {
+      "name": "quickstart:reviewer-packet-index:non-executing",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "quickstart:decision-log-template:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-release-reviewer-decision-log.md"
+    },
+    {
+      "name": "quickstart:decision-log-template:non-executing",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "entry:readme-explains-portability-layer",
+      "status": "pass",
+      "detail": "README.md explains the public entry point."
+    },
+    {
+      "name": "entry:public-thesis-explains-boundary",
+      "status": "pass",
+      "detail": "docs/public-facing-thesis.md explains public positioning/boundary."
+    },
+    {
+      "name": "evidence:release-reviewer-packet-index:ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "evidence:release-reviewer-decision-log:needs-human-review",
+      "status": "pass",
+      "detail": "needs-human-review"
+    },
+    {
+      "name": "packet-index:not-auto-approval",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "decision-log:not-auto-approval",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "report-only-source",
+      "status": "pass",
+      "detail": "executes_anything=False"
+    },
+    {
+      "name": "no-remote-mutation-enabled",
+      "status": "pass",
+      "detail": "remote_mutation_allowed=False; remote_configured=False"
+    },
+    {
+      "name": "no-credential-validation-enabled",
+      "status": "pass",
+      "detail": "credential_validation_allowed=False"
+    },
+    {
+      "name": "public-forbidden-findings-clean",
+      "status": "pass",
+      "detail": "forbidden_findings=0"
+    },
+    {
+      "name": "docs:release-plan-documents-external-reviewer-quickstart",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents external reviewer quickstart and report-only/non-approval boundary."
+    },
+    {
+      "name": "roadmap:phase84-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md records Phase 84 external reviewer quickstart scope."
+    },
+    {
+      "name": "shell:external-reviewer-quickstart-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes --external-reviewer-quickstart."
+    }
+  ],
+  "review_boundary": [
+    "This external reviewer quickstart is a report-only local first-10-minutes path for human reviewers; it is not release approval.",
+    "It checks discoverability of public docs and local release-review evidence only and does not publish, push, commit, create remotes/repositories/tags/releases, upload artifacts, call provider APIs, validate credentials, execute hooks/actions/commands, or mutate runtime/admin/provider state.",
+    "The release reviewer decision log remains needs-human-review; any go/no-go decision and real release action stay separate explicit human operations outside this gate."
+  ],
+  "recommendations": [
+    "Run /bin/bash ./bootstrap/setup/bootstrap-ai-assets.sh --external-reviewer-quickstart --both after --release-reviewer-decision-log --both.",
+    "Use this as the external reviewer first-10-minutes path: README → public thesis → redacted demo pack → reviewer packet index → decision log template.",
+    "If status is blocked, regenerate or document the missing public entry/evidence artifact and rerun --external-reviewer-quickstart --both.",
+    "Keep publication, credential validation, remote creation, tag creation, release creation, push, provider/API actions, command execution, and final go/no-go decisions outside this report-only gate."
+  ]
+}

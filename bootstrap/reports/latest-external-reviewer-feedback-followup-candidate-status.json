@@ -1,0 +1,128 @@
+{
+  "mode": "external-reviewer-feedback-followup-candidate-status",
+  "generated_at": "2026-04-27T09:22:46",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "summary": {
+    "status": "blocked",
+    "checks": 12,
+    "pass": 9,
+    "fail": 3,
+    "manual_review_required": true,
+    "candidate_bundle_present": false,
+    "candidate_files_scanned": 0,
+    "human_reviewed_candidates": 0,
+    "unsafe_candidates": 0,
+    "remote_issues_created": 0,
+    "writes_anything": false,
+    "writes": 0,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "remote_configured": false,
+    "forbidden_findings": 0,
+    "auto_approves_release": false
+  },
+  "candidate_bundle": {
+    "path": "bootstrap/candidates/external-reviewer-feedback-followups-20260427-092245",
+    "exists": false
+  },
+  "candidate_files": [],
+  "source_summaries": {
+    "external-reviewer-feedback-followup-candidates": {
+      "status": "blocked",
+      "checks": 15,
+      "pass": 12,
+      "fail": 3,
+      "manual_review_required": true,
+      "feedback_file_present": false,
+      "follow_up_items": 0,
+      "candidate_files_written": 0,
+      "remote_issues_created": 0,
+      "decision_recorded": false,
+      "approval_recorded": false,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "auto_approves_release": false
+    }
+  },
+  "checks": [
+    {
+      "name": "evidence:external-reviewer-feedback-followup-candidates:generated",
+      "status": "fail",
+      "detail": "blocked"
+    },
+    {
+      "name": "candidate-bundle:exists",
+      "status": "fail",
+      "detail": "/Users/example/AI-Assets/bootstrap/candidates/external-reviewer-feedback-followups-20260427-092245"
+    },
+    {
+      "name": "candidate-bundle:has-candidate-files",
+      "status": "fail",
+      "detail": "candidate_files=0"
+    },
+    {
+      "name": "candidates:all-local-non-executing",
+      "status": "pass",
+      "detail": "unsafe_candidates=0"
+    },
+    {
+      "name": "candidates:no-remote-issues-created",
+      "status": "pass",
+      "detail": "remote_issues_created=0"
+    },
+    {
+      "name": "report-only-source",
+      "status": "pass",
+      "detail": "executes_anything=False"
+    },
+    {
+      "name": "no-remote-mutation-enabled",
+      "status": "pass",
+      "detail": "remote_mutation_allowed=False; remote_configured=False"
+    },
+    {
+      "name": "no-credential-validation-enabled",
+      "status": "pass",
+      "detail": "credential_validation_allowed=False"
+    },
+    {
+      "name": "public-forbidden-findings-clean",
+      "status": "pass",
+      "detail": "forbidden_findings=0"
+    },
+    {
+      "name": "docs:release-plan-documents-external-reviewer-feedback-followup-candidate-status",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents feedback follow-up candidate status and local-only/report-only boundary."
+    },
+    {
+      "name": "roadmap:phase90-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md records Phase 90 external reviewer feedback follow-up candidate status scope."
+    },
+    {
+      "name": "shell:external-reviewer-feedback-followup-candidate-status-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes --external-reviewer-feedback-followup-candidate-status."
+    }
+  ],
+  "review_boundary": [
+    "This external reviewer feedback follow-up candidate status scanner is local-only/report-only; it is not release approval.",
+    "It reads local candidate files only and does not create remote issues, mutate issues or backlogs, publish, push, commit, create remotes/repositories/tags/releases, upload artifacts, call provider APIs, validate credentials, execute hooks/actions/commands, or mutate runtime/admin/provider state.",
+    "Human-reviewed candidate decisions are informational counters only; any real issue/backlog creation remains manual and outside this gate."
+  ],
+  "recommendations": [
+    "Use this report as a local checklist only; create or defer real issues/backlog entries manually outside automation.",
+    "If status is blocked, regenerate candidates only after human feedback is ready, then inspect unsafe or incomplete candidate files locally.",
+    "Keep publication, credential validation, issue mutation, remote creation, tag creation, release creation, push, provider/API actions, command execution, approval, and final go/no-go decisions outside this status scanner."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Portable AI Assets Bridge Manifest v1",
+  "type": "object",
+  "required": ["name", "kind", "status", "canonical_role", "source_paths", "runtime_paths", "preserve_in_git", "backup_but_not_git", "restore_notes"],
+  "properties": {
+    "name": {"type": "string"},
+    "kind": {"type": "string"},
+    "status": {"type": ["string", "boolean"]},
+    "canonical_role": {"type": "string"},
+    "source_paths": {"type": "object"},
+    "runtime_paths": {"type": "object"},
+    "preserve_in_git": {"type": "array"},
+    "backup_but_not_git": {"type": "array"},
+    "restore_notes": {"type": "array"},
+    "asset_class": {"type": "string", "enum": ["public", "private", "secret", "unknown"]}
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "mode": "agent-complete-failclosed-hardening-review",
+  "generated_at": "2026-04-27T09:22:54",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "required_reports": [
+    "agent-complete-external-actions-reserved"
+  ],
+  "source_summaries": {
+    "agent-complete-external-actions-reserved": {
+      "status": "agent-complete-external-actions-reserved",
+      "checks": 6,
+      "pass": 6,
+      "warn": 0,
+      "fail": 0,
+      "agent_side_complete": true,
+      "machine_side_complete": true,
+      "requires_user_code_review": false,
+      "external_owner_decision_required": true,
+      "manual_review_required": true,
+      "human_feedback_pending": true,
+      "shares_anything": false,
+      "sends_invitations": false,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "auto_approves_release": false,
+      "remote_issues_created": 0,
+      "issue_backlog_mutation_allowed": false,
+      "remote_configured": false
+    }
+  },
+  "failclosed_regression_coverage": [
+    {
+      "scenario": "missing-delegation-source-blocks-completion",
+      "test_name": "test_agent_complete_rollup_blocks_completion_booleans_when_delegation_missing",
+      "covered": true,
+      "expected": "blocked status and completion booleans false",
+      "evidence_kind": "test-function-definition"
+    },
+    {
+      "scenario": "malformed-fail-blocks-without-crash",
+      "test_name": "test_agent_complete_rollup_blocks_malformed_delegation_summary_without_crashing",
+      "covered": true,
+      "expected": "blocked status without ValueError",
+      "evidence_kind": "test-function-definition"
+    },
+    {
+      "scenario": "malformed-writes-blocks-without-crash",
+      "test_name": "test_agent_complete_rollup_blocks_malformed_writes_without_crashing",
+      "covered": true,
+      "expected": "blocked status without ValueError",
+      "evidence_kind": "test-function-definition"
+    },
+    {
+      "scenario": "malformed-remote-issues-blocks-without-crash",
+      "test_name": "test_agent_complete_rollup_blocks_malformed_remote_issues_without_crashing",
+      "covered": true,
+      "expected": "blocked status without ValueError",
+      "evidence_kind": "test-function-definition"
+    }
+  ],
+  "hardening_checks": [
+    {
+      "name": "source:agent-complete-external-actions-reserved:complete",
+      "status": "pass",
+      "detail": "{'status': 'agent-complete-external-actions-reserved', 'checks': 6, 'pass': 6, 'warn': 0, 'fail': 0, 'agent_side_complete': True, 'machine_side_complete': True, 'requires_user_code_review': False, 'external_owner_decision_required': True, 'manual_review_required': True, 'human_feedback_pending': True, 'shares_anything': False, 'sends_invitations': False, 'writes_anything': False, 'writes': 0, 'executes_anything': False, 'remote_mutation_allowed': False, 'credential_validation_allowed': False, 'auto_approves_release': False, 'remote_issues_created': 0, 'issue_backlog_mutation_allowed': False, 'remote_configured': False}"
+    },
+    {
+      "name": "coverage:failclosed-regressions-present",
+      "status": "pass",
+      "detail": "missing source, malformed fail, malformed writes, malformed remote issues"
+    },
+    {
+      "name": "docs:release-plan-documents-phase100",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents Phase 100 fail-closed boundary"
+    },
+    {
+      "name": "roadmap:phase100-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md documents Phase 100"
+    },
+    {
+      "name": "shell:agent-complete-failclosed-hardening-review-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes Phase 100 flag"
+    }
+  ],
+  "summary": {
+    "status": "failclosed-hardened",
+    "checks": 5,
+    "pass": 5,
+    "warn": 0,
+    "fail": 0,
+    "agent_side_complete": true,
+    "machine_side_complete": true,
+    "failclosed_regressions_covered": true,
+    "requires_user_code_review": false,
+    "external_owner_decision_required": true,
+    "manual_review_required": true,
+    "human_feedback_pending": true,
+    "shares_anything": false,
+    "sends_invitations": false,
+    "writes_anything": false,
+    "writes": 0,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "auto_approves_release": false,
+    "remote_issues_created": 0,
+    "issue_backlog_mutation_allowed": false,
+    "remote_configured": false
+  },
+  "review_boundary": [
+    "Report-only hardening review for the agent-complete rollup's fail-closed behavior.",
+    "Confirms blocked/malformed source evidence cannot claim completion or crash the rollup path.",
+    "Does not share artifacts, send invitations, create final feedback, execute commands, approve releases, publish, push, create remotes/repos/tags/releases, validate credentials, call providers/APIs, upload artifacts, or mutate issues/backlogs."
+  ],
+  "recommendations": [
+    "Keep adding fail-closed regression tests whenever independent review finds a malformed-source or blocked-state gap.",
+    "Ask the user only for real external target/action authorization."
+  ]
+}

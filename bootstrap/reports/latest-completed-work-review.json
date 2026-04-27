@@ -1,0 +1,334 @@
+{
+  "mode": "completed-work-review",
+  "generated_at": "2026-04-27T14:54:01",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "summary": {
+    "status": "aligned",
+    "checks": 5,
+    "pass": 5,
+    "warn": 0,
+    "fail": 0,
+    "executes_anything": false
+  },
+  "review_axes": {
+    "safety": {
+      "name": "Safety / correctness gate",
+      "status": "pass",
+      "evidence": [
+        "release-readiness=ready",
+        "public-safety=pass",
+        "capability-risk-inventory: executes_anything=False",
+        "project-pack-preview: executes_anything=False",
+        "capability-policy-preview: executes_anything=False",
+        "capability-policy-candidate-generation: executes_anything=False",
+        "capability-policy-candidate-status: executes_anything=False",
+        "capability-policy-baseline-apply: executes_anything=False"
+      ],
+      "recommendation": "Keep public safety, readiness, and non-execution reports green before adding another apply surface."
+    },
+    "vision_alignment": {
+      "name": "Vision and roadmap alignment",
+      "status": "pass",
+      "evidence": [
+        "roadmap=docs/public-roadmap.md",
+        "vision_terms=8/8",
+        "latest_completed_phase=Phase 117"
+      ],
+      "recommendation": "Continue to anchor new work in portability, canonical ownership, safe migration, and reviewable reconciliation rather than runtime replacement."
+    },
+    "agent_completion_evidence": {
+      "name": "Agent completion evidence rollup",
+      "status": "pass",
+      "evidence": [
+        "phase103_documented=True",
+        "phase102_report_evidence_valid=True",
+        "invalid_fields=none",
+        "phase102_report_evidence_valid=True; report_type=dict; summary_type=dict; invalid_fields=none; mode=agent-complete-syntax-invalid-evidence-failclosed-review; status=syntax-invalid-failclosed; checks=5; pass=5; fail=0; warn=0"
+      ],
+      "recommendation": "Keep completed-work rollups blocked unless latest Phase102 report evidence is present, well-typed, and fail-closed.",
+      "invalid_fields": []
+    },
+    "external_learning": {
+      "name": "External learning / anti-closed-door check",
+      "status": "pass",
+      "evidence": [
+        "reviewed_references=25",
+        "inventory_status=ready",
+        "high_priority_candidates=none"
+      ],
+      "recommendation": "Promote a high-priority reference/candidate through a written review before implementing comparable behavior."
+    },
+    "capability_governance": {
+      "name": "Capability governance boundary",
+      "status": "pass",
+      "evidence": [
+        "policy-preview-status=ready",
+        "candidate-generation-status=generated",
+        "candidate-reviewed-baselines-written=0",
+        "candidate-status=needs-human-review",
+        "candidate-status-apply-readiness=needs-human-review",
+        "candidate-status-reviewed-baselines-written=0",
+        "baseline-apply-status=skipped",
+        "baseline-apply-fail=0"
+      ],
+      "recommendation": "Keep candidate generation template-only and candidate status report-only; never auto-create reviewed-baseline.yaml or update baseline without the reviewed apply gate."
+    }
+  },
+  "latest_report_summaries": {
+    "release-readiness": {
+      "readiness": "ready",
+      "checks": 31,
+      "pass": 31,
+      "warn": 0,
+      "fail": 0,
+      "schema_invalid": 0,
+      "safety_blockers": 0,
+      "safety_warnings": 0
+    },
+    "public-safety-scan": {
+      "status": "pass",
+      "scanned_files": 130,
+      "findings": 0,
+      "blockers": 0,
+      "warnings": 0,
+      "unreadable_files": 0
+    },
+    "external-reference-inventory": {
+      "status": "ready",
+      "reference_docs": 25,
+      "systems": [
+        "agent-workflow-skill-registries",
+        "assistant-projects",
+        "capability-policy-baseline-apply",
+        "capability-policy-candidate-generation",
+        "capability-policy-candidate-status",
+        "capability-policy-preview",
+        "capability-policy-report-implementation",
+        "capability-risk-policy-gates",
+        "coding-agent-workspace-portability",
+        "completed-work-review",
+        "declarative-desired-state",
+        "hosted-agent-workspace-governance",
+        "ide-project-memory",
+        "langgraph-memory",
+        "letta-memgpt",
+        "mcp-memory-servers",
+        "memos-local-plugin",
+        "mempalace",
+        "open-webui-memory",
+        "openmemory",
+        "project-pack-preview",
+        "reproducible-environment-portability",
+        "supermemory",
+        "supply-chain-provenance",
+        "workflow-builders"
+      ],
+      "checks": 21,
+      "pass": 21,
+      "warn": 0,
+      "fail": 0
+    },
+    "external-reference-backlog": {
+      "status": "ready",
+      "items": 25,
+      "state_counts": {
+        "reviewed": 25
+      },
+      "priority_counts": {
+        "high": 25
+      },
+      "high_priority_candidates": 0,
+      "checks": 6,
+      "pass": 6,
+      "warn": 0,
+      "fail": 0
+    },
+    "capability-risk-inventory": {
+      "status": "ready",
+      "capabilities": 11,
+      "risk_class_counts": {
+        "read-only-data": 5,
+        "text-only": 3,
+        "write-files": 3
+      },
+      "policy_outcome_counts": {
+        "allow-preview": 5,
+        "manual-only": 2,
+        "review-required": 4
+      },
+      "checks": 4,
+      "pass": 4,
+      "warn": 0,
+      "fail": 0,
+      "executes_anything": false
+    },
+    "project-pack-preview": {
+      "status": "ready",
+      "manifests": 1,
+      "public_safe_manifests": 1,
+      "capabilities": 2,
+      "risk_class_counts": {
+        "read-only-data": 1,
+        "text-only": 1
+      },
+      "policy_outcome_counts": {
+        "allow-preview": 2
+      },
+      "checks": 7,
+      "pass": 7,
+      "warn": 0,
+      "fail": 0,
+      "executes_anything": false
+    },
+    "capability-policy-preview": {
+      "status": "ready",
+      "baseline_capabilities": 3,
+      "current_capabilities": 3,
+      "added": 0,
+      "removed": 0,
+      "changed": 0,
+      "risk_upgrades": 0,
+      "risk_downgrades": 0,
+      "risk_class_counts": {
+        "read-only-data": 1,
+        "text-only": 2
+      },
+      "policy_outcome_counts": {
+        "allow-preview": 2,
+        "review-required": 1
+      },
+      "checks": 4,
+      "pass": 4,
+      "warn": 0,
+      "fail": 0,
+      "executes_anything": false
+    },
+    "capability-policy-candidate-generation": {
+      "status": "generated",
+      "templates_written": 1,
+      "reviewed_baselines_written": 0,
+      "baseline_capabilities": 3,
+      "current_capabilities": 3,
+      "added": 0,
+      "removed": 0,
+      "changed": 0,
+      "risk_upgrades": 0,
+      "risk_downgrades": 0,
+      "risk_class_counts": {
+        "read-only-data": 1,
+        "text-only": 2
+      },
+      "policy_outcome_counts": {
+        "allow-preview": 2,
+        "review-required": 1
+      },
+      "checks": 3,
+      "pass": 3,
+      "warn": 0,
+      "fail": 0,
+      "executes_anything": false
+    },
+    "capability-policy-candidate-status": {
+      "status": "needs-human-review",
+      "apply_readiness": "needs-human-review",
+      "ready_for_apply": false,
+      "template_exists": true,
+      "reviewed_baseline_exists": false,
+      "reviewed_baseline_valid": false,
+      "reviewed_baseline_in_sync": false,
+      "templates_written": 0,
+      "reviewed_baselines_written": 0,
+      "baseline_capabilities": 3,
+      "current_capabilities": 3,
+      "added": 0,
+      "removed": 0,
+      "changed": 0,
+      "risk_upgrades": 0,
+      "risk_downgrades": 0,
+      "risk_class_counts": {
+        "read-only-data": 1,
+        "text-only": 2
+      },
+      "policy_outcome_counts": {
+        "allow-preview": 2,
+        "review-required": 1
+      },
+      "checks": 4,
+      "pass": 2,
+      "warn": 2,
+      "fail": 0,
+      "executes_anything": false
+    },
+    "capability-policy-baseline-apply": {
+      "status": "skipped",
+      "applied": 0,
+      "skipped": 1,
+      "checks": 2,
+      "pass": 1,
+      "warn": 1,
+      "fail": 0,
+      "executes_anything": false
+    },
+    "agent-complete-syntax-invalid-evidence-failclosed-review": {
+      "status": "syntax-invalid-failclosed",
+      "checks": 5,
+      "pass": 5,
+      "warn": 0,
+      "fail": 0,
+      "agent_side_complete": false,
+      "machine_side_complete": false,
+      "syntax_invalid_evidence_blocks_completion": true,
+      "requires_user_code_review": false,
+      "external_owner_decision_required": true,
+      "manual_review_required": true,
+      "human_feedback_pending": true,
+      "shares_anything": false,
+      "sends_invitations": false,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "auto_approves_release": false,
+      "remote_issues_created": 0,
+      "issue_backlog_mutation_allowed": false,
+      "remote_configured": false
+    }
+  },
+  "next_recommended_candidates": [],
+  "checks": [
+    {
+      "name": "safety",
+      "status": "pass",
+      "detail": "release-readiness=ready; public-safety=pass; capability-risk-inventory: executes_anything=False; project-pack-preview: executes_anything=False; capability-policy-preview: executes_anything=False; capability-policy-candidate-generation: executes_anything=False; capability-policy-candidate-status: executes_anything=False; capability-policy-baseline-apply: executes_anything=False"
+    },
+    {
+      "name": "vision_alignment",
+      "status": "pass",
+      "detail": "roadmap=docs/public-roadmap.md; vision_terms=8/8; latest_completed_phase=Phase 117"
+    },
+    {
+      "name": "agent_completion_evidence",
+      "status": "pass",
+      "detail": "phase103_documented=True; phase102_report_evidence_valid=True; invalid_fields=none; phase102_report_evidence_valid=True; report_type=dict; summary_type=dict; invalid_fields=none; mode=agent-complete-syntax-invalid-evidence-failclosed-review; status=syntax-invalid-failclosed; checks=5; pass=5; fail=0; warn=0"
+    },
+    {
+      "name": "external_learning",
+      "status": "pass",
+      "detail": "reviewed_references=25; inventory_status=ready; high_priority_candidates=none"
+    },
+    {
+      "name": "capability_governance",
+      "status": "pass",
+      "detail": "policy-preview-status=ready; candidate-generation-status=generated; candidate-reviewed-baselines-written=0; candidate-status=needs-human-review; candidate-status-apply-readiness=needs-human-review; candidate-status-reviewed-baselines-written=0; baseline-apply-status=skipped; baseline-apply-fail=0"
+    }
+  ],
+  "recommendations": [
+    "Review this report after each completed phase before starting the next implementation loop.",
+    "If any axis warns or fails, resolve docs/reports/backlog alignment before adding new capabilities.",
+    "For the next capability-policy phase, keep status/report gates read-only and require human copy/review before apply."
+  ]
+}

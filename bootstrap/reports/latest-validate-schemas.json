@@ -1,0 +1,112 @@
+{
+  "mode": "validate-schemas",
+  "generated_at": "2026-04-25T18:40:42",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "schema_dir": "/Users/example/AI-Assets/schemas",
+  "summary": {
+    "total": 16,
+    "valid": 16,
+    "invalid": 0
+  },
+  "results": [
+    {
+      "path": "/Users/example/AI-Assets/stack/manifest.yaml",
+      "schema": "stack-manifest-v1",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "path": "/Users/example/AI-Assets/stack/mcp/omx-mempalace-bridge.yaml",
+      "schema": "bridge-manifest-v1",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "path": "/Users/example/AI-Assets/stack/mcp/shared-memory-pattern.yaml",
+      "schema": "architecture-note-v1",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "path": "/Users/example/AI-Assets/stack/tools/claude-code.yaml",
+      "schema": "tool-manifest-v1",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "path": "/Users/example/AI-Assets/stack/tools/codex.yaml",
+      "schema": "tool-manifest-v1",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "path": "/Users/example/AI-Assets/stack/tools/hermes.yaml",
+      "schema": "tool-manifest-v1",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "path": "/Users/example/AI-Assets/stack/tools/memos-local-plugin.yaml",
+      "schema": "tool-manifest-v1",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "path": "/Users/example/AI-Assets/stack/tools/mempalace.yaml",
+      "schema": "tool-manifest-v1",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "path": "/Users/example/AI-Assets/stack/tools/oh-my-claudecode.yaml",
+      "schema": "tool-manifest-v1",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "path": "/Users/example/AI-Assets/stack/tools/oh-my-codex.yaml",
+      "schema": "tool-manifest-v1",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "path": "/Users/example/AI-Assets/adapters/registry/claude-instructions.yaml",
+      "schema": "adapter-contract-v1",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "path": "/Users/example/AI-Assets/adapters/registry/codex-instructions.yaml",
+      "schema": "adapter-contract-v1",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "path": "/Users/example/AI-Assets/adapters/registry/hermes-user-memory.yaml",
+      "schema": "adapter-contract-v1",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "path": "/Users/example/AI-Assets/adapters/registry/memos-local-plugin-hermes.yaml",
+      "schema": "adapter-contract-v1",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "path": "/Users/example/AI-Assets/sample-assets/adapters/example-runtime/adapter.yaml",
+      "schema": "adapter-contract-v1",
+      "valid": true,
+      "errors": []
+    },
+    {
+      "path": "/Users/example/AI-Assets/sample-assets/skills/review-before-sync.yaml",
+      "schema": "portable-skill-manifest-v1",
+      "valid": true,
+      "errors": []
+    }
+  ]
+}

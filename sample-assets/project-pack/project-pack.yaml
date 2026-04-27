@@ -1,0 +1,23 @@
+name: example-project-pack
+pack_version: v1
+asset_class: public
+shareability: public-safe
+description: Public-safe example project pack for Portable AI Assets.
+project_scope: example-product
+visibility: project
+instructions:
+  - instructions/project.md
+knowledge_sources:
+  - knowledge/architecture.md
+actions:
+  - actions/read-context.yaml
+adapters:
+  - adapters/project-instructions.md
+capabilities:
+  - name: project-guidance
+    risk_class: text-only
+    policy_outcome: allow-preview
+  - name: read-context
+    risk_class: read-only-data
+    policy_outcome: allow-preview
+apply_policy: human-review-required

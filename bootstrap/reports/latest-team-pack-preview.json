@@ -1,0 +1,109 @@
+{
+  "mode": "team-pack-preview",
+  "generated_at": "2026-04-24T21:50:43",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "summary": {
+    "status": "ready",
+    "manifests": 1,
+    "public_safe_manifests": 1,
+    "roles": 3,
+    "layers": 2,
+    "checks": 6,
+    "pass": 6,
+    "warn": 0,
+    "fail": 0
+  },
+  "manifests": [
+    {
+      "name": "example-team-pack",
+      "path": "sample-assets/team-pack/team-pack.yaml",
+      "pack_version": "v1",
+      "asset_class": "public",
+      "shareability": "public-safe",
+      "apply_policy": "human-review-required",
+      "layers": [
+        "team-baseline",
+        "role-profile"
+      ],
+      "roles": [
+        "engineer",
+        "product",
+        "research"
+      ],
+      "referenced": [
+        {
+          "kind": "policies",
+          "path": "sample-assets/team-pack/policies/engineering-review.md",
+          "exists": true
+        },
+        {
+          "kind": "playbooks",
+          "path": "sample-assets/team-pack/playbooks/release-readiness.md",
+          "exists": true
+        },
+        {
+          "kind": "adapters",
+          "path": "sample-assets/team-pack/adapters/shared-instructions.md",
+          "exists": true
+        },
+        {
+          "kind": "roles",
+          "path": "sample-assets/team-pack/roles/engineer.md",
+          "exists": true
+        },
+        {
+          "kind": "roles",
+          "path": "sample-assets/team-pack/roles/product.md",
+          "exists": true
+        },
+        {
+          "kind": "roles",
+          "path": "sample-assets/team-pack/roles/research.md",
+          "exists": true
+        }
+      ],
+      "missing_references": 0,
+      "public_safe": true
+    }
+  ],
+  "checks": [
+    {
+      "name": "required:docs/team-grade-packaging.md",
+      "status": "pass",
+      "detail": "docs/team-grade-packaging.md"
+    },
+    {
+      "name": "required:sample-assets/team-pack/README.md",
+      "status": "pass",
+      "detail": "sample-assets/team-pack/README.md"
+    },
+    {
+      "name": "required:examples/redacted/team-pack.example.md",
+      "status": "pass",
+      "detail": "examples/redacted/team-pack.example.md"
+    },
+    {
+      "name": "has-team-pack-manifest",
+      "status": "pass",
+      "detail": "1"
+    },
+    {
+      "name": "all-references-exist",
+      "status": "pass",
+      "detail": "0"
+    },
+    {
+      "name": "public-safe-sample",
+      "status": "pass",
+      "detail": "1"
+    }
+  ],
+  "recommendations": [
+    "Treat team packs as canonical layer inputs, not live runtime overwrites.",
+    "Use preview/candidate/review/apply stages before projecting shared team guidance into adapters.",
+    "Keep individual private memory and secrets outside shared team packs."
+  ]
+}

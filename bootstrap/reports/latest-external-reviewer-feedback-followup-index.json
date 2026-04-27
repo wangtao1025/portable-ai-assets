@@ -1,0 +1,264 @@
+{
+  "mode": "external-reviewer-feedback-followup-index",
+  "generated_at": "2026-04-27T09:22:45",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "summary": {
+    "status": "ready",
+    "checks": 24,
+    "pass": 24,
+    "fail": 0,
+    "manual_review_required": true,
+    "packet_items": 5,
+    "feedback_file_present": false,
+    "decision_recorded": false,
+    "approval_recorded": false,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "remote_configured": false,
+    "forbidden_findings": 0,
+    "auto_approves_release": false
+  },
+  "packet_items": [
+    {
+      "id": "feedback-template",
+      "title": "Human-fillable feedback template",
+      "path": "bootstrap/reviewer-feedback/external-reviewer-feedback.md.template",
+      "required": true,
+      "why": "Starting point a human copies/fills before the status gate can become ready.",
+      "executes_anything": false,
+      "exists": true,
+      "is_file": true
+    },
+    {
+      "id": "feedback-status-report",
+      "title": "External reviewer feedback status report",
+      "path": "bootstrap/reports/latest-external-reviewer-feedback-status.md",
+      "required": true,
+      "why": "Shows whether a human-filled feedback file exists and is well-formed.",
+      "executes_anything": false,
+      "exists": true,
+      "is_file": true
+    },
+    {
+      "id": "feedback-plan-report",
+      "title": "External reviewer feedback plan report",
+      "path": "bootstrap/reports/latest-external-reviewer-feedback-plan.md",
+      "required": true,
+      "why": "Explains how human notes map to local follow-up categories.",
+      "executes_anything": false,
+      "exists": true,
+      "is_file": true
+    },
+    {
+      "id": "feedback-template-report",
+      "title": "External reviewer feedback template report",
+      "path": "bootstrap/reports/latest-external-reviewer-feedback-template.md",
+      "required": true,
+      "why": "Confirms template generation boundaries and non-approval status.",
+      "executes_anything": false,
+      "exists": true,
+      "is_file": true
+    },
+    {
+      "id": "optional-filled-feedback-file",
+      "title": "Optional human-filled feedback file",
+      "path": "bootstrap/reviewer-feedback/external-reviewer-feedback.md",
+      "required": false,
+      "why": "Present only after a human copies/fills the template; absence is acceptable before human review.",
+      "executes_anything": false,
+      "exists": false,
+      "is_file": false
+    }
+  ],
+  "source_summaries": {
+    "external-reviewer-feedback-template": {
+      "status": "template-ready",
+      "checks": 6,
+      "pass": 6,
+      "fail": 0,
+      "manual_review_required": true,
+      "template_written": true,
+      "feedback_file_created": false,
+      "writes_anything": true,
+      "writes": 1,
+      "template_fields": 9,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "auto_approves_release": false
+    },
+    "external-reviewer-feedback-status": {
+      "status": "needs-human-feedback",
+      "checks": 23,
+      "pass": 13,
+      "fail": 10,
+      "manual_review_required": true,
+      "feedback_file_present": false,
+      "decision_recorded": false,
+      "approval_recorded": false,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "required_fields": 9,
+      "present_required_fields": 0,
+      "follow_up_items": 0,
+      "auto_approves_release": false
+    },
+    "external-reviewer-feedback-plan": {
+      "status": "ready-for-feedback-review",
+      "checks": 15,
+      "pass": 15,
+      "fail": 0,
+      "manual_review_required": true,
+      "decision_recorded": false,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "feedback_capture_items": 5,
+      "follow_up_drafts": 3,
+      "auto_approves_release": false
+    }
+  },
+  "checks": [
+    {
+      "name": "packet:feedback-template:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reviewer-feedback/external-reviewer-feedback.md.template"
+    },
+    {
+      "name": "packet:feedback-template:non-executing",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "packet:feedback-status-report:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-external-reviewer-feedback-status.md"
+    },
+    {
+      "name": "packet:feedback-status-report:non-executing",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "packet:feedback-plan-report:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-external-reviewer-feedback-plan.md"
+    },
+    {
+      "name": "packet:feedback-plan-report:non-executing",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "packet:feedback-template-report:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-external-reviewer-feedback-template.md"
+    },
+    {
+      "name": "packet:feedback-template-report:non-executing",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "packet:optional-filled-feedback-file:non-executing",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "evidence:external-reviewer-feedback-template:template-ready",
+      "status": "pass",
+      "detail": "template-ready"
+    },
+    {
+      "name": "evidence:external-reviewer-feedback-status:available",
+      "status": "pass",
+      "detail": "needs-human-feedback"
+    },
+    {
+      "name": "evidence:external-reviewer-feedback-plan:ready",
+      "status": "pass",
+      "detail": "ready-for-feedback-review"
+    },
+    {
+      "name": "template:not-auto-approval",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "status:not-auto-approval",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "plan:not-auto-approval",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "report-only-source",
+      "status": "pass",
+      "detail": "executes_anything=False"
+    },
+    {
+      "name": "no-remote-mutation-enabled",
+      "status": "pass",
+      "detail": "remote_mutation_allowed=False; remote_configured=False"
+    },
+    {
+      "name": "no-credential-validation-enabled",
+      "status": "pass",
+      "detail": "credential_validation_allowed=False"
+    },
+    {
+      "name": "public-forbidden-findings-clean",
+      "status": "pass",
+      "detail": "forbidden_findings=0"
+    },
+    {
+      "name": "no-approval-recorded",
+      "status": "pass",
+      "detail": "approval_recorded=False"
+    },
+    {
+      "name": "no-go-no-go-recorded",
+      "status": "pass",
+      "detail": "decision_recorded=False"
+    },
+    {
+      "name": "docs:release-plan-documents-external-reviewer-feedback-followup-index",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents feedback follow-up index and report-only/non-approval boundary."
+    },
+    {
+      "name": "roadmap:phase88-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md records Phase 88 external reviewer feedback follow-up index scope."
+    },
+    {
+      "name": "shell:external-reviewer-feedback-followup-index-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes --external-reviewer-feedback-followup-index."
+    }
+  ],
+  "review_boundary": [
+    "This external reviewer feedback follow-up index is report-only local navigation evidence; it is not release approval.",
+    "It links humans to the template, status report, feedback plan, template report, and optional filled feedback file, but does not mutate issues or backlogs, publish, push, commit, create remotes/repositories/tags/releases, upload artifacts, call provider APIs, validate credentials, execute hooks/actions/commands, or mutate runtime/admin/provider state.",
+    "The optional filled feedback file remains human-created; absence of that file is acceptable and should not be auto-filled by this index."
+  ],
+  "recommendations": [
+    "Use this index as local navigation for human follow-up review only; it does not create issues or mutate backlogs.",
+    "If a filled feedback file is absent, have a human copy/fill the template and rerun --external-reviewer-feedback-status --both.",
+    "Keep publication, credential validation, issue mutation, remote creation, tag creation, release creation, push, provider/API actions, command execution, approval, and final go/no-go decisions outside this report-only index."
+  ]
+}

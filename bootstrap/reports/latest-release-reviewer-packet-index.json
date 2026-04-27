@@ -1,0 +1,505 @@
+{
+  "mode": "release-reviewer-packet-index",
+  "generated_at": "2026-04-27T09:22:39",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "summary": {
+    "status": "ready",
+    "checks": 28,
+    "pass": 28,
+    "fail": 0,
+    "manual_review_required": true,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "remote_configured": false,
+    "forbidden_findings": 0,
+    "packet_items": 12,
+    "public_doc_items": 4,
+    "auto_approves_release": false
+  },
+  "packet_index": [
+    {
+      "id": "final-release-candidate-review",
+      "title": "Release candidate closure review",
+      "report_prefix": "release-candidate-closure-review",
+      "json_path": "/Users/example/AI-Assets/bootstrap/reports/latest-release-candidate-closure-review.json",
+      "markdown_path": "/Users/example/AI-Assets/bootstrap/reports/latest-release-candidate-closure-review.md",
+      "exists": true,
+      "status": "ready-for-final-human-review",
+      "reviewer_note": "Final local release-candidate evidence packet for human go/no-go review.",
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0
+    },
+    {
+      "id": "manual-reviewer-checklist",
+      "title": "Manual release reviewer checklist",
+      "report_prefix": "manual-release-reviewer-checklist",
+      "json_path": "/Users/example/AI-Assets/bootstrap/reports/latest-manual-release-reviewer-checklist.json",
+      "markdown_path": "/Users/example/AI-Assets/bootstrap/reports/latest-manual-release-reviewer-checklist.md",
+      "exists": true,
+      "status": "ready-for-human-review",
+      "reviewer_note": "Checklist for human review of release closure, command drafts, and boundaries.",
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0
+    },
+    {
+      "id": "release-closure",
+      "title": "Release closure",
+      "report_prefix": "release-closure",
+      "json_path": "/Users/example/AI-Assets/bootstrap/reports/latest-release-closure.json",
+      "markdown_path": "/Users/example/AI-Assets/bootstrap/reports/latest-release-closure.md",
+      "exists": true,
+      "status": "ready-for-manual-release-review",
+      "reviewer_note": "Aggregated report-only closure gate before manual review.",
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0
+    },
+    {
+      "id": "public-docs-external-reader",
+      "title": "Public docs external-reader review",
+      "report_prefix": "public-docs-external-reader-review",
+      "json_path": "/Users/example/AI-Assets/bootstrap/reports/latest-public-docs-external-reader-review.json",
+      "markdown_path": "/Users/example/AI-Assets/bootstrap/reports/latest-public-docs-external-reader-review.md",
+      "exists": true,
+      "status": "ready",
+      "reviewer_note": "First-reader comprehension review for README, thesis, roadmap, and release plan.",
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0
+    },
+    {
+      "id": "public-package-freshness",
+      "title": "Public package freshness review",
+      "report_prefix": "public-package-freshness-review",
+      "json_path": "/Users/example/AI-Assets/bootstrap/reports/latest-public-package-freshness-review.json",
+      "markdown_path": "/Users/example/AI-Assets/bootstrap/reports/latest-public-package-freshness-review.md",
+      "exists": true,
+      "status": "ready",
+      "reviewer_note": "Checks local public package/staging freshness against reviewer evidence.",
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0
+    },
+    {
+      "id": "public-safety",
+      "title": "Public safety scan",
+      "report_prefix": "public-safety-scan",
+      "json_path": "/Users/example/AI-Assets/bootstrap/reports/latest-public-safety-scan.json",
+      "markdown_path": "/Users/example/AI-Assets/bootstrap/reports/latest-public-safety-scan.md",
+      "exists": true,
+      "status": "pass",
+      "reviewer_note": "Forbidden-text and public safety evidence.",
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0
+    },
+    {
+      "id": "release-readiness",
+      "title": "Release readiness",
+      "report_prefix": "release-readiness",
+      "json_path": "/Users/example/AI-Assets/bootstrap/reports/latest-release-readiness.json",
+      "markdown_path": "/Users/example/AI-Assets/bootstrap/reports/latest-release-readiness.md",
+      "exists": true,
+      "status": "ready",
+      "reviewer_note": "Readiness aggregation for required public docs and artifacts.",
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0
+    },
+    {
+      "id": "github-final-preflight",
+      "title": "GitHub final preflight",
+      "report_prefix": "github-final-preflight",
+      "json_path": "/Users/example/AI-Assets/bootstrap/reports/latest-github-final-preflight.json",
+      "markdown_path": "/Users/example/AI-Assets/bootstrap/reports/latest-github-final-preflight.md",
+      "exists": true,
+      "status": "ready",
+      "reviewer_note": "Final report-only GitHub publication preflight evidence.",
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0
+    },
+    {
+      "id": "public-release-pack",
+      "title": "Public release pack",
+      "report_prefix": "public-release-pack",
+      "json_path": "/Users/example/AI-Assets/bootstrap/reports/latest-public-release-pack.json",
+      "markdown_path": "/Users/example/AI-Assets/bootstrap/reports/latest-public-release-pack.md",
+      "exists": true,
+      "status": "missing",
+      "reviewer_note": "Redacted public release package report.",
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0
+    },
+    {
+      "id": "public-release-archive",
+      "title": "Public release archive",
+      "report_prefix": "public-release-archive",
+      "json_path": "/Users/example/AI-Assets/bootstrap/reports/latest-public-release-archive.json",
+      "markdown_path": "/Users/example/AI-Assets/bootstrap/reports/latest-public-release-archive.md",
+      "exists": true,
+      "status": "missing",
+      "reviewer_note": "Archive/checksum report for the latest public pack.",
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0
+    },
+    {
+      "id": "public-release-smoke-test",
+      "title": "Public release smoke test",
+      "report_prefix": "public-release-smoke-test",
+      "json_path": "/Users/example/AI-Assets/bootstrap/reports/latest-public-release-smoke-test.json",
+      "markdown_path": "/Users/example/AI-Assets/bootstrap/reports/latest-public-release-smoke-test.md",
+      "exists": true,
+      "status": "pass",
+      "reviewer_note": "Extracted archive smoke-test evidence.",
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0
+    },
+    {
+      "id": "completed-work-review",
+      "title": "Completed work review",
+      "report_prefix": "completed-work-review",
+      "json_path": "/Users/example/AI-Assets/bootstrap/reports/latest-completed-work-review.json",
+      "markdown_path": "/Users/example/AI-Assets/bootstrap/reports/latest-completed-work-review.md",
+      "exists": true,
+      "status": "aligned",
+      "reviewer_note": "Post-phase alignment and boundary review.",
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0
+    }
+  ],
+  "public_docs": [
+    {
+      "id": "readme",
+      "path": "README.md",
+      "exists": true,
+      "reviewer_note": "Project thesis, quickstart, and public positioning."
+    },
+    {
+      "id": "public-facing-thesis",
+      "path": "docs/public-facing-thesis.md",
+      "exists": true,
+      "reviewer_note": "External-reader value proposition and non-goals."
+    },
+    {
+      "id": "open-source-release-plan",
+      "path": "docs/open-source-release-plan.md",
+      "exists": true,
+      "reviewer_note": "Manual release gates and boundaries."
+    },
+    {
+      "id": "public-roadmap",
+      "path": "docs/public-roadmap.md",
+      "exists": true,
+      "reviewer_note": "Roadmap, phase history, and non-goals."
+    }
+  ],
+  "source_summaries": {
+    "release-candidate-closure-review": {
+      "status": "ready-for-final-human-review",
+      "checks": 26,
+      "pass": 26,
+      "fail": 0,
+      "manual_review_required": true,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "final_review_packet_items": 3
+    },
+    "manual-release-reviewer-checklist": {
+      "status": "ready-for-human-review",
+      "checks": 21,
+      "pass": 21,
+      "fail": 0,
+      "checklist_items": 7,
+      "manual_review_required": true,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "command_drafts": 24
+    },
+    "release-closure": {
+      "status": "ready-for-manual-release-review",
+      "checks": 43,
+      "pass": 43,
+      "warn": 0,
+      "fail": 0,
+      "missing": 0,
+      "required_evidence": 15,
+      "executes_anything": false,
+      "remote_configured": false,
+      "command_drafts": 16,
+      "forbidden_findings": 0
+    },
+    "public-docs-external-reader-review": {
+      "status": "ready",
+      "checks": 12,
+      "pass": 12,
+      "warn": 0,
+      "fail": 0,
+      "forbidden_findings": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false
+    },
+    "public-package-freshness-review": {
+      "status": "ready",
+      "checks": 16,
+      "pass": 16,
+      "warn": 0,
+      "fail": 0,
+      "forbidden_findings": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false
+    },
+    "public-safety-scan": {
+      "status": "pass",
+      "scanned_files": 130,
+      "findings": 0,
+      "blockers": 0,
+      "warnings": 0,
+      "unreadable_files": 0
+    },
+    "release-readiness": {
+      "readiness": "ready",
+      "checks": 31,
+      "pass": 31,
+      "warn": 0,
+      "fail": 0,
+      "schema_invalid": 0,
+      "safety_blockers": 0,
+      "safety_warnings": 0
+    },
+    "github-final-preflight": {
+      "status": "ready",
+      "checks": 17,
+      "pass": 17,
+      "warn": 0,
+      "fail": 0,
+      "executes_anything": false,
+      "command_drafts": 8,
+      "remote_configured": false,
+      "forbidden_findings": 0
+    },
+    "public-release-pack": {
+      "files_in_pack": 192,
+      "skipped": 0,
+      "public_safety_status": "pass",
+      "release_readiness": "ready"
+    },
+    "public-release-archive": {
+      "file_count": 195,
+      "archive_size_bytes": 354229,
+      "archive_sha256": "b0b305f57aae478df320dbca80242dc00aafcd81e02b97515de910db7407c5ff"
+    },
+    "public-release-smoke-test": {
+      "status": "pass",
+      "checks": 11,
+      "passed": 11,
+      "failed": 0,
+      "forbidden_findings": 0
+    },
+    "completed-work-review": {
+      "status": "aligned",
+      "checks": 5,
+      "pass": 5,
+      "warn": 0,
+      "fail": 0,
+      "executes_anything": false
+    }
+  },
+  "checks": [
+    {
+      "name": "packet:release-candidate-closure-review:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-release-candidate-closure-review.json and /Users/example/AI-Assets/bootstrap/reports/latest-release-candidate-closure-review.md"
+    },
+    {
+      "name": "packet:manual-release-reviewer-checklist:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-manual-release-reviewer-checklist.json and /Users/example/AI-Assets/bootstrap/reports/latest-manual-release-reviewer-checklist.md"
+    },
+    {
+      "name": "packet:release-closure:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-release-closure.json and /Users/example/AI-Assets/bootstrap/reports/latest-release-closure.md"
+    },
+    {
+      "name": "packet:public-docs-external-reader-review:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-public-docs-external-reader-review.json and /Users/example/AI-Assets/bootstrap/reports/latest-public-docs-external-reader-review.md"
+    },
+    {
+      "name": "packet:public-package-freshness-review:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-public-package-freshness-review.json and /Users/example/AI-Assets/bootstrap/reports/latest-public-package-freshness-review.md"
+    },
+    {
+      "name": "packet:public-safety-scan:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-public-safety-scan.json and /Users/example/AI-Assets/bootstrap/reports/latest-public-safety-scan.md"
+    },
+    {
+      "name": "packet:release-readiness:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-release-readiness.json and /Users/example/AI-Assets/bootstrap/reports/latest-release-readiness.md"
+    },
+    {
+      "name": "packet:github-final-preflight:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-github-final-preflight.json and /Users/example/AI-Assets/bootstrap/reports/latest-github-final-preflight.md"
+    },
+    {
+      "name": "packet:public-release-pack:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-public-release-pack.json and /Users/example/AI-Assets/bootstrap/reports/latest-public-release-pack.md"
+    },
+    {
+      "name": "packet:public-release-archive:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-public-release-archive.json and /Users/example/AI-Assets/bootstrap/reports/latest-public-release-archive.md"
+    },
+    {
+      "name": "packet:public-release-smoke-test:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-public-release-smoke-test.json and /Users/example/AI-Assets/bootstrap/reports/latest-public-release-smoke-test.md"
+    },
+    {
+      "name": "packet:completed-work-review:present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-completed-work-review.json and /Users/example/AI-Assets/bootstrap/reports/latest-completed-work-review.md"
+    },
+    {
+      "name": "evidence:release-candidate-closure-review:ready",
+      "status": "pass",
+      "detail": "ready-for-final-human-review"
+    },
+    {
+      "name": "evidence:manual-release-reviewer-checklist:ready",
+      "status": "pass",
+      "detail": "ready-for-human-review"
+    },
+    {
+      "name": "evidence:release-closure:ready",
+      "status": "pass",
+      "detail": "ready-for-manual-release-review"
+    },
+    {
+      "name": "evidence:public-docs-external-reader-review:ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "evidence:public-package-freshness-review:ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "evidence:public-safety-scan:ready",
+      "status": "pass",
+      "detail": "pass"
+    },
+    {
+      "name": "evidence:release-readiness:ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "evidence:github-final-preflight:ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "evidence:completed-work-review:ready",
+      "status": "pass",
+      "detail": "aligned"
+    },
+    {
+      "name": "docs:release-plan-documents-reviewer-packet-index",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents reviewer packet index and report-only boundary."
+    },
+    {
+      "name": "roadmap:phase82-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md records Phase 82 release reviewer packet index scope."
+    },
+    {
+      "name": "shell:release-reviewer-packet-index-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes --release-reviewer-packet-index."
+    },
+    {
+      "name": "report-only-sources",
+      "status": "pass",
+      "detail": "executes_anything=False"
+    },
+    {
+      "name": "no-remote-mutation-enabled",
+      "status": "pass",
+      "detail": "remote_mutation_allowed=False; remote_configured=False"
+    },
+    {
+      "name": "no-credential-validation-enabled",
+      "status": "pass",
+      "detail": "credential_validation_allowed=False"
+    },
+    {
+      "name": "public-forbidden-findings-clean",
+      "status": "pass",
+      "detail": "forbidden_findings=0"
+    }
+  ],
+  "review_boundary": [
+    "This release reviewer packet index is a report-only table of contents for human reviewers; it is not publication approval.",
+    "It does not publish, push, commit, create remotes/repositories/tags/releases, upload artifacts, call provider APIs, validate credentials, execute hooks/actions/commands, or mutate runtime/admin/provider state.",
+    "Any real release action remains a separate explicit human operation after reviewing the indexed local evidence, checksums, public safety, and public/private boundaries."
+  ],
+  "recommendations": [
+    "Run /bin/bash ./bootstrap/setup/bootstrap-ai-assets.sh --release-reviewer-packet-index --both after --release-candidate-closure-review --both and public-package-freshness-review --both.",
+    "Use this report as a reviewer table of contents only; ready means the index is complete, not publication approval.",
+    "If status is blocked, regenerate the missing/failing latest-* evidence report(s) and rerun --release-reviewer-packet-index --both.",
+    "Keep publication, credential validation, remote creation, tag creation, release creation, push, and provider/API actions outside this report-only gate."
+  ]
+}

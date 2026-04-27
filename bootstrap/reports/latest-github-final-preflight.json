@@ -1,0 +1,254 @@
+{
+  "mode": "github-final-preflight",
+  "generated_at": "2026-04-27T09:43:34",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "summary": {
+    "status": "ready",
+    "checks": 17,
+    "pass": 17,
+    "warn": 0,
+    "fail": 0,
+    "executes_anything": false,
+    "command_drafts": 8,
+    "remote_configured": false,
+    "forbidden_findings": 0
+  },
+  "checks": [
+    {
+      "name": "public-safety-pass",
+      "status": "pass",
+      "detail": "pass"
+    },
+    {
+      "name": "release-readiness-ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "release-smoke-pass",
+      "status": "pass",
+      "detail": "pass"
+    },
+    {
+      "name": "github-publish-check-ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "public-repo-staging-ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "staging-status-ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "staging-remote-empty",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "dry-run-ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "dry-run-non-executing",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "handoff-pack-ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "handoff-non-executing",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "handoff-forbidden-clean",
+      "status": "pass",
+      "detail": "0"
+    },
+    {
+      "name": "archive-file-exists",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-094316.tar.gz"
+    },
+    {
+      "name": "archive-checksum-file-exists",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-094316.tar.gz.sha256"
+    },
+    {
+      "name": "archive-sha256-matches",
+      "status": "pass",
+      "detail": "recorded=0ab9c6376b6addba6b2979f71d65a5e27882311ff3a385649e5080750436c0b0 computed=0ab9c6376b6addba6b2979f71d65a5e27882311ff3a385649e5080750436c0b0"
+    },
+    {
+      "name": "handoff-files-exist",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/dist/github-handoff/portable-ai-assets-handoff-20260427-094332"
+    },
+    {
+      "name": "handoff-tree-forbidden-clean",
+      "status": "pass",
+      "detail": "findings=0"
+    }
+  ],
+  "paths": {
+    "staging_dir": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+    "handoff_dir": "/Users/example/AI-Assets/dist/github-handoff/portable-ai-assets-handoff-20260427-094332",
+    "archive_path": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-094316.tar.gz",
+    "checksum_path": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-094316.tar.gz.sha256"
+  },
+  "artifact_sha256": {
+    "recorded": "0ab9c6376b6addba6b2979f71d65a5e27882311ff3a385649e5080750436c0b0",
+    "computed": "0ab9c6376b6addba6b2979f71d65a5e27882311ff3a385649e5080750436c0b0"
+  },
+  "command_drafts": [
+    {
+      "step": "review",
+      "command": "git status --short",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false
+    },
+    {
+      "step": "review-diff",
+      "command": "git diff --stat",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false
+    },
+    {
+      "step": "stage",
+      "command": "git add .",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false
+    },
+    {
+      "step": "commit",
+      "command": "git commit -m \"Initial public release: Portable AI Assets v0.1.0\"",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false
+    },
+    {
+      "step": "create-repo",
+      "command": "gh repo create portable-ai-assets --public --source=. --remote=origin --description \"Portable AI Assets is a cross-agent continuity layer for owning AI memory, skills, adapters, schemas, and migration workflows outside any single runtime.\" --disable-wiki",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false
+    },
+    {
+      "step": "push",
+      "command": "git push -u origin main",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false
+    },
+    {
+      "step": "tag",
+      "command": "git tag v0.1.0",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false
+    },
+    {
+      "step": "push-tag",
+      "command": "git push origin v0.1.0",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false
+    }
+  ],
+  "source_summaries": {
+    "public_safety": {
+      "status": "pass",
+      "scanned_files": 130,
+      "findings": 0,
+      "blockers": 0,
+      "warnings": 0,
+      "unreadable_files": 0
+    },
+    "release_readiness": {
+      "readiness": "ready",
+      "checks": 31,
+      "pass": 31,
+      "warn": 0,
+      "fail": 0,
+      "schema_invalid": 0,
+      "safety_blockers": 0,
+      "safety_warnings": 0
+    },
+    "public_release_archive": {
+      "file_count": 195,
+      "archive_size_bytes": 354565,
+      "archive_sha256": "0ab9c6376b6addba6b2979f71d65a5e27882311ff3a385649e5080750436c0b0"
+    },
+    "public_release_smoke_test": {
+      "status": "pass",
+      "checks": 11,
+      "passed": 11,
+      "failed": 0,
+      "forbidden_findings": 0
+    },
+    "github_publish_check": {
+      "status": "ready",
+      "checks": 18,
+      "pass": 18,
+      "warn": 0,
+      "fail": 0
+    },
+    "public_repo_staging": {
+      "status": "ready",
+      "files_in_staging": 176,
+      "skipped": 0,
+      "checks": 6,
+      "passed": 6,
+      "failed": 0,
+      "forbidden_findings": 0,
+      "git_initialized": true
+    },
+    "public_repo_staging_status": {
+      "status": "ready",
+      "staging_exists": true,
+      "git_initialized": true,
+      "branch": "main",
+      "remote_configured": false,
+      "changed_files": 17,
+      "category_counts": {
+        "adapters": 1,
+        "docs_policy": 4,
+        "other": 12
+      },
+      "forbidden_findings": 0
+    },
+    "github_publish_dry_run": {
+      "status": "ready",
+      "checks": 4,
+      "pass": 4,
+      "warn": 0,
+      "fail": 0,
+      "commands": 8,
+      "executes_anything": false
+    },
+    "github_handoff_pack": {
+      "status": "ready",
+      "checks": 9,
+      "pass": 9,
+      "warn": 0,
+      "fail": 0,
+      "included_files": 13,
+      "executes_anything": false,
+      "forbidden_findings": 0
+    }
+  },
+  "forbidden_findings": [],
+  "recommendations": [
+    "Treat this as the last machine-generated preflight before human review and manual publication.",
+    "If status is not ready, rerun the failed gate command and regenerate handoff/preflight reports.",
+    "Do not execute command drafts until a human has reviewed the staging tree and handoff bundle."
+  ]
+}

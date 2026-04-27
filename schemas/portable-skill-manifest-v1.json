@@ -1,0 +1,32 @@
+{
+  "type": "object",
+  "required": [
+    "name",
+    "skill_version",
+    "status",
+    "description",
+    "trigger",
+    "procedure",
+    "verification",
+    "boundaries",
+    "source_evidence",
+    "adapter_projection"
+  ],
+  "properties": {
+    "status": {
+      "enum": [
+        "draft",
+        "probationary",
+        "active",
+        "retired"
+      ]
+    },
+    "confidence": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    }
+  }
+}

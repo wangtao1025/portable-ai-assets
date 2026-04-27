@@ -1,0 +1,237 @@
+{
+  "mode": "manual-reviewer-handoff-freeze-check",
+  "generated_at": "2026-04-27T14:54:00",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "required_reports": [
+    "manual-reviewer-handoff-packet-index"
+  ],
+  "source_summaries": {
+    "manual-reviewer-handoff-packet-index": {
+      "status": "ready-for-human-handoff-packet",
+      "checks": 13,
+      "pass": 13,
+      "warn": 0,
+      "fail": 0,
+      "manual_review_required": true,
+      "human_feedback_pending": true,
+      "shares_anything": false,
+      "sends_invitations": false,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "auto_approves_release": false,
+      "remote_issues_created": 0,
+      "issue_backlog_mutation_allowed": false,
+      "remote_configured": false
+    }
+  },
+  "frozen_packet_entries": [
+    {
+      "name": "handoff-readiness-digest",
+      "path": "/Users/example/AI-Assets/bootstrap/reports/latest-manual-reviewer-handoff-readiness.md",
+      "present": true,
+      "ready_in_packet_index": true,
+      "review_role": "operator"
+    },
+    {
+      "name": "public-release-pack",
+      "path": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-092213",
+      "present": true,
+      "ready_in_packet_index": true,
+      "review_role": "operator/reviewer"
+    },
+    {
+      "name": "github-staging",
+      "path": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "present": true,
+      "ready_in_packet_index": true,
+      "review_role": "operator/reviewer"
+    },
+    {
+      "name": "phase102-rollup-diagnostics",
+      "path": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-agent-complete-phase102-rollup-evidence-failclosed-review.md",
+      "present": true,
+      "ready_in_packet_index": true,
+      "review_role": "operator/reviewer"
+    },
+    {
+      "name": "completed-work-diagnostics",
+      "path": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-completed-work-review.md",
+      "present": true,
+      "ready_in_packet_index": true,
+      "review_role": "operator/reviewer"
+    },
+    {
+      "name": "manual-reviewer-execution-packet",
+      "path": "/Users/example/AI-Assets/bootstrap/reports/latest-manual-reviewer-execution-packet.md",
+      "present": true,
+      "ready_in_packet_index": true,
+      "review_role": "operator"
+    },
+    {
+      "name": "public-surface-freshness-report",
+      "path": "/Users/example/AI-Assets/bootstrap/reports/latest-manual-reviewer-public-surface-freshness.md",
+      "present": true,
+      "ready_in_packet_index": true,
+      "review_role": "operator"
+    },
+    {
+      "name": "feedback-template",
+      "path": "/Users/example/AI-Assets/bootstrap/reviewer-feedback/external-reviewer-feedback.md.template",
+      "present": true,
+      "ready_in_packet_index": true,
+      "review_role": "reviewer"
+    }
+  ],
+  "diagnostic_freeze_entries": [
+    {
+      "name": "phase102-rollup-diagnostics",
+      "path": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-agent-complete-phase102-rollup-evidence-failclosed-review.md",
+      "expected_path": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-agent-complete-phase102-rollup-evidence-failclosed-review.md",
+      "path_matches_expected": true,
+      "present": true,
+      "ready_in_packet_index": true,
+      "content_tokens_present": true,
+      "required_tokens": [
+        "phase102_report_invalid_fields",
+        "invalid_fields="
+      ],
+      "missing_tokens": []
+    },
+    {
+      "name": "completed-work-diagnostics",
+      "path": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-completed-work-review.md",
+      "expected_path": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-completed-work-review.md",
+      "path_matches_expected": true,
+      "present": true,
+      "ready_in_packet_index": true,
+      "content_tokens_present": true,
+      "required_tokens": [
+        "invalid_fields="
+      ],
+      "missing_tokens": []
+    }
+  ],
+  "diagnostic_freeze_failures": [],
+  "duplicate_diagnostic_entries": [],
+  "human_only_next_actions": [
+    {
+      "id": "human-share-decision",
+      "title": "Decide whether/when/how to share local public pack or staging tree",
+      "automation_allowed": false,
+      "requires_human": true
+    },
+    {
+      "id": "human-reviewer-invitation",
+      "title": "Decide whether/when/how to invite external reviewers",
+      "automation_allowed": false,
+      "requires_human": true
+    },
+    {
+      "id": "human-feedback-capture",
+      "title": "Copy/fill external-reviewer-feedback.md from the template only after real human review",
+      "automation_allowed": false,
+      "requires_human": true
+    },
+    {
+      "id": "human-followup-review",
+      "title": "Review any feedback-derived follow-up candidates before issue/backlog mutation",
+      "automation_allowed": false,
+      "requires_human": true
+    },
+    {
+      "id": "human-release-go-no-go",
+      "title": "Make any release approval, go/no-go, publication, push, tag, or release decision manually",
+      "automation_allowed": false,
+      "requires_human": true
+    }
+  ],
+  "freeze_checks": [
+    {
+      "name": "source:manual-reviewer-handoff-packet-index:frozen",
+      "status": "pass",
+      "detail": "{'status': 'ready-for-human-handoff-packet', 'checks': 13, 'pass': 13, 'warn': 0, 'fail': 0, 'manual_review_required': True, 'human_feedback_pending': True, 'shares_anything': False, 'sends_invitations': False, 'writes_anything': False, 'writes': 0, 'executes_anything': False, 'remote_mutation_allowed': False, 'credential_validation_allowed': False, 'auto_approves_release': False, 'remote_issues_created': 0, 'issue_backlog_mutation_allowed': False, 'remote_configured': False}"
+    },
+    {
+      "name": "packet:all-indexed-artifacts-present",
+      "status": "pass",
+      "detail": "entries=8"
+    },
+    {
+      "name": "diagnostics:no-duplicate-diagnostic-entries",
+      "status": "pass",
+      "detail": "duplicates=none"
+    },
+    {
+      "name": "diagnostics:phase102-rollup-content-frozen",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-agent-complete-phase102-rollup-evidence-failclosed-review.md"
+    },
+    {
+      "name": "diagnostics:completed-work-content-frozen",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-completed-work-review.md"
+    },
+    {
+      "name": "diagnostics:all-required-diagnostics-frozen",
+      "status": "pass",
+      "detail": "entries=2"
+    },
+    {
+      "name": "actions:human-only-freeze",
+      "status": "pass",
+      "detail": "all required human-only actions remain manual"
+    },
+    {
+      "name": "docs:release-plan-documents-phase97",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents Phase 97 freeze boundary"
+    },
+    {
+      "name": "roadmap:phase97-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md documents Phase 97"
+    },
+    {
+      "name": "shell:manual-reviewer-handoff-freeze-check-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes Phase 97 flag"
+    }
+  ],
+  "summary": {
+    "status": "frozen-for-human-handoff",
+    "checks": 10,
+    "pass": 10,
+    "warn": 0,
+    "fail": 0,
+    "manual_review_required": true,
+    "human_feedback_pending": true,
+    "shares_anything": false,
+    "sends_invitations": false,
+    "writes_anything": false,
+    "writes": 0,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "auto_approves_release": false,
+    "remote_issues_created": 0,
+    "issue_backlog_mutation_allowed": false,
+    "remote_configured": false
+  },
+  "review_boundary": [
+    "Report-only freeze check for the local manual reviewer handoff packet.",
+    "Verifies packet index readiness, indexed artifact presence, docs/roadmap/shell wiring, and human-only action boundaries.",
+    "Does not share artifacts, send invitations, create final feedback, execute commands, approve releases, publish, push, create remotes/repos/tags/releases, validate credentials, call providers/APIs, upload artifacts, or mutate issues/backlogs.",
+    "A frozen-for-human-handoff result means the local packet is stable enough for a human to inspect; it is not release approval, not a go/no-go decision, not an invitation, not publication, and not completion of human feedback."
+  ],
+  "recommendations": [
+    "Rerun --manual-reviewer-handoff-packet-index --both immediately before this freeze check.",
+    "If any indexed artifact changes, rerun the public pack/staging/freshness/readiness/index chain before human sharing.",
+    "Have a human decide whether and how to share or invite reviewers outside automation."
+  ]
+}

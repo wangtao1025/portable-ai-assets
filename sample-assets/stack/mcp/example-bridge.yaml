@@ -1,0 +1,24 @@
+name: example-bridge
+kind: bridge
+status: detected
+canonical_role: synchronize runtime summaries into canonical long-term memory
+asset_class: public
+
+source_paths:
+  runtime: /Users/example/.codex/hooks/example-bridge/bridge.py
+  config: /Users/example/.codex/hooks/example-bridge/config.json
+
+runtime_paths:
+  bridge_root: /Users/example/.bridge
+  corpus_live: /Users/example/.bridge/corpus-live
+
+preserve_in_git:
+  - bridge.py
+  - config.json
+
+backup_but_not_git:
+  - corpus-live
+  - logs
+
+restore_notes:
+  - Re-validate hook wiring after restore.

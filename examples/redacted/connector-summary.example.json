@@ -1,0 +1,12 @@
+{
+  "generated_at": "2026-04-25T18:40:45",
+  "source_report": "bootstrap/reports/latest-connectors.json",
+  "total_public_safe_adapters": 5,
+  "runtimes": [
+    "claude-code",
+    "codex",
+    "example-runtime",
+    "hermes",
+    "memos-local-plugin-hermes"
+  ]
+}

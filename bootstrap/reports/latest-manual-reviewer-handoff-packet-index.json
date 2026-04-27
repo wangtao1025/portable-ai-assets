@@ -1,0 +1,212 @@
+{
+  "mode": "manual-reviewer-handoff-packet-index",
+  "generated_at": "2026-04-27T13:50:01",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "required_reports": [
+    "manual-reviewer-handoff-readiness"
+  ],
+  "source_summaries": {
+    "manual-reviewer-handoff-readiness": {
+      "status": "ready-for-human-handoff",
+      "checks": 11,
+      "pass": 11,
+      "warn": 0,
+      "fail": 0,
+      "manual_review_required": true,
+      "human_feedback_pending": true,
+      "shares_anything": false,
+      "sends_invitations": false,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "auto_approves_release": false,
+      "remote_issues_created": 0,
+      "issue_backlog_mutation_allowed": false,
+      "remote_configured": false
+    }
+  },
+  "packet_index": [
+    {
+      "name": "handoff-readiness-digest",
+      "path": "/Users/example/AI-Assets/bootstrap/reports/latest-manual-reviewer-handoff-readiness.md",
+      "ready": true,
+      "review_role": "operator"
+    },
+    {
+      "name": "public-release-pack",
+      "path": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-092213",
+      "ready": true,
+      "review_role": "operator/reviewer"
+    },
+    {
+      "name": "github-staging",
+      "path": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "ready": true,
+      "review_role": "operator/reviewer"
+    },
+    {
+      "name": "phase102-rollup-diagnostics",
+      "path": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-agent-complete-phase102-rollup-evidence-failclosed-review.md",
+      "ready": true,
+      "review_role": "operator/reviewer"
+    },
+    {
+      "name": "completed-work-diagnostics",
+      "path": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-completed-work-review.md",
+      "ready": true,
+      "review_role": "operator/reviewer"
+    },
+    {
+      "name": "manual-reviewer-execution-packet",
+      "path": "/Users/example/AI-Assets/bootstrap/reports/latest-manual-reviewer-execution-packet.md",
+      "ready": true,
+      "review_role": "operator"
+    },
+    {
+      "name": "public-surface-freshness-report",
+      "path": "/Users/example/AI-Assets/bootstrap/reports/latest-manual-reviewer-public-surface-freshness.md",
+      "ready": true,
+      "review_role": "operator"
+    },
+    {
+      "name": "feedback-template",
+      "path": "/Users/example/AI-Assets/bootstrap/reviewer-feedback/external-reviewer-feedback.md.template",
+      "ready": true,
+      "review_role": "reviewer"
+    }
+  ],
+  "human_only_next_actions": [
+    {
+      "id": "human-share-decision",
+      "title": "Decide whether/when/how to share local public pack or staging tree",
+      "automation_allowed": false,
+      "requires_human": true
+    },
+    {
+      "id": "human-reviewer-invitation",
+      "title": "Decide whether/when/how to invite external reviewers",
+      "automation_allowed": false,
+      "requires_human": true
+    },
+    {
+      "id": "human-feedback-capture",
+      "title": "Copy/fill external-reviewer-feedback.md from the template only after real human review",
+      "automation_allowed": false,
+      "requires_human": true
+    },
+    {
+      "id": "human-followup-review",
+      "title": "Review any feedback-derived follow-up candidates before issue/backlog mutation",
+      "automation_allowed": false,
+      "requires_human": true
+    },
+    {
+      "id": "human-release-go-no-go",
+      "title": "Make any release approval, go/no-go, publication, push, tag, or release decision manually",
+      "automation_allowed": false,
+      "requires_human": true
+    }
+  ],
+  "drift_checks": [
+    {
+      "name": "source:manual-reviewer-handoff-readiness:ready",
+      "status": "pass",
+      "detail": "{'status': 'ready-for-human-handoff', 'checks': 11, 'pass': 11, 'warn': 0, 'fail': 0, 'manual_review_required': True, 'human_feedback_pending': True, 'shares_anything': False, 'sends_invitations': False, 'writes_anything': False, 'writes': 0, 'executes_anything': False, 'remote_mutation_allowed': False, 'credential_validation_allowed': False, 'auto_approves_release': False, 'remote_issues_created': 0, 'issue_backlog_mutation_allowed': False, 'remote_configured': False}"
+    },
+    {
+      "name": "packet:handoff-readiness-digest",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-manual-reviewer-handoff-readiness.md"
+    },
+    {
+      "name": "packet:public-release-pack",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-092213"
+    },
+    {
+      "name": "packet:github-staging",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets"
+    },
+    {
+      "name": "packet:phase102-rollup-diagnostics",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-agent-complete-phase102-rollup-evidence-failclosed-review.md"
+    },
+    {
+      "name": "packet:completed-work-diagnostics",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-completed-work-review.md"
+    },
+    {
+      "name": "packet:manual-reviewer-execution-packet",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-manual-reviewer-execution-packet.md"
+    },
+    {
+      "name": "packet:public-surface-freshness-report",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-manual-reviewer-public-surface-freshness.md"
+    },
+    {
+      "name": "packet:feedback-template",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reviewer-feedback/external-reviewer-feedback.md.template"
+    },
+    {
+      "name": "actions:human-only",
+      "status": "pass",
+      "detail": "all next actions require humans and forbid automation"
+    },
+    {
+      "name": "docs:release-plan-documents-phase96",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents Phase 96 packet index/status boundary"
+    },
+    {
+      "name": "roadmap:phase96-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md documents Phase 96"
+    },
+    {
+      "name": "shell:manual-reviewer-handoff-packet-index-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes Phase 96 flag"
+    }
+  ],
+  "summary": {
+    "status": "ready-for-human-handoff-packet",
+    "checks": 13,
+    "pass": 13,
+    "warn": 0,
+    "fail": 0,
+    "manual_review_required": true,
+    "human_feedback_pending": true,
+    "shares_anything": false,
+    "sends_invitations": false,
+    "writes_anything": false,
+    "writes": 0,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "auto_approves_release": false,
+    "remote_issues_created": 0,
+    "issue_backlog_mutation_allowed": false,
+    "remote_configured": false
+  },
+  "review_boundary": [
+    "Report-only packet index/status for a human handoff; it only cross-links local artifacts and human-only actions.",
+    "Does not share artifacts, send invitations, create final feedback, execute commands, approve releases, publish, push, create remotes/repos/tags/releases, validate credentials, call providers/APIs, upload artifacts, or mutate issues/backlogs.",
+    "A ready-for-human-handoff-packet result means the local packet index is navigable; it is not release approval, not a go/no-go decision, not an invitation, and not completion of human feedback."
+  ],
+  "recommendations": [
+    "Rerun --manual-reviewer-handoff-readiness --both immediately before this packet index/status gate.",
+    "Have a human operator decide if/when to share local artifacts or invite reviewers outside automation.",
+    "After real human feedback exists, rerun feedback status and follow-up candidate gates locally."
+  ]
+}

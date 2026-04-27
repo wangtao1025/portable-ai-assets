@@ -1,0 +1,199 @@
+{
+  "mode": "manual-reviewer-handoff-readiness",
+  "generated_at": "2026-04-27T09:22:50",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "pack_dir": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-092213",
+  "staging_dir": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+  "required_reports": [
+    "manual-reviewer-public-surface-freshness",
+    "manual-reviewer-execution-packet",
+    "human-action-closure-checklist"
+  ],
+  "source_summaries": {
+    "manual-reviewer-public-surface-freshness": {
+      "status": "ready",
+      "checks": 14,
+      "pass": 14,
+      "warn": 0,
+      "fail": 0,
+      "forbidden_findings": 0,
+      "manual_review_required": true,
+      "human_feedback_pending": true,
+      "followup_candidates_ready": false,
+      "one_page_runbook_ready": true,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "auto_approves_release": false,
+      "remote_issues_created": 0,
+      "issue_backlog_mutation_allowed": false,
+      "remote_configured": false
+    },
+    "manual-reviewer-execution-packet": {
+      "status": "ready-for-human-runbook",
+      "checks": 24,
+      "pass": 24,
+      "warn": 0,
+      "fail": 0,
+      "manual_review_required": true,
+      "human_feedback_pending": true,
+      "followup_candidates_ready": false,
+      "one_page_runbook_ready": true,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "auto_approves_release": false,
+      "remote_issues_created": 0,
+      "issue_backlog_mutation_allowed": false
+    },
+    "human-action-closure-checklist": {
+      "status": "ready-for-human-action",
+      "checks": 23,
+      "pass": 23,
+      "warn": 0,
+      "fail": 0,
+      "machine_readiness_ready": true,
+      "human_feedback_complete": false,
+      "human_feedback_pending": true,
+      "manual_review_required": true,
+      "followup_candidates_ready": false,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "auto_approves_release": false,
+      "remote_issues_created": 0,
+      "issue_backlog_mutation_allowed": false
+    }
+  },
+  "handoff_artifacts": [
+    {
+      "name": "public-release-pack",
+      "path": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-092213",
+      "ready": true
+    },
+    {
+      "name": "github-staging",
+      "path": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "ready": true
+    },
+    {
+      "name": "manual-reviewer-execution-packet",
+      "path": "/Users/example/AI-Assets/bootstrap/reports/latest-manual-reviewer-execution-packet.md",
+      "ready": true
+    },
+    {
+      "name": "public-surface-freshness-report",
+      "path": "/Users/example/AI-Assets/bootstrap/reports/latest-manual-reviewer-public-surface-freshness.md",
+      "ready": true
+    },
+    {
+      "name": "feedback-template",
+      "path": "/Users/example/AI-Assets/bootstrap/reviewer-feedback/external-reviewer-feedback.md.template",
+      "ready": true
+    }
+  ],
+  "checks": [
+    {
+      "name": "source:manual-reviewer-public-surface-freshness:ready",
+      "status": "pass",
+      "detail": "{'status': 'ready', 'checks': 14, 'pass': 14, 'warn': 0, 'fail': 0, 'forbidden_findings': 0, 'manual_review_required': True, 'human_feedback_pending': True, 'followup_candidates_ready': False, 'one_page_runbook_ready': True, 'writes_anything': False, 'writes': 0, 'executes_anything': False, 'remote_mutation_allowed': False, 'credential_validation_allowed': False, 'auto_approves_release': False, 'remote_issues_created': 0, 'issue_backlog_mutation_allowed': False, 'remote_configured': False}"
+    },
+    {
+      "name": "source:manual-reviewer-execution-packet:ready",
+      "status": "pass",
+      "detail": "{'status': 'ready-for-human-runbook', 'checks': 24, 'pass': 24, 'warn': 0, 'fail': 0, 'manual_review_required': True, 'human_feedback_pending': True, 'followup_candidates_ready': False, 'one_page_runbook_ready': True, 'writes_anything': False, 'writes': 0, 'executes_anything': False, 'remote_mutation_allowed': False, 'credential_validation_allowed': False, 'remote_configured': False, 'auto_approves_release': False, 'remote_issues_created': 0, 'issue_backlog_mutation_allowed': False}"
+    },
+    {
+      "name": "source:human-action-closure-checklist:ready",
+      "status": "pass",
+      "detail": "{'status': 'ready-for-human-action', 'checks': 23, 'pass': 23, 'warn': 0, 'fail': 0, 'machine_readiness_ready': True, 'human_feedback_complete': False, 'human_feedback_pending': True, 'manual_review_required': True, 'followup_candidates_ready': False, 'writes_anything': False, 'writes': 0, 'executes_anything': False, 'remote_mutation_allowed': False, 'credential_validation_allowed': False, 'remote_configured': False, 'auto_approves_release': False, 'remote_issues_created': 0, 'issue_backlog_mutation_allowed': False}"
+    },
+    {
+      "name": "artifact:public-release-pack",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/dist/portable-ai-assets-public-20260427-092213"
+    },
+    {
+      "name": "artifact:github-staging",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets"
+    },
+    {
+      "name": "artifact:manual-reviewer-execution-packet",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-manual-reviewer-execution-packet.md"
+    },
+    {
+      "name": "artifact:public-surface-freshness-report",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-manual-reviewer-public-surface-freshness.md"
+    },
+    {
+      "name": "artifact:feedback-template",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reviewer-feedback/external-reviewer-feedback.md.template"
+    },
+    {
+      "name": "docs:release-plan-documents-phase95",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents Phase 95 handoff readiness boundary"
+    },
+    {
+      "name": "roadmap:phase95-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md documents Phase 95"
+    },
+    {
+      "name": "shell:manual-reviewer-handoff-readiness-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes Phase 95 flag"
+    }
+  ],
+  "summary": {
+    "status": "ready-for-human-handoff",
+    "checks": 11,
+    "pass": 11,
+    "warn": 0,
+    "fail": 0,
+    "manual_review_required": true,
+    "human_feedback_pending": true,
+    "shares_anything": false,
+    "sends_invitations": false,
+    "writes_anything": false,
+    "writes": 0,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "auto_approves_release": false,
+    "remote_issues_created": 0,
+    "issue_backlog_mutation_allowed": false,
+    "remote_configured": false
+  },
+  "manual_handoff_sequence": [
+    "Open the public release pack and GitHub staging tree locally.",
+    "Read the manual reviewer execution packet and public surface freshness report.",
+    "Copy/fill external-reviewer-feedback.md from the template only if a human reviewer is ready to provide feedback.",
+    "Any sharing, invitation, publication, approval, go/no-go, or follow-up issue/backlog action remains manual and outside this gate."
+  ],
+  "review_boundary": [
+    "Report-only digest of local handoff readiness for human reviewer/operator use.",
+    "Does not share artifacts, send invitations, create final feedback, execute the runbook, approve releases, publish, push, create remotes/repos/tags/releases, validate credentials, call providers/APIs, upload artifacts, or mutate issues/backlogs.",
+    "A ready-for-human-handoff result means the local surfaces are organized for a human; it is not release approval, not a go/no-go decision, and not completion of human feedback."
+  ],
+  "recommendations": [
+    "Rerun --manual-reviewer-public-surface-freshness --both immediately before this handoff readiness digest.",
+    "Have a human operator decide if/when to share or invite external reviewers outside automation.",
+    "After real human feedback is supplied, rerun feedback status and follow-up candidate gates locally."
+  ]
+}

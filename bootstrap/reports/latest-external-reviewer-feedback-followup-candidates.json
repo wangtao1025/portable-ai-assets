@@ -1,0 +1,159 @@
+{
+  "mode": "external-reviewer-feedback-followup-candidates",
+  "generated_at": "2026-04-27T09:22:45",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "summary": {
+    "status": "blocked",
+    "checks": 15,
+    "pass": 12,
+    "fail": 3,
+    "manual_review_required": true,
+    "feedback_file_present": false,
+    "follow_up_items": 0,
+    "candidate_files_written": 0,
+    "remote_issues_created": 0,
+    "decision_recorded": false,
+    "approval_recorded": false,
+    "writes_anything": false,
+    "writes": 0,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "remote_configured": false,
+    "forbidden_findings": 0,
+    "auto_approves_release": false
+  },
+  "candidate_bundle": {
+    "path": "bootstrap/candidates/external-reviewer-feedback-followups-20260427-092245",
+    "exists": false
+  },
+  "candidate_files": [],
+  "source_summaries": {
+    "external-reviewer-feedback-status": {
+      "status": "needs-human-feedback",
+      "checks": 23,
+      "pass": 13,
+      "fail": 10,
+      "manual_review_required": true,
+      "feedback_file_present": false,
+      "decision_recorded": false,
+      "approval_recorded": false,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "required_fields": 9,
+      "present_required_fields": 0,
+      "follow_up_items": 0,
+      "auto_approves_release": false
+    },
+    "external-reviewer-feedback-followup-index": {
+      "status": "ready",
+      "checks": 24,
+      "pass": 24,
+      "fail": 0,
+      "manual_review_required": true,
+      "packet_items": 5,
+      "feedback_file_present": false,
+      "decision_recorded": false,
+      "approval_recorded": false,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "auto_approves_release": false
+    }
+  },
+  "checks": [
+    {
+      "name": "feedback-file:present",
+      "status": "fail",
+      "detail": "/Users/example/AI-Assets/bootstrap/reviewer-feedback/external-reviewer-feedback.md"
+    },
+    {
+      "name": "evidence:external-reviewer-feedback-status:ready",
+      "status": "fail",
+      "detail": "needs-human-feedback"
+    },
+    {
+      "name": "evidence:external-reviewer-feedback-followup-index:ready",
+      "status": "pass",
+      "detail": "ready"
+    },
+    {
+      "name": "feedback-file:no-approval-recorded",
+      "status": "pass",
+      "detail": "approval_recorded=False"
+    },
+    {
+      "name": "feedback-file:no-go-no-go-recorded",
+      "status": "pass",
+      "detail": "decision_recorded=False"
+    },
+    {
+      "name": "feedback-file:follow-up-items-present",
+      "status": "fail",
+      "detail": "follow_up_items=0"
+    },
+    {
+      "name": "report-only-source",
+      "status": "pass",
+      "detail": "executes_anything=False"
+    },
+    {
+      "name": "no-remote-mutation-enabled",
+      "status": "pass",
+      "detail": "remote_mutation_allowed=False; remote_configured=False"
+    },
+    {
+      "name": "no-credential-validation-enabled",
+      "status": "pass",
+      "detail": "credential_validation_allowed=False"
+    },
+    {
+      "name": "public-forbidden-findings-clean",
+      "status": "pass",
+      "detail": "forbidden_findings=0"
+    },
+    {
+      "name": "docs:release-plan-documents-external-reviewer-feedback-followup-candidates",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents feedback follow-up candidates and local-only/template-only/report-only boundary."
+    },
+    {
+      "name": "roadmap:phase89-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md records Phase 89 external reviewer feedback follow-up candidates scope."
+    },
+    {
+      "name": "shell:external-reviewer-feedback-followup-candidates-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes --external-reviewer-feedback-followup-candidates."
+    },
+    {
+      "name": "candidates:local-files-written",
+      "status": "pass",
+      "detail": "candidate_files=0"
+    },
+    {
+      "name": "candidates:no-remote-issues-created",
+      "status": "pass",
+      "detail": "remote_issues_created=0"
+    }
+  ],
+  "review_boundary": [
+    "This external reviewer feedback follow-up candidate generator is local-only/template-only/report-only; it is not release approval.",
+    "It writes only local candidate files for human review and does not create remote issues, mutate issues or backlogs, publish, push, commit, create remotes/repositories/tags/releases, upload artifacts, call provider APIs, validate credentials, execute hooks/actions/commands, or mutate runtime/admin/provider state.",
+    "It only generates candidates when the feedback status gate is ready-for-follow-up-review; otherwise it remains blocked and writes no candidate files."
+  ],
+  "recommendations": [
+    "Review generated candidate files locally; create real issues/backlog entries manually outside this gate if appropriate.",
+    "If status is blocked, complete the human feedback file and rerun --external-reviewer-feedback-status --both before generating candidates.",
+    "Keep publication, credential validation, issue mutation, remote creation, tag creation, release creation, push, provider/API actions, command execution, approval, and final go/no-go decisions outside this local candidate generator."
+  ]
+}

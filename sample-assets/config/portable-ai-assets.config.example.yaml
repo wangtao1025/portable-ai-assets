@@ -1,0 +1,5 @@
+engine_root: ~/portable-ai-assets-engine
+asset_root: ~/AI-Assets-private
+asset_repo_remote: git@github.com:example/private-ai-assets.git
+default_sync_mode: review-before-commit
+allow_auto_commit: false

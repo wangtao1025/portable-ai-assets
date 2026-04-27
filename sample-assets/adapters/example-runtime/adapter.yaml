@@ -1,0 +1,20 @@
+name: example-runtime-instructions
+adapter_version: 1
+runtime: example-runtime
+description: Public-safe example adapter showing the minimal contract for a third-party runtime.
+canonical_sources:
+  - sample-assets/adapters/example-runtime/canonical/instructions.md
+live_targets:
+  - /Users/example/.example-runtime/INSTRUCTIONS.md
+connector:
+  import: copy-file
+  export: copy-file
+  notes:
+    - This adapter is intentionally simple and safe for open-source examples.
+detection:
+  default_paths:
+    - /Users/example/.example-runtime/INSTRUCTIONS.md
+  signature_markers:
+    - Example Runtime
+    - Portable AI Assets
+apply_policy: safe-auto-apply

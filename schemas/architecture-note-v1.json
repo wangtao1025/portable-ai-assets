@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Portable AI Assets Architecture Note v1",
+  "type": "object",
+  "required": ["name", "kind", "status", "canonical_role", "recommended_model", "rules"],
+  "properties": {
+    "name": {"type": "string"},
+    "kind": {"type": "string"},
+    "status": {"type": ["string", "boolean"]},
+    "canonical_role": {"type": "string"},
+    "recommended_model": {"type": "object"},
+    "rules": {"type": "array"},
+    "asset_class": {"type": "string", "enum": ["public", "private", "secret", "unknown"]}
+  }
+}

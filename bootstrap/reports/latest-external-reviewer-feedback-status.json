@@ -1,0 +1,234 @@
+{
+  "mode": "external-reviewer-feedback-status",
+  "generated_at": "2026-04-27T09:22:43",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "summary": {
+    "status": "needs-human-feedback",
+    "checks": 23,
+    "pass": 13,
+    "fail": 10,
+    "manual_review_required": true,
+    "feedback_file_present": false,
+    "decision_recorded": false,
+    "approval_recorded": false,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "remote_configured": false,
+    "forbidden_findings": 0,
+    "required_fields": 9,
+    "present_required_fields": 0,
+    "follow_up_items": 0,
+    "auto_approves_release": false
+  },
+  "feedback_file": {
+    "path": "/Users/example/AI-Assets/bootstrap/reviewer-feedback/external-reviewer-feedback.md",
+    "exists": false
+  },
+  "required_feedback_fields": [
+    {
+      "id": "reviewer",
+      "description": "Human reviewer identity or handle",
+      "status": "missing",
+      "executes_anything": false
+    },
+    {
+      "id": "reviewed_at",
+      "description": "Human review timestamp",
+      "status": "missing",
+      "executes_anything": false
+    },
+    {
+      "id": "source_decision_log",
+      "description": "Decision log or notes source reviewed",
+      "status": "missing",
+      "executes_anything": false
+    },
+    {
+      "id": "public_private_boundary",
+      "description": "Public/private-boundary reviewer finding",
+      "status": "missing",
+      "executes_anything": false
+    },
+    {
+      "id": "publication_boundary",
+      "description": "Publication-boundary reviewer finding",
+      "status": "missing",
+      "executes_anything": false
+    },
+    {
+      "id": "first_ten_minutes_usability",
+      "description": "External reviewer first-10-minutes usability notes",
+      "status": "missing",
+      "executes_anything": false
+    },
+    {
+      "id": "follow_up_items",
+      "description": "Local follow-up items or explicit none",
+      "status": "missing",
+      "executes_anything": false
+    },
+    {
+      "id": "approval_recorded",
+      "description": "Must be false; this gate does not record approval",
+      "status": "missing",
+      "executes_anything": false
+    },
+    {
+      "id": "go_no_go_decision_recorded",
+      "description": "Must be false; this gate does not record go/no-go decisions",
+      "status": "missing",
+      "executes_anything": false
+    }
+  ],
+  "follow_up_review_items": [],
+  "source_summaries": {
+    "external-reviewer-feedback-plan": {
+      "status": "ready-for-feedback-review",
+      "checks": 15,
+      "pass": 15,
+      "fail": 0,
+      "manual_review_required": true,
+      "decision_recorded": false,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "feedback_capture_items": 5,
+      "follow_up_drafts": 3,
+      "auto_approves_release": false
+    }
+  },
+  "checks": [
+    {
+      "name": "feedback-plan:json-present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-external-reviewer-feedback-plan.json"
+    },
+    {
+      "name": "feedback-plan:markdown-present",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/bootstrap/reports/latest-external-reviewer-feedback-plan.md"
+    },
+    {
+      "name": "evidence:external-reviewer-feedback-plan:ready",
+      "status": "pass",
+      "detail": "ready-for-feedback-review"
+    },
+    {
+      "name": "feedback-plan:not-auto-approval",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "feedback-file:present",
+      "status": "fail",
+      "detail": "/Users/example/AI-Assets/bootstrap/reviewer-feedback/external-reviewer-feedback.md"
+    },
+    {
+      "name": "feedback-field:reviewer:present",
+      "status": "fail",
+      "detail": "reviewer=missing"
+    },
+    {
+      "name": "feedback-field:reviewed_at:present",
+      "status": "fail",
+      "detail": "reviewed_at=missing"
+    },
+    {
+      "name": "feedback-field:source_decision_log:present",
+      "status": "fail",
+      "detail": "source_decision_log=missing"
+    },
+    {
+      "name": "feedback-field:public_private_boundary:present",
+      "status": "fail",
+      "detail": "public_private_boundary=missing"
+    },
+    {
+      "name": "feedback-field:publication_boundary:present",
+      "status": "fail",
+      "detail": "publication_boundary=missing"
+    },
+    {
+      "name": "feedback-field:first_ten_minutes_usability:present",
+      "status": "fail",
+      "detail": "first_ten_minutes_usability=missing"
+    },
+    {
+      "name": "feedback-field:follow_up_items:present",
+      "status": "fail",
+      "detail": "follow_up_items=missing"
+    },
+    {
+      "name": "feedback-field:approval_recorded:present",
+      "status": "fail",
+      "detail": "approval_recorded=missing"
+    },
+    {
+      "name": "feedback-field:go_no_go_decision_recorded:present",
+      "status": "fail",
+      "detail": "go_no_go_decision_recorded=missing"
+    },
+    {
+      "name": "feedback-file:no-approval-recorded",
+      "status": "pass",
+      "detail": "approval_recorded=False"
+    },
+    {
+      "name": "feedback-file:no-go-no-go-recorded",
+      "status": "pass",
+      "detail": "go_no_go_decision_recorded=False"
+    },
+    {
+      "name": "report-only-source",
+      "status": "pass",
+      "detail": "executes_anything=False"
+    },
+    {
+      "name": "no-remote-mutation-enabled",
+      "status": "pass",
+      "detail": "remote_mutation_allowed=False; remote_configured=False"
+    },
+    {
+      "name": "no-credential-validation-enabled",
+      "status": "pass",
+      "detail": "credential_validation_allowed=False"
+    },
+    {
+      "name": "public-forbidden-findings-clean",
+      "status": "pass",
+      "detail": "forbidden_findings=0"
+    },
+    {
+      "name": "docs:release-plan-documents-external-reviewer-feedback-status",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents feedback status and report-only/non-approval boundary."
+    },
+    {
+      "name": "roadmap:phase86-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md records Phase 86 external reviewer feedback status scope."
+    },
+    {
+      "name": "shell:external-reviewer-feedback-status-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes --external-reviewer-feedback-status."
+    }
+  ],
+  "review_boundary": [
+    "This external reviewer feedback status is a report-only local checker for a human-filled feedback file; it is not release approval.",
+    "It summarizes local follow-up readiness only and does not mutate issues or backlogs, publish, push, commit, create remotes/repositories/tags/releases, upload artifacts, call provider APIs, validate credentials, execute hooks/actions/commands, or mutate runtime/admin/provider state.",
+    "Any issue creation, backlog mutation, go/no-go decision, approval record, or real release action remains a separate explicit human operation outside this gate."
+  ],
+  "recommendations": [
+    "Run /bin/bash ./bootstrap/setup/bootstrap-ai-assets.sh --external-reviewer-feedback-status --both after a human creates bootstrap/reviewer-feedback/external-reviewer-feedback.md.",
+    "Use this report to validate the local feedback file and summarize follow-up readiness only; it does not create remote issues or mutate a backlog automatically.",
+    "If status is needs-human-feedback, complete missing fields or remove any approval/go-no-go markers before rerunning --external-reviewer-feedback-status --both.",
+    "Keep publication, credential validation, issue mutation, remote creation, tag creation, release creation, push, provider/API actions, command execution, approval, and final go/no-go decisions outside this report-only gate."
+  ]
+}

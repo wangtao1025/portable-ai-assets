@@ -1,0 +1,130 @@
+{
+  "mode": "agent-complete-syntax-invalid-evidence-failclosed-review",
+  "generated_at": "2026-04-27T09:22:56",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "required_reports": [
+    "agent-complete-regression-evidence-integrity"
+  ],
+  "source_summaries": {
+    "agent-complete-regression-evidence-integrity": {
+      "status": "definition-backed",
+      "checks": 5,
+      "pass": 5,
+      "warn": 0,
+      "fail": 0,
+      "agent_side_complete": true,
+      "machine_side_complete": true,
+      "definition_backed_regressions_covered": true,
+      "requires_user_code_review": false,
+      "external_owner_decision_required": true,
+      "manual_review_required": true,
+      "human_feedback_pending": true,
+      "shares_anything": false,
+      "sends_invitations": false,
+      "writes_anything": false,
+      "writes": 0,
+      "executes_anything": false,
+      "remote_mutation_allowed": false,
+      "credential_validation_allowed": false,
+      "auto_approves_release": false,
+      "remote_issues_created": 0,
+      "issue_backlog_mutation_allowed": false,
+      "remote_configured": false
+    }
+  },
+  "syntax_invalid": true,
+  "syntax_invalid_regression_evidence": [
+    {
+      "scenario": "missing-delegation-source-blocks-completion",
+      "test_name": "test_agent_complete_rollup_blocks_completion_booleans_when_delegation_missing",
+      "covered": false,
+      "expected": "blocked status and completion booleans false",
+      "evidence_kind": "test-function-definition"
+    },
+    {
+      "scenario": "malformed-fail-blocks-without-crash",
+      "test_name": "test_agent_complete_rollup_blocks_malformed_delegation_summary_without_crashing",
+      "covered": false,
+      "expected": "blocked status without ValueError",
+      "evidence_kind": "test-function-definition"
+    },
+    {
+      "scenario": "malformed-writes-blocks-without-crash",
+      "test_name": "test_agent_complete_rollup_blocks_malformed_writes_without_crashing",
+      "covered": false,
+      "expected": "blocked status without ValueError",
+      "evidence_kind": "test-function-definition"
+    },
+    {
+      "scenario": "malformed-remote-issues-blocks-without-crash",
+      "test_name": "test_agent_complete_rollup_blocks_malformed_remote_issues_without_crashing",
+      "covered": false,
+      "expected": "blocked status without ValueError",
+      "evidence_kind": "test-function-definition"
+    }
+  ],
+  "syntax_invalid_checks": [
+    {
+      "name": "source:agent-complete-regression-evidence-integrity:complete",
+      "status": "pass",
+      "detail": "{'status': 'definition-backed', 'checks': 5, 'pass': 5, 'warn': 0, 'fail': 0, 'agent_side_complete': True, 'machine_side_complete': True, 'definition_backed_regressions_covered': True, 'requires_user_code_review': False, 'external_owner_decision_required': True, 'manual_review_required': True, 'human_feedback_pending': True, 'shares_anything': False, 'sends_invitations': False, 'writes_anything': False, 'writes': 0, 'executes_anything': False, 'remote_mutation_allowed': False, 'credential_validation_allowed': False, 'auto_approves_release': False, 'remote_issues_created': 0, 'issue_backlog_mutation_allowed': False, 'remote_configured': False}"
+    },
+    {
+      "name": "syntax-invalid:coverage-failclosed",
+      "status": "pass",
+      "detail": "syntax-invalid test evidence must yield no definition-backed coverage"
+    },
+    {
+      "name": "docs:release-plan-documents-phase102",
+      "status": "pass",
+      "detail": "docs/open-source-release-plan.md documents Phase 102 syntax-invalid evidence boundary"
+    },
+    {
+      "name": "roadmap:phase102-documented",
+      "status": "pass",
+      "detail": "docs/public-roadmap.md documents Phase 102"
+    },
+    {
+      "name": "shell:agent-complete-syntax-invalid-evidence-failclosed-review-command",
+      "status": "pass",
+      "detail": "bootstrap/setup/bootstrap-ai-assets.sh exposes Phase 102 flag"
+    }
+  ],
+  "summary": {
+    "status": "syntax-invalid-failclosed",
+    "checks": 5,
+    "pass": 5,
+    "warn": 0,
+    "fail": 0,
+    "agent_side_complete": false,
+    "machine_side_complete": false,
+    "syntax_invalid_evidence_blocks_completion": true,
+    "requires_user_code_review": false,
+    "external_owner_decision_required": true,
+    "manual_review_required": true,
+    "human_feedback_pending": true,
+    "shares_anything": false,
+    "sends_invitations": false,
+    "writes_anything": false,
+    "writes": 0,
+    "executes_anything": false,
+    "remote_mutation_allowed": false,
+    "credential_validation_allowed": false,
+    "auto_approves_release": false,
+    "remote_issues_created": 0,
+    "issue_backlog_mutation_allowed": false,
+    "remote_configured": false
+  },
+  "review_boundary": [
+    "Report-only fail-closed review for syntax-invalid regression evidence.",
+    "Confirms syntax-invalid test evidence cannot satisfy definition-backed coverage or claim agent/machine completion.",
+    "Does not share artifacts, send invitations, create final feedback, execute commands, approve releases, publish, push, create remotes/repos/tags/releases, validate credentials, call providers/APIs, upload artifacts, or mutate issues/backlogs."
+  ],
+  "recommendations": [
+    "Keep syntax-invalid source evidence fail-closed when future evidence parsers are added.",
+    "Ask the user only for real external target/action authorization."
+  ]
+}
