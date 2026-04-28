@@ -3838,6 +3838,12 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
     completed_axes = completed.get("review_axes", {}) if isinstance(completed.get("review_axes"), dict) else {}
     external_learning = completed_axes.get("external_learning", {}) if isinstance(completed_axes.get("external_learning"), dict) else {}
     suggested_release_tag = dry_run.get("suggested_release_tag") or "v0.1.1"
+    dry_checks = dry_run.get("checks", []) if isinstance(dry_run.get("checks"), list) else []
+    v011_tag_known = any(
+        isinstance(check, dict) and check.get("name") in {"existing-v011-tag-at-head", "existing-v011-tag-behind-head"}
+        for check in dry_checks
+    )
+    latest_published_tag = "v0.1.1" if v011_tag_known else None
 
     history_status = str(history_summary.get("status") or "missing")
     history_ready = history_status == "ready"
@@ -3855,18 +3861,32 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
         },
     ]
     if history_ready:
-        options.append({
-            "id": "review-public-main-before-release",
-            "title": "Review attached public main state before any tag/release",
-            "recommended_when": "Public history is attached in staging and the next useful external step would be release/tag review.",
-            "requires_owner_approval": False,
-            "blocked_until": None,
-            "steps": [
-                {"step": "verify-public-main", "command": "Review public main, v0.1.0, releases, and sanitized surfaces without mutating GitHub.", "executes": False},
-                {"step": "confirm-release-boundary", "command": "Confirm any future release uses a new tag and never moves v0.1.0.", "executes": False},
-            ],
-            "risks": ["Read-only review can prepare an owner decision but must not create tags, releases, artifacts, or reviewer invitations."],
-        })
+        if v011_tag_known:
+            options.append({
+                "id": "review-post-v011-release",
+                "title": "Review published v0.1.1 state before any later release",
+                "recommended_when": "v0.1.1 already points at the current public main; the next release candidate would be a later tag.",
+                "requires_owner_approval": False,
+                "blocked_until": None,
+                "steps": [
+                    {"step": "verify-v011-release", "command": "Review public main, v0.1.1, v0.1.0, release notes, and sanitized surfaces without mutating GitHub.", "executes": False},
+                    {"step": "confirm-next-release-boundary", "command": f"If another release is later needed, use {suggested_release_tag}; never move v0.1.0 or v0.1.1.", "executes": False},
+                ],
+                "risks": ["Read-only review can prepare a future owner decision but must not create tags, releases, artifacts, or reviewer invitations."],
+            })
+        else:
+            options.append({
+                "id": "review-public-main-before-release",
+                "title": "Review attached public main state before any tag/release",
+                "recommended_when": "Public history is attached in staging and the next useful external step would be release/tag review.",
+                "requires_owner_approval": False,
+                "blocked_until": None,
+                "steps": [
+                    {"step": "verify-public-main", "command": "Review public main, v0.1.0, releases, and sanitized surfaces without mutating GitHub.", "executes": False},
+                    {"step": "confirm-release-boundary", "command": "Confirm any future release uses a new tag and never moves v0.1.0.", "executes": False},
+                ],
+                "risks": ["Read-only review can prepare an owner decision but must not create tags, releases, artifacts, or reviewer invitations."],
+            })
     else:
         options.append({
             "id": "prepare-history-reattachment-main-push",
@@ -3881,8 +3901,9 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
             ],
             "risks": ["Requires exact public history context; a fresh generated repo is not enough."],
         })
+    release_option_id = "prepare-v012-tag-release" if suggested_release_tag == "v0.1.2" else "prepare-v011-tag-release"
     options.append({
-        "id": "prepare-v011-tag-release",
+        "id": release_option_id,
         "title": f"Prepare later {suggested_release_tag} tag/release plan",
         "recommended_when": "Owner wants a formal follow-up release after main is updated and reviewed.",
         "requires_owner_approval": True,
@@ -3933,6 +3954,7 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
             "fail": fail_count,
             "executes_anything": False,
             "suggested_release_tag": suggested_release_tag,
+            "latest_published_tag": latest_published_tag,
             "history_status": history_summary.get("status"),
             "dry_run_status": dry_summary.get("status"),
         },
@@ -3950,9 +3972,13 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
             "Use this packet for owner choice only; it does not approve or perform publication.",
             "Restore is not release work; before any future release decision, rerun `./bootstrap/setup/bootstrap-ai-assets.sh --engine-root \"$PWD\" --asset-root \"$PWD\" --restore-smoke-check --both` and review the non-mutating restore boundary.",
             (
-                "Public history is attached in staging; review public main and never move v0.1.0 before any release decision."
-                if history_ready
-                else "If publishing later, reattach public history first, review main, and never move v0.1.0."
+                "v0.1.1 already exists in staging; treat v0.1.1 as published/reviewed before considering any later release."
+                if v011_tag_known
+                else (
+                    "Public history is attached in staging; review public main and never move v0.1.0 before any release decision."
+                    if history_ready
+                    else "If publishing later, reattach public history first, review main, and never move v0.1.0."
+                )
             ),
             f"Treat {suggested_release_tag} as a future follow-up tag candidate only after main is reviewed and owner-approved.",
         ],
@@ -3965,6 +3991,7 @@ def build_github_publish_dry_run_report(root: Path = ASSETS) -> Dict[str, Any]:
     repo_name = "portable-ai-assets"
     head_rev = _git_rev_parse_if_available(staging_dir, "HEAD")
     v010_rev = _git_rev_parse_if_available(staging_dir, "v0.1.0^{commit}")
+    v011_rev = _git_rev_parse_if_available(staging_dir, "v0.1.1^{commit}")
     checklist_text = ""
     checklist_path = staging_dir / "GITHUB-PUBLISH-CHECKLIST.md"
     if checklist_path.is_file():
@@ -3975,9 +4002,12 @@ def build_github_publish_dry_run_report(root: Path = ASSETS) -> Dict[str, Any]:
         and not head_rev
         and not v010_rev
     )
+    existing_v011_tag_at_head = bool(head_rev and v011_rev and head_rev == v011_rev)
+    existing_v011_tag_behind_head = bool(head_rev and v011_rev and head_rev != v011_rev)
+    existing_v011_tag_present = bool(v011_rev)
     should_use_followup_tag = existing_v010_tag_behind_head or existing_v010_context_without_git_history
-    release_tag = "v0.1.1" if should_use_followup_tag else "v0.1.0"
-    commit_message = "Update Portable AI Assets after v0.1.0" if should_use_followup_tag else "Initial public release: Portable AI Assets v0.1.0"
+    release_tag = "v0.1.2" if existing_v011_tag_present else ("v0.1.1" if should_use_followup_tag else "v0.1.0")
+    commit_message = "Update Portable AI Assets after v0.1.1" if existing_v011_tag_present else ("Update Portable AI Assets after v0.1.0" if should_use_followup_tag else "Initial public release: Portable AI Assets v0.1.0")
     branch = status_report["summary"].get("branch") or "main"
     remote_configured = status_report["summary"].get("remote_configured")
     commands = [
@@ -4001,6 +4031,18 @@ def build_github_publish_dry_run_report(root: Path = ASSETS) -> Dict[str, Any]:
             "name": "existing-v010-tag-behind-head",
             "status": "warn",
             "detail": f"v0.1.0={v010_rev}; HEAD={head_rev}; suggested_release_tag={release_tag}; do not move v0.1.0",
+        })
+    if existing_v011_tag_at_head:
+        checks.append({
+            "name": "existing-v011-tag-at-head",
+            "status": "warn",
+            "detail": f"v0.1.1 already points at HEAD={head_rev}; suggested_release_tag={release_tag}; do not move v0.1.0 or v0.1.1",
+        })
+    if existing_v011_tag_behind_head:
+        checks.append({
+            "name": "existing-v011-tag-behind-head",
+            "status": "warn",
+            "detail": f"v0.1.1={v011_rev}; HEAD={head_rev}; suggested_release_tag={release_tag}; do not move v0.1.0 or v0.1.1",
         })
     if existing_v010_context_without_git_history:
         checks.append({
@@ -4037,6 +4079,7 @@ def build_github_publish_dry_run_report(root: Path = ASSETS) -> Dict[str, Any]:
             "This is a dry run only; no commit, push, tag, release, repo, or remote is created.",
             "Review the staging tree and command drafts before executing anything manually.",
             "Do not move v0.1.0; if it already points behind HEAD, use the suggested follow-up tag instead.",
+            "If v0.1.1 already points at HEAD, treat it as published/reviewed and use a later tag such as v0.1.2 for any future release.",
             "If the generated staging repo has no commit history but the checklist says v0.1.0 already exists, reattach public history before any manual publication.",
             "Prefer creating or updating the GitHub repo only after public safety and staging status are clean.",
         ],

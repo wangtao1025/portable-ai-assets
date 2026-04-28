@@ -1040,6 +1040,65 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertIn("git tag v0.1.1", "\n".join(command["command"] for command in dry_run["commands"]))
             self.assertTrue(all(command["executes"] is False for command in dry_run["commands"]))
 
+    def test_github_publish_dry_run_advances_after_v011_tag_already_points_at_head(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            staging = tmp / "dist" / "github-staging" / "portable-ai-assets"
+            staging.mkdir(parents=True)
+            (staging / "README.md").write_text("# Demo\n", encoding="utf-8")
+            bootstrap_ai_assets.run_git_command(staging, ["init"])
+            bootstrap_ai_assets.run_git_command(staging, ["config", "user.email", "test@example.invalid"])
+            bootstrap_ai_assets.run_git_command(staging, ["config", "user.name", "Test User"])
+            bootstrap_ai_assets.run_git_command(staging, ["add", "README.md"])
+            bootstrap_ai_assets.run_git_command(staging, ["commit", "-m", "Initial public release: Portable AI Assets v0.1.0"])
+            bootstrap_ai_assets.run_git_command(staging, ["tag", "v0.1.0"])
+            (staging / "README.md").write_text("# Demo\n\nPost-main decision packet wording\n", encoding="utf-8")
+            bootstrap_ai_assets.run_git_command(staging, ["add", "README.md"])
+            bootstrap_ai_assets.run_git_command(staging, ["commit", "-m", "Publish post-main decision packet wording"])
+            bootstrap_ai_assets.run_git_command(staging, ["tag", "v0.1.1"])
+
+            dry_run = bootstrap_ai_assets.build_github_publish_dry_run_report(tmp)
+            command_text = "\n".join(command["command"] for command in dry_run["commands"])
+            checks_by_name = {check["name"]: check for check in dry_run["checks"]}
+
+            self.assertEqual(dry_run["summary"]["status"], "needs-review")
+            self.assertEqual(dry_run["suggested_release_tag"], "v0.1.2")
+            self.assertEqual(checks_by_name["existing-v011-tag-at-head"]["status"], "warn")
+            self.assertNotIn("git tag v0.1.1", command_text)
+            self.assertIn("git tag v0.1.2", command_text)
+            self.assertIn("v0.1.1 already points at HEAD", "\n".join(dry_run["recommendations"]))
+            self.assertTrue(all(command["executes"] is False for command in dry_run["commands"]))
+
+    def test_github_publish_dry_run_advances_after_v011_tag_points_behind_head(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            staging = tmp / "dist" / "github-staging" / "portable-ai-assets"
+            staging.mkdir(parents=True)
+            (staging / "README.md").write_text("# Demo\n", encoding="utf-8")
+            bootstrap_ai_assets.run_git_command(staging, ["init"])
+            bootstrap_ai_assets.run_git_command(staging, ["config", "user.email", "test@example.invalid"])
+            bootstrap_ai_assets.run_git_command(staging, ["config", "user.name", "Test User"])
+            bootstrap_ai_assets.run_git_command(staging, ["add", "README.md"])
+            bootstrap_ai_assets.run_git_command(staging, ["commit", "-m", "Initial public release: Portable AI Assets v0.1.0"])
+            bootstrap_ai_assets.run_git_command(staging, ["tag", "v0.1.0"])
+            (staging / "README.md").write_text("# Demo\n\nv0.1.1 release\n", encoding="utf-8")
+            bootstrap_ai_assets.run_git_command(staging, ["add", "README.md"])
+            bootstrap_ai_assets.run_git_command(staging, ["commit", "-m", "Portable AI Assets v0.1.1"])
+            bootstrap_ai_assets.run_git_command(staging, ["tag", "v0.1.1"])
+            (staging / "README.md").write_text("# Demo\n\nRelease-aware packet update\n", encoding="utf-8")
+            bootstrap_ai_assets.run_git_command(staging, ["add", "README.md"])
+            bootstrap_ai_assets.run_git_command(staging, ["commit", "-m", "Publish release-aware publication packet updates"])
+
+            dry_run = bootstrap_ai_assets.build_github_publish_dry_run_report(tmp)
+            command_text = "\n".join(command["command"] for command in dry_run["commands"])
+            checks_by_name = {check["name"]: check for check in dry_run["checks"]}
+
+            self.assertEqual(dry_run["suggested_release_tag"], "v0.1.2")
+            self.assertEqual(checks_by_name["existing-v011-tag-behind-head"]["status"], "warn")
+            self.assertNotIn("git tag v0.1.1", command_text)
+            self.assertIn("git tag v0.1.2", command_text)
+            self.assertTrue(all(command["executes"] is False for command in dry_run["commands"]))
+
     def test_github_publish_dry_run_uses_new_tag_when_existing_tag_context_lacks_git_history(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
@@ -1230,6 +1289,49 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertIn("public history is attached", packet_text.lower())
             self.assertNotIn("reattach public history first", packet_text.lower())
             self.assertIn("never move v0.1.0", packet_text.lower())
+            self.assertTrue(all(step["executes"] is False for option in report["decision_options"] for step in option["steps"]))
+
+    def test_manual_publication_decision_packet_uses_post_v011_release_language(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            reports = tmp / "bootstrap" / "reports"
+            reports.mkdir(parents=True)
+            (reports / "latest-public-repo-staging-history-preflight.json").write_text(__import__("json").dumps({
+                "summary": {
+                    "status": "ready",
+                    "executes_anything": False,
+                    "remote_configured": False,
+                    "forbidden_findings": 0,
+                    "head_rev": "v011-main",
+                    "v010_rev": "old-release",
+                    "v010_behind_head": True,
+                },
+            }), encoding="utf-8")
+            (reports / "latest-github-publish-dry-run.json").write_text(__import__("json").dumps({
+                "summary": {"status": "needs-review", "executes_anything": False, "fail": 0},
+                "suggested_release_tag": "v0.1.2",
+                "checks": [{"name": "existing-v011-tag-at-head", "status": "warn", "detail": "v0.1.1 already points at HEAD; suggested_release_tag=v0.1.2"}],
+            }), encoding="utf-8")
+            (reports / "latest-public-safety-scan.json").write_text('{"summary":{"status":"pass","findings":0,"blockers":0}}', encoding="utf-8")
+            (reports / "latest-completed-work-review.json").write_text(__import__("json").dumps({
+                "summary": {"status": "aligned", "executes_anything": False},
+                "review_axes": {"external_learning": {"status": "pass"}},
+            }), encoding="utf-8")
+            (reports / "latest-restore-smoke-check.json").write_text(__import__("json").dumps({
+                "summary": {"status": "ready", "executes_anything": False, "mutates_repositories": False, "safe_for_fresh_clone": True}
+            }), encoding="utf-8")
+
+            report = bootstrap_ai_assets.build_manual_publication_decision_packet_report(tmp)
+            options_by_id = {option["id"]: option for option in report["decision_options"]}
+            packet_text = __import__("json").dumps(report)
+
+            self.assertEqual(report["summary"]["suggested_release_tag"], "v0.1.2")
+            self.assertEqual(report["summary"]["latest_published_tag"], "v0.1.1")
+            self.assertIn("review-post-v011-release", options_by_id)
+            self.assertIn("prepare-v012-tag-release", options_by_id)
+            self.assertNotIn("prepare-v011-tag-release", options_by_id)
+            self.assertIn("v0.1.1 already exists in staging", packet_text)
+            self.assertIn("v0.1.2", packet_text)
             self.assertTrue(all(step["executes"] is False for option in report["decision_options"] for step in option["steps"]))
 
     def test_github_handoff_pack_collects_public_safe_review_materials(self):
