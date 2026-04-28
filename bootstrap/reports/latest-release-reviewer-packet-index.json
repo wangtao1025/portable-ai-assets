@@ -501,5 +501,9 @@
     "Use this report as a reviewer table of contents only; ready means the index is complete, not publication approval.",
     "If status is blocked, regenerate the missing/failing latest-* evidence report(s) and rerun --release-reviewer-packet-index --both.",
     "Keep publication, credential validation, remote creation, tag creation, release creation, push, and provider/API actions outside this report-only gate."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-release-reviewer-packet-index.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

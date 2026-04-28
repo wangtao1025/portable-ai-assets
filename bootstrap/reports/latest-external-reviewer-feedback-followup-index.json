@@ -260,5 +260,9 @@
     "Use this index as local navigation for human follow-up review only; it does not create issues or mutate backlogs.",
     "If a filled feedback file is absent, have a human copy/fill the template and rerun --external-reviewer-feedback-status --both.",
     "Keep publication, credential validation, issue mutation, remote creation, tag creation, release creation, push, provider/API actions, command execution, approval, and final go/no-go decisions outside this report-only index."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-external-reviewer-feedback-followup-index.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

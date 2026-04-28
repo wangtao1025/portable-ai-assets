@@ -230,5 +230,9 @@
     "Use this as the external reviewer first-10-minutes path: README → public thesis → redacted demo pack → reviewer packet index → decision log template.",
     "If status is blocked, regenerate or document the missing public entry/evidence artifact and rerun --external-reviewer-quickstart --both.",
     "Keep publication, credential validation, remote creation, tag creation, release creation, push, provider/API actions, command execution, and final go/no-go decisions outside this report-only gate."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-external-reviewer-quickstart.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

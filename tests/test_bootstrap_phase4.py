@@ -633,7 +633,9 @@ class BootstrapPhase4Tests(unittest.TestCase):
             (tmp / "sample-assets").mkdir(parents=True)
             (tmp / "examples" / "redacted").mkdir(parents=True)
             (tmp / "memory" / "profile").mkdir(parents=True)
-            (tmp / "README.md").write_text("# Demo\nLocal /Users/example/private\n", encoding="utf-8")
+            private_fixture_path = Path.home() / "private"
+            expected_redacted_private_path = "/Users/example/private" if str(private_fixture_path).startswith("/Users/") else "/home/example/private"
+            (tmp / "README.md").write_text(f"# Demo\nLocal {private_fixture_path}\n", encoding="utf-8")
             (tmp / "CONTRIBUTING.md").write_text("# Contributing\n", encoding="utf-8")
             (tmp / "docs" / "architecture.md").write_text("# Architecture\n", encoding="utf-8")
             (tmp / "schemas" / "README.md").write_text("# Schemas\n", encoding="utf-8")
@@ -652,7 +654,7 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertTrue((pack_dir / "PACK-INDEX.md").is_file())
             self.assertTrue((pack_dir / "README.md").is_file())
             self.assertFalse((pack_dir / "memory" / "profile" / "secret.md").exists())
-            self.assertIn("/Users/example/private", (pack_dir / "README.md").read_text(encoding="utf-8"))
+            self.assertIn(expected_redacted_private_path, (pack_dir / "README.md").read_text(encoding="utf-8"))
             manifest = __import__("json").loads((pack_dir / "MANIFEST.json").read_text(encoding="utf-8"))
             self.assertEqual(manifest["pack_kind"], "public-release-pack")
             self.assertEqual(manifest["public_safety_status"], "pass")
@@ -747,12 +749,66 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertEqual(report["summary"]["status"], "ready")
             self.assertTrue((staging_dir / ".git").is_dir())
             self.assertTrue((staging_dir / "GITHUB-PUBLISH-CHECKLIST.md").is_file())
-            self.assertIn("paa install", (staging_dir / "GITHUB-PUBLISH-CHECKLIST.md").read_text(encoding="utf-8"))
+            checklist_text = (staging_dir / "GITHUB-PUBLISH-CHECKLIST.md").read_text(encoding="utf-8")
+            self.assertIn("paa install", checklist_text)
+            self.assertIn("bootstrap/reports/latest-*", checklist_text)
+            self.assertIn("static sanitized snapshots", checklist_text)
+            self.assertIn("not live GitHub state", checklist_text)
             self.assertTrue((staging_dir / "STAGING-MANIFEST.json").is_file())
             self.assertTrue((staging_dir / "bin" / "paa").is_file())
             self.assertTrue(os.access(staging_dir / "bin" / "paa", os.X_OK))
             self.assertFalse((staging_dir / "memory" / "profile" / "private.md").exists())
             self.assertEqual(report["summary"]["forbidden_findings"], 0)
+
+    def test_public_staging_labels_copied_latest_reports_as_static_snapshots(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            for rel in ["docs", "schemas", "bootstrap/setup", "bootstrap/reports", "sample-assets", "examples/redacted"]:
+                (tmp / rel).mkdir(parents=True)
+            (tmp / "README.md").write_text("# Demo\n", encoding="utf-8")
+            (tmp / "CONTRIBUTING.md").write_text("# Contributing\n", encoding="utf-8")
+            (tmp / ".gitignore").write_text("bootstrap/reports/\nmemory/\n", encoding="utf-8")
+            (tmp / "schemas" / "README.md").write_text("# Schemas\n", encoding="utf-8")
+            (tmp / "docs" / "security-model.md").write_text("# Security\n", encoding="utf-8")
+            (tmp / "docs" / "open-source-release-plan.md").write_text("# Release\n", encoding="utf-8")
+            reports = tmp / "bootstrap" / "reports"
+            (reports / "latest-public-safety-scan.json").write_text('{"summary":{"status":"pass"}}', encoding="utf-8")
+            (reports / "latest-release-readiness.json").write_text('{"summary":{"readiness":"ready"}}', encoding="utf-8")
+            private_root = str(Path.home() / "AI-Assets")
+            (reports / "latest-public-repo-staging-history-preflight.json").write_text(__import__("json").dumps({
+                "summary": {"status": "needs-history-reattach", "head_rev": None},
+                "root": private_root,
+            }), encoding="utf-8")
+            (reports / "latest-public-repo-staging-history-preflight.md").write_text("# History preflight\nstatus=needs-history-reattach\n", encoding="utf-8")
+            repo_root = Path(__file__).resolve().parents[1]
+            (tmp / "bootstrap" / "setup" / "bootstrap_ai_assets.py").write_text(Path(bootstrap_ai_assets.__file__).read_text(encoding="utf-8"), encoding="utf-8")
+            (tmp / "bootstrap" / "setup" / "bootstrap-ai-assets.sh").write_text((repo_root / "bootstrap" / "setup" / "bootstrap-ai-assets.sh").read_text(encoding="utf-8"), encoding="utf-8")
+            (tmp / "bootstrap" / "setup" / "portable_ai_assets_paths.py").write_text((repo_root / "bootstrap" / "setup" / "portable_ai_assets_paths.py").read_text(encoding="utf-8"), encoding="utf-8")
+            (tmp / "bin").mkdir(parents=True)
+            (tmp / "bin" / "paa").write_text((repo_root / "bin" / "paa").read_text(encoding="utf-8"), encoding="utf-8")
+            (tmp / "bin" / "paa").chmod(0o755)
+
+            report = bootstrap_ai_assets.build_public_repo_staging_report(tmp)
+            staging_dir = Path(report["staging_dir"])
+            copied_json = __import__("json").loads((staging_dir / "bootstrap" / "reports" / "latest-public-repo-staging-history-preflight.json").read_text(encoding="utf-8"))
+            copied_md = (staging_dir / "bootstrap" / "reports" / "latest-public-repo-staging-history-preflight.md").read_text(encoding="utf-8")
+            reports_readme = (staging_dir / "bootstrap" / "reports" / "README.md").read_text(encoding="utf-8")
+
+            self.assertEqual(copied_json["summary"]["status"], "needs-history-reattach")
+            self.assertTrue(copied_json["public_snapshot_notice"]["static_sanitized_snapshot"])
+            self.assertIn("not live GitHub state", copied_json["public_snapshot_notice"]["message"])
+            self.assertIn("Public snapshot notice", copied_md)
+            self.assertIn("static sanitized snapshots", reports_readme)
+            self.assertNotIn(private_root, (staging_dir / "bootstrap" / "reports" / "latest-public-repo-staging-history-preflight.json").read_text(encoding="utf-8"))
+
+    def test_public_roadmap_documents_latest_report_snapshot_clarity(self):
+        repo_root = Path(__file__).resolve().parents[1]
+        roadmap = (repo_root / "docs" / "public-roadmap.md").read_text(encoding="utf-8")
+        self.assertIn("### Phase 135 — Public latest report snapshot clarity ✅", roadmap)
+        self.assertIn("static sanitized snapshots", roadmap)
+        self.assertIn("not live GitHub state", roadmap)
+        self.assertIn("### Phase 136 — Public checklist/report-surface clarity ✅", roadmap)
+        self.assertIn("bootstrap/reports/latest-*", roadmap)
 
     def test_public_release_pack_and_staging_preserve_markdown_diagnostics_reports(self):
         diagnostics_text = (
@@ -4349,7 +4405,7 @@ class BootstrapPhase4Tests(unittest.TestCase):
                 f"private path {private_home}\napi_key: abcdefghijklmnop\n",
                 encoding="utf-8",
             )
-            (tmp / "docs" / "redacted.md").write_text("api_key: [REDACTED]", encoding="utf-8")
+            (tmp / "docs" / "redacted.md").write_text("api_key: [REDACTED]\n", encoding="utf-8")
             (tmp / "bin").mkdir(parents=True)
             (tmp / "bin" / "paa").write_text("#!/usr/bin/env bash\ntoken: abcdefghijklmnop\n", encoding="utf-8")
             report = bootstrap_ai_assets.build_public_safety_scan_report(tmp)

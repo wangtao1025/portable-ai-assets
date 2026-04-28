@@ -587,5 +587,9 @@
     "If status is blocked, regenerate the failing latest-* report(s) and rerun --release-closure --both.",
     "If status is ready-for-manual-release-review, proceed only to human review; do not treat this as automatic publish approval.",
     "Add signed provenance or external attestations in a future phase before making stronger supply-chain claims."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-release-closure.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

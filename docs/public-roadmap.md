@@ -742,3 +742,28 @@ The project is succeeding if users can say:
 - add `--manual-publication-decision-packet` as a non-executing owner-choice packet comparing keep-local-only, prepare public-history reattachment/main push, and later `v0.1.1` tag/release options
 - summarize latest staging history preflight, dry-run, safety, completed-work, and anti-closed-door evidence without approving or performing publication
 - keep all option steps as drafts with explicit owner approval requirements and preserve the rule to never move `v0.1.0`
+
+### Phase 132 — Local public-history reattachment/main-update prep ✅
+- reattach generated GitHub staging to the real public `main` and existing `v0.1.0` history locally before any owner-approved publication
+- create and verify a normal descendant staging commit for Phase127–131 public-facing changes while keeping remotes empty after preparation
+- preserve the external-action boundary: no push, tag, release, artifact upload, reviewer invitation, credential validation, provider/API call, or issue mutation during local prep
+
+### Phase 133 — Owner-approved main push without release ✅
+- push only the prepared public staging `HEAD` to GitHub `main` after explicit owner approval
+- verify public `main` advanced to the expected commit while `v0.1.0` remains unchanged behind `HEAD`
+- keep release/tag/upload/reviewer/issue actions separate; no release is created and `v0.1.0` is never moved
+
+### Phase 134 — Post-push GitHub rendering observation ✅
+- perform read-only checks of the GitHub repo page, README, roadmap, checklist, tags, releases, and selected raw reports after the main push
+- confirm `main` points at the pushed commit, the only tag is still `v0.1.0`, and GitHub releases remain empty
+- identify that committed public `bootstrap/reports/latest-*` files can be sanitized but stale, requiring clearer public semantics rather than treating them as live state
+
+### Phase 135 — Public latest report snapshot clarity ✅
+- label copied public `bootstrap/reports/latest-*` JSON and Markdown reports as static sanitized snapshots instead of live/fresh GitHub state
+- add a public `bootstrap/reports/README.md` explaining that committed reports are static sanitized snapshots, not live GitHub state, and that current status comes from rerunning local report-only gates
+- preserve redaction-first behavior so private local paths and raw current local reports are not copied directly into public surfaces
+
+### Phase 136 — Public checklist/report-surface clarity ✅
+- update the generated GitHub publish checklist so reviewers are explicitly told that committed `bootstrap/reports/latest-*` files are static sanitized snapshots, not live GitHub state
+- document the Phase135 report-snapshot boundary in the public roadmap so the GitHub-facing docs match the generated report labels and reports README
+- keep this clarification local-only until a separately owner-approved main update; no commit, push, tag, release, upload, reviewer invitation, credential validation, provider/API call, or issue mutation

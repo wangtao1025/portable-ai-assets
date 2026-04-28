@@ -289,5 +289,9 @@
     "If status is blocked, regenerate the failing latest-* evidence report(s) and rerun --release-candidate-closure-review --both.",
     "Treat ready-for-final-human-review as a human handoff packet only, not automatic publish approval.",
     "Keep publication, credential validation, remote creation, tag creation, release creation, and push actions outside this report-only gate."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-release-candidate-closure-review.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

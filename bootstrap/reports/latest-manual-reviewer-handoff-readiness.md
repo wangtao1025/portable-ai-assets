@@ -1,3 +1,5 @@
+<!-- Public snapshot notice: this is a static sanitized snapshot copied into a public artifact; it is not live GitHub state. Regenerate local report-only gates for current status. -->
+
 # AI-Assets Manual Reviewer Handoff Readiness
 
 This is a local-only/report-only handoff readiness digest for a human operator. It does not approve, share, invite, publish, push, execute commands, call APIs/providers, validate credentials, create final human feedback, or mutate issues/backlogs.

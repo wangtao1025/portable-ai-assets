@@ -156,5 +156,9 @@
     "Continue agent-side review/verification without asking the user to inspect code unless a true owner/external decision is needed.",
     "Use independent subagent review for code-quality/security verification before any commit/publish request.",
     "Ask the user only before real external sharing, invitations, publication, credential/API use, or final go/no-go."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-agent-owner-delegation-review.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

@@ -1,3 +1,5 @@
+<!-- Public snapshot notice: this is a static sanitized snapshot copied into a public artifact; it is not live GitHub state. Regenerate local report-only gates for current status. -->
+
 # AI-Assets Manual Reviewer Execution Packet
 
 This is a local-only/report-only one-page human runbook index. It does not execute commands, approve release, publish, upload, create remotes/repos/tags/releases, validate credentials, call APIs/providers, or mutate issues/backlogs.

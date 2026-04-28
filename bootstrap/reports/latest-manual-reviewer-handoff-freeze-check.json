@@ -233,5 +233,9 @@
     "Rerun --manual-reviewer-handoff-packet-index --both immediately before this freeze check.",
     "If any indexed artifact changes, rerun the public pack/staging/freshness/readiness/index chain before human sharing.",
     "Have a human decide whether and how to share or invite reviewers outside automation."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-manual-reviewer-handoff-freeze-check.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

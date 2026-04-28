@@ -1,3 +1,5 @@
+<!-- Public snapshot notice: this is a static sanitized snapshot copied into a public artifact; it is not live GitHub state. Regenerate local report-only gates for current status. -->
+
 # AI-Assets Manual Reviewer Handoff Freeze Check
 
 This is a local-only/report-only freeze check for the human handoff packet. It verifies packet readiness and artifact presence; it does not share, invite, approve, publish, push, execute commands, call APIs/providers, validate credentials, create feedback, or mutate issues/backlogs.

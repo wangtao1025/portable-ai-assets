@@ -446,5 +446,9 @@
     "If status is blocked, regenerate the failing latest-* evidence report(s) and rerun --manual-release-reviewer-checklist --both.",
     "If status is ready-for-human-review, hand the checklist to a human reviewer; do not treat it as automatic release approval.",
     "Keep publication, credential validation, remote creation, tag creation, and push actions outside this report-only gate."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-manual-release-reviewer-checklist.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

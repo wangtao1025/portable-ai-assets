@@ -315,5 +315,9 @@
     "If status is blocked, regenerate the missing latest-* evidence reports and rerun --human-action-closure-checklist --both.",
     "If status is ready-for-human-action, hand this checklist to a human; do not treat it as release approval.",
     "Do not create the final external reviewer feedback file, issues, backlog entries, remotes, tags, releases, uploads, or credential checks from this gate."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-human-action-closure-checklist.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

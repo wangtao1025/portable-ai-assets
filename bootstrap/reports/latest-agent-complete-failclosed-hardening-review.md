@@ -1,3 +1,5 @@
+<!-- Public snapshot notice: this is a static sanitized snapshot copied into a public artifact; it is not live GitHub state. Regenerate local report-only gates for current status. -->
+
 # AI-Assets Agent-Complete Fail-Closed Hardening Review
 
 This is a local-only/report-only hardening review for the agent-complete rollup. It tracks fail-closed regression coverage and preserves the external-actions-reserved boundary.

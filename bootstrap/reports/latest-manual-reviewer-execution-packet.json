@@ -326,5 +326,9 @@
     "If blocked, regenerate the missing latest-* evidence reports and rerun --manual-reviewer-execution-packet --both.",
     "If ready-for-human-runbook, give this packet to the human reviewer/operator; do not treat it as release approval.",
     "Perform any copy/edit, issue/backlog, publication, credential, or API work manually outside this gate and outside report automation."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-manual-reviewer-execution-packet.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

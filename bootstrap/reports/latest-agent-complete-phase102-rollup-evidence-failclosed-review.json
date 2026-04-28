@@ -98,5 +98,9 @@
   "recommendations": [
     "Keep completed-work and agent-complete rollups dependent on strict latest Phase102 report evidence.",
     "Ask the user only for real external target/action authorization."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-agent-complete-phase102-rollup-evidence-failclosed-review.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

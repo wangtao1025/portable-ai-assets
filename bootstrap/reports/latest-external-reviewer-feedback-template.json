@@ -149,5 +149,9 @@
     "Have a human copy bootstrap/reviewer-feedback/external-reviewer-feedback.md.template to external-reviewer-feedback.md only after filling the required fields.",
     "Rerun /bin/bash ./bootstrap/setup/bootstrap-ai-assets.sh --external-reviewer-feedback-status --both after the human-filled file exists.",
     "Do not treat template-ready as release approval, go/no-go decision, issue creation, publication approval, or remote mutation permission."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-external-reviewer-feedback-template.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

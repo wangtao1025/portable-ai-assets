@@ -241,5 +241,9 @@
     "Treat needs-history-reattach as expected for freshly generated staging; reattach public history before any manual publication.",
     "Do not move v0.1.0; if a follow-up release is approved later, use a new tag such as v0.1.1.",
     "This report is local/read-only: it never fetches, creates remotes, commits, tags, pushes, uploads, or releases anything."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-public-repo-staging-history-preflight.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

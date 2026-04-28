@@ -124,5 +124,9 @@
   "recommendations": [
     "Keep adding fail-closed regression tests whenever independent review finds a malformed-source or blocked-state gap.",
     "Ask the user only for real external target/action authorization."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-agent-complete-failclosed-hardening-review.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

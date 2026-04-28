@@ -250,5 +250,9 @@
     "Treat this as the last machine-generated preflight before human review and manual publication.",
     "If status is not ready, rerun the failed gate command and regenerate handoff/preflight reports.",
     "Do not execute command drafts until a human has reviewed the staging tree and handoff bundle."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-github-final-preflight.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

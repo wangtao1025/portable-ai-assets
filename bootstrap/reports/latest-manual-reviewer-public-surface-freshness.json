@@ -156,5 +156,9 @@
     "Rerun --manual-reviewer-execution-packet --both after changing human-action closure or reviewer guidance.",
     "Rerun --public-release-pack --both and --public-repo-staging --both after changing docs, shell wrapper, or latest reviewer packet reports.",
     "Rerun --manual-reviewer-public-surface-freshness --both immediately before giving the local public pack/staging tree to a human reviewer."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-manual-reviewer-public-surface-freshness.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

@@ -1,3 +1,5 @@
+<!-- Public snapshot notice: this is a static sanitized snapshot copied into a public artifact; it is not live GitHub state. Regenerate local report-only gates for current status. -->
+
 # AI-Assets Agent-Complete Phase102 Rollup Evidence Fail-Closed Review
 
 This is a local-only/report-only fail-closed review proving downstream completed-work and agent-complete rollups require valid Phase102 report evidence before continuing.

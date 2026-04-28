@@ -9,6 +9,7 @@ This staging tree is generated for manual review before creating or pushing a pu
 - [ ] Run `python3 -m unittest tests/test_bootstrap_phase4.py` if tests are included and local Python supports it.
 - [ ] Run `./bin/paa install` and `paa doctor` if validating global CLI installation locally.
 - [ ] Run `./bin/paa safety --both` (or `/bin/bash bootstrap/setup/bootstrap-ai-assets.sh --public-safety-scan --both`) inside this staging repo.
+- [ ] Treat committed `bootstrap/reports/latest-*` files as static sanitized snapshots, not live GitHub state; rerun local report-only gates for current status.
 - [ ] Confirm no private memory, runtime DBs/logs, backups, candidates, machine-local config, or secrets are present.
 - [ ] Create the GitHub repo manually and push only after review.
 

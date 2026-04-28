@@ -1482,6 +1482,49 @@ def _iter_public_release_source_files(root: Path) -> List[Path]:
     return sorted(set(files))
 
 
+def _public_snapshot_notice(report_name: str) -> Dict[str, Any]:
+    return {
+        "static_sanitized_snapshot": True,
+        "message": (
+            f"{report_name} is a static sanitized snapshot copied into a public artifact; "
+            "it is not live GitHub state and may describe the staging context at generation time. "
+            "Regenerate local report-only gates for current status."
+        ),
+    }
+
+
+def _label_public_report_snapshot_text(report_name: str, text: str) -> str:
+    notice = _public_snapshot_notice(report_name)
+    if report_name.endswith(".json"):
+        try:
+            data = json.loads(text)
+            if isinstance(data, dict):
+                data.setdefault("public_snapshot_notice", notice)
+                return json.dumps(_redact_public_value(data), ensure_ascii=False, indent=2) + "\n"
+        except Exception:
+            pass
+    if report_name.endswith(".md"):
+        prefix = (
+            "<!-- Public snapshot notice: this is a static sanitized snapshot copied into a public artifact; "
+            "it is not live GitHub state. Regenerate local report-only gates for current status. -->\n\n"
+        )
+        if "Public snapshot notice" not in text:
+            return prefix + _redact_public_text(text)
+    return _redact_public_text(text)
+
+
+def _write_public_reports_readme(reports_dir: Path) -> None:
+    reports_dir.mkdir(parents=True, exist_ok=True)
+    readme = reports_dir / "README.md"
+    readme.write_text(
+        "# Public report snapshots\n\n"
+        "Files in this directory are static sanitized snapshots copied into the public artifact. "
+        "They are not live GitHub state and may describe the source or staging context at the time the artifact was generated.\n\n"
+        "For current status, rerun the local report-only gates such as public safety, staging history preflight, GitHub dry-run, and manual publication decision packet.\n",
+        encoding="utf-8",
+    )
+
+
 def _write_public_release_index(pack_dir: Path, manifest: Dict[str, Any]) -> None:
     lines = [
         "# Portable AI Assets Public Release Pack",
@@ -1525,10 +1568,19 @@ def build_public_release_pack_report(root: Path = ASSETS) -> Dict[str, Any]:
         target.parent.mkdir(parents=True, exist_ok=True)
         try:
             text = source.read_text(encoding="utf-8", errors="replace")
-            target.write_text(_redact_public_text(text), encoding="utf-8")
+            relative_text = str(relative)
+            if relative_text.startswith("bootstrap/reports/latest-"):
+                target.write_text(_label_public_report_snapshot_text(source.name, text), encoding="utf-8")
+            else:
+                target.write_text(_redact_public_text(text), encoding="utf-8")
             copied.append(str(relative))
         except Exception as exc:
             skipped.append({"path": str(relative), "reason": str(exc)})
+
+    pack_reports_dir = pack_dir / "bootstrap" / "reports"
+    if pack_reports_dir.exists():
+        _write_public_reports_readme(pack_reports_dir)
+        copied.append(str((pack_reports_dir / "README.md").relative_to(pack_dir)))
 
     release_readiness = _load_json_if_exists(root / "bootstrap" / "reports" / "latest-release-readiness.json")
     public_safety = _load_json_if_exists(root / "bootstrap" / "reports" / "latest-public-safety-scan.json")
@@ -3475,6 +3527,7 @@ def _write_github_publish_checklist(staging_dir: Path) -> Path:
         "- [ ] Run `python3 -m unittest tests/test_bootstrap_phase4.py` if tests are included and local Python supports it.",
         "- [ ] Run `./bin/paa install` and `paa doctor` if validating global CLI installation locally.",
         "- [ ] Run `./bin/paa safety --both` (or `/bin/bash bootstrap/setup/bootstrap-ai-assets.sh --public-safety-scan --both`) inside this staging repo.",
+        "- [ ] Treat committed `bootstrap/reports/latest-*` files as static sanitized snapshots, not live GitHub state; rerun local report-only gates for current status.",
         "- [ ] Confirm no private memory, runtime DBs/logs, backups, candidates, machine-local config, or secrets are present.",
         "- [ ] Create the GitHub repo manually and push only after review.",
         "",
@@ -3544,8 +3597,11 @@ def build_public_repo_staging_report(root: Path = ASSETS) -> Dict[str, Any]:
             continue
         target_report = staging_reports_dir / report_name
         target_report.parent.mkdir(parents=True, exist_ok=True)
-        target_report.write_text(_redact_public_text(source_report.read_text(encoding="utf-8", errors="replace")), encoding="utf-8")
+        target_report.write_text(_label_public_report_snapshot_text(report_name, source_report.read_text(encoding="utf-8", errors="replace")), encoding="utf-8")
         copied.append(str(target_report.relative_to(staging_dir)))
+    if staging_reports_dir.exists():
+        _write_public_reports_readme(staging_reports_dir)
+        copied.append(str((staging_reports_dir / "README.md").relative_to(staging_dir)))
 
     forbidden_findings = _scan_pack_tree_for_forbidden_text(staging_dir)
 

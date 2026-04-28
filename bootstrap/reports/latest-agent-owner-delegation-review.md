@@ -1,3 +1,5 @@
+<!-- Public snapshot notice: this is a static sanitized snapshot copied into a public artifact; it is not live GitHub state. Regenerate local report-only gates for current status. -->
+
 # AI-Assets Agent Owner Delegation Review
 
 This is a local-only/report-only delegation review. It records that internal engineering/code review, verification, and product-material review are delegated to the agent, while real external sharing, invitations, publication, feedback authorship, and final go/no-go remain explicit external owner decisions.

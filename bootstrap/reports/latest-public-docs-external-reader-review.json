@@ -103,5 +103,9 @@
     "Rerun /bin/bash ./bootstrap/setup/bootstrap-ai-assets.sh --public-safety-scan --both before sharing public artifacts.",
     "Rerun /bin/bash ./bootstrap/setup/bootstrap-ai-assets.sh --public-release-pack --both and --public-repo-staging --both after this report changes.",
     "Rerun /bin/bash ./bootstrap/setup/bootstrap-ai-assets.sh --public-package-freshness-review --both immediately before manual release review."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-public-docs-external-reader-review.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

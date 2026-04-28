@@ -1,3 +1,5 @@
+<!-- Public snapshot notice: this is a static sanitized snapshot copied into a public artifact; it is not live GitHub state. Regenerate local report-only gates for current status. -->
+
 # AI-Assets Manual Reviewer Handoff Packet Index
 
 This is a local-only/report-only human handoff packet index/status. It cross-links local artifacts and human-only next actions; it does not share, invite, approve, publish, push, execute commands, call APIs/providers, validate credentials, create final human feedback, or mutate issues/backlogs.

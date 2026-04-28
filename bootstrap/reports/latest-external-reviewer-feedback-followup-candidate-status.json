@@ -124,5 +124,9 @@
     "Use this report as a local checklist only; create or defer real issues/backlog entries manually outside automation.",
     "If status is blocked, regenerate candidates only after human feedback is ready, then inspect unsafe or incomplete candidate files locally.",
     "Keep publication, credential validation, issue mutation, remote creation, tag creation, release creation, push, provider/API actions, command execution, approval, and final go/no-go decisions outside this status scanner."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-external-reviewer-feedback-followup-candidate-status.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

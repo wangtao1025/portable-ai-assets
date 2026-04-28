@@ -330,5 +330,9 @@
     "Review this report after each completed phase before starting the next implementation loop.",
     "If any axis warns or fails, resolve docs/reports/backlog alignment before adding new capabilities.",
     "For the next capability-policy phase, keep status/report gates read-only and require human copy/review before apply."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-completed-work-review.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

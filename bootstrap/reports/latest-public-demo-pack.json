@@ -10,5 +10,9 @@
   "manifest_path": "/Users/example/AI-Assets/examples/redacted/public-demo-pack/MANIFEST.json",
   "summary": {
     "files_in_pack": 15
+  },
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-public-demo-pack.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
   }
 }

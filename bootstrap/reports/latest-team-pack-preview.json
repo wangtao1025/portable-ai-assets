@@ -105,5 +105,9 @@
     "Treat team packs as canonical layer inputs, not live runtime overwrites.",
     "Use preview/candidate/review/apply stages before projecting shared team guidance into adapters.",
     "Keep individual private memory and secrets outside shared team packs."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-team-pack-preview.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

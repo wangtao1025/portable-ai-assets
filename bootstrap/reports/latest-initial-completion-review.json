@@ -325,5 +325,9 @@
     "If status is machine-ready-human-feedback-pending, treat engineering MVP closure as locally ready for human handoff, not as publication approval.",
     "Have a human copy and fill bootstrap/reviewer-feedback/external-reviewer-feedback.md from the template before rerunning follow-up candidate gates.",
     "Keep final publication and go/no-go decisions manual and explicit."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-initial-completion-review.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

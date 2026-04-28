@@ -181,5 +181,9 @@
     "Use this packet for owner choice only; it does not approve or perform publication.",
     "If publishing later, reattach public history first, review main, and never move v0.1.0.",
     "Treat v0.1.1 as a future follow-up tag candidate only after main is reviewed and owner-approved."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-manual-publication-decision-packet.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

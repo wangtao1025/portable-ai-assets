@@ -153,5 +153,9 @@
     "Use this report as a local decision-log template only; needs-human-review means a human still must fill/review notes, not release approval.",
     "If status is blocked, regenerate the missing/failing reviewer packet index evidence and rerun --release-reviewer-decision-log --both.",
     "Keep publication, credential validation, remote creation, tag creation, release creation, push, provider/API actions, and final go/no-go decisions outside this report-only gate."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-release-reviewer-decision-log.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

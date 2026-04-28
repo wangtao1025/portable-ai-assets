@@ -1,3 +1,5 @@
+<!-- Public snapshot notice: this is a static sanitized snapshot copied into a public artifact; it is not live GitHub state. Regenerate local report-only gates for current status. -->
+
 # AI-Assets Agent-Complete Regression Evidence Integrity
 
 This is a local-only/report-only integrity audit for Phase 100 fail-closed regression evidence. It requires definition-backed test evidence and preserves the external-actions-reserved boundary.

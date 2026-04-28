@@ -207,5 +207,9 @@
     "Resolve fail checks before cutting a public release.",
     "Review warn checks and regenerate the public demo pack immediately before publication.",
     "Keep the private asset repo separate from this public engine/demo surface."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-release-readiness.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

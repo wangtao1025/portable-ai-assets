@@ -1,3 +1,5 @@
+<!-- Public snapshot notice: this is a static sanitized snapshot copied into a public artifact; it is not live GitHub state. Regenerate local report-only gates for current status. -->
+
 # AI-Assets Agent-Complete / External-Actions-Reserved Rollup
 
 This is a local-only/report-only final rollup for the current handoff path. It records that machine-side and agent-side work is complete while real external actions remain explicit owner decisions.

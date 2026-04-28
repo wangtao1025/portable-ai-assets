@@ -195,5 +195,9 @@
     "Rerun --manual-reviewer-public-surface-freshness --both immediately before this handoff readiness digest.",
     "Have a human operator decide if/when to share or invite external reviewers outside automation.",
     "After real human feedback is supplied, rerun feedback status and follow-up candidate gates locally."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-manual-reviewer-handoff-readiness.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

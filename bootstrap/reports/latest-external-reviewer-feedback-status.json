@@ -230,5 +230,9 @@
     "Use this report to validate the local feedback file and summarize follow-up readiness only; it does not create remote issues or mutate a backlog automatically.",
     "If status is needs-human-feedback, complete missing fields or remove any approval/go-no-go markers before rerunning --external-reviewer-feedback-status --both.",
     "Keep publication, credential validation, issue mutation, remote creation, tag creation, release creation, push, provider/API actions, command execution, approval, and final go/no-go decisions outside this report-only gate."
-  ]
+  ],
+  "public_snapshot_notice": {
+    "static_sanitized_snapshot": true,
+    "message": "latest-external-reviewer-feedback-status.json is a static sanitized snapshot copied into a public artifact; it is not live GitHub state and may describe the staging context at generation time. Regenerate local report-only gates for current status."
+  }
 }

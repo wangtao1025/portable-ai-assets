@@ -1,3 +1,5 @@
+<!-- Public snapshot notice: this is a static sanitized snapshot copied into a public artifact; it is not live GitHub state. Regenerate local report-only gates for current status. -->
+
 # AI-Assets Manual Reviewer Public Surface Freshness
 
 This is a local-only/report-only freshness and coverage check for the Phase 93 human runbook across public pack, GitHub staging, docs, and shell surfaces. It does not approve, publish, push, execute commands, call APIs/providers, validate credentials, create final human feedback, or mutate issues/backlogs.
