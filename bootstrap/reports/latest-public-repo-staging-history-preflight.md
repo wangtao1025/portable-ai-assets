@@ -2,22 +2,22 @@
 
 # AI-Assets Public Repo Staging History Preflight
 
-Generated: 2026-04-28T09:52:22
+Generated: 2026-04-28T17:10:49
 Staging dir: `/Users/example/AI-Assets/dist/github-staging/portable-ai-assets`
 
 ## Summary
 
-- status: `needs-history-reattach`
+- status: `ready`
 - checks: `8`
-- pass: `5`
-- warn: `1`
-- fail: `2`
+- pass: `8`
+- warn: `0`
+- fail: `0`
 - executes_anything: `False`
 - remote_configured: `False`
 - forbidden_findings: `0`
-- head_rev: `None`
-- v010_rev: `None`
-- v010_behind_head: `False`
+- head_rev: `d73c3653302cb38ac24f8e1048b882322594badb`
+- v010_rev: `724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc`
+- v010_behind_head: `True`
 - checklist_declares_existing_v010: `True`
 
 ## Checks
@@ -27,9 +27,9 @@ Staging dir: `/Users/example/AI-Assets/dist/github-staging/portable-ai-assets`
 - **pass** `staging-remote-empty`: False
 - **pass** `staging-forbidden-clean`: forbidden_findings=0
 - **pass** `checklist-declares-existing-v010`: Existing release tag: v0.1.0
-- **fail** `staging-head-exists`: missing HEAD
-- **fail** `v010-tag-exists`: missing v0.1.0^{commit}
-- **warn** `existing-tag-context-without-history`: checklist says v0.1.0 exists, but generated staging lacks HEAD and/or v0.1.0 tag history
+- **pass** `staging-head-exists`: d73c3653302cb38ac24f8e1048b882322594badb
+- **pass** `v010-tag-exists`: 724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc
+- **pass** `v010-behind-head`: v0.1.0=724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc; HEAD=d73c3653302cb38ac24f8e1048b882322594badb
 
 ## Manual history context steps — not executed
 

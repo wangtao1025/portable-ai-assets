@@ -168,11 +168,16 @@ def build_asset_class_rules(engine_root: Path, asset_root: Path) -> Dict[str, Li
     }
 
 
-def configure_runtime_paths(config_path: Optional[str] = None, asset_root_override: Optional[str] = None) -> Dict[str, Any]:
+def configure_runtime_paths(
+    config_path: Optional[str] = None,
+    asset_root_override: Optional[str] = None,
+    engine_root_override: Optional[str] = None,
+) -> Dict[str, Any]:
     global ENGINE_ROOT, ASSETS, REPORTS, STATE, BACKUPS, CANDIDATES, SCHEMAS, MANAGED_STATE_PATH, CURRENT_RUNTIME_PATHS, ASSET_CLASS_RULES
     CURRENT_RUNTIME_PATHS = resolve_runtime_paths(
         config_path=config_path,
         asset_root_override=asset_root_override,
+        engine_root_override=engine_root_override,
         script_path=Path(__file__).resolve(),
     )
     ENGINE_ROOT = Path(CURRENT_RUNTIME_PATHS["engine_root"])
@@ -3823,11 +3828,13 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
         dry_run = build_github_publish_dry_run_report(root)
     safety = _load_json_if_exists(reports_dir / "latest-public-safety-scan.json")
     completed = _load_json_if_exists(reports_dir / "latest-completed-work-review.json")
+    restore_smoke = _load_json_if_exists(reports_dir / "latest-restore-smoke-check.json")
 
     history_summary = history.get("summary", {}) if isinstance(history.get("summary"), dict) else {}
     dry_summary = dry_run.get("summary", {}) if isinstance(dry_run.get("summary"), dict) else {}
     safety_summary = safety.get("summary", {}) if isinstance(safety.get("summary"), dict) else {}
     completed_summary = completed.get("summary", {}) if isinstance(completed.get("summary"), dict) else {}
+    restore_smoke_summary = restore_smoke.get("summary", {}) if isinstance(restore_smoke.get("summary"), dict) else {}
     completed_axes = completed.get("review_axes", {}) if isinstance(completed.get("review_axes"), dict) else {}
     external_learning = completed_axes.get("external_learning", {}) if isinstance(completed_axes.get("external_learning"), dict) else {}
     suggested_release_tag = dry_run.get("suggested_release_tag") or "v0.1.1"
@@ -3880,6 +3887,14 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
     add("history-preflight-non-executing", history_summary.get("executes_anything") is False, str(history_summary.get("executes_anything")))
     add("dry-run-non-executing", dry_summary.get("executes_anything") is False, str(dry_summary.get("executes_anything")))
     add("public-safety-pass", safety_summary.get("status") == "pass" and int(safety_summary.get("findings") or 0) == 0, str(safety_summary or "missing"))
+    restore_smoke_status = str(restore_smoke_summary.get("status") or "missing")
+    restore_smoke_ready = (
+        restore_smoke_status in {"ready", "ready-with-prerequisite-regeneration-needed"}
+        and restore_smoke_summary.get("executes_anything") is False
+        and restore_smoke_summary.get("mutates_repositories") is False
+        and restore_smoke_summary.get("safe_for_fresh_clone") is True
+    )
+    add("restore-smoke-boundary-reviewed", restore_smoke_ready, str(restore_smoke_summary or "missing"), warn=True)
     add("completed-work-aligned", completed_summary.get("status") == "aligned", str(completed_summary.get("status") or "missing"), warn=True)
     add("external-learning-pass", external_learning.get("status") == "pass", str(external_learning.get("status") or "missing"), warn=True)
     add("owner-options-non-executing", all(step.get("executes") is False for option in options for step in option.get("steps", [])), "all option steps are non-executing drafts")
@@ -3912,10 +3927,12 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
             "public_safety_scan": safety_summary,
             "completed_work_review": completed_summary,
             "external_learning": external_learning,
+            "restore_smoke_check": restore_smoke_summary,
         },
         "decision_options": options,
         "recommendations": [
             "Use this packet for owner choice only; it does not approve or perform publication.",
+            "Restore is not release work; before any future release decision, rerun `./bootstrap/setup/bootstrap-ai-assets.sh --engine-root \"$PWD\" --asset-root \"$PWD\" --restore-smoke-check --both` and review the non-mutating restore boundary.",
             "If publishing later, reattach public history first, review main, and never move v0.1.0.",
             f"Treat {suggested_release_tag} as a future follow-up tag candidate only after main is reviewed and owner-approved.",
         ],
@@ -11064,6 +11081,177 @@ def markdown_for_plan(report: Dict[str, object]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def build_restore_smoke_check_report() -> Dict[str, Any]:
+    """Build a non-mutating restore smoke diagnosis for private/public recovery.
+
+    This report intentionally does not run prerequisite-generating commands. It tells a
+    fresh/temp clone operator whether the checkout has enough documented structure to run
+    the restore smoke path and whether missing runtime reports are expected fail-closed
+    prerequisites rather than evidence of corruption.
+    """
+    generated_at = dt.datetime.now(dt.timezone.utc).isoformat()
+    script_checkout_root = Path(__file__).resolve().parents[2]
+    engine_root = ENGINE_ROOT.resolve()
+    asset_root = ASSETS.resolve()
+    reports_dir = asset_root / "bootstrap" / "reports"
+    restore_doc_path = asset_root / "docs" / "restore-readiness.md"
+    restore_doc_text = restore_doc_path.read_text(encoding="utf-8") if restore_doc_path.exists() else ""
+    required_doc_tokens = [
+        "wangtao1025/ai-assets-private",
+        "wangtao1025/portable-ai-assets",
+        "asset_root",
+        "--asset-root",
+        "fresh clone may report blocked",
+        "regenerate prerequisite reports",
+        "do not move v0.1.0",
+        "v0.1.1",
+        "restore smoke test",
+    ]
+    missing_doc_tokens = [token for token in required_doc_tokens if token not in restore_doc_text]
+
+    prerequisite_report_files = [
+        "latest-public-safety-scan.json",
+        "latest-release-readiness.json",
+        "latest-completed-work-review.json",
+    ]
+    present_reports = [name for name in prerequisite_report_files if (reports_dir / name).exists()]
+    missing_reports = [name for name in prerequisite_report_files if name not in present_reports]
+
+    configured_asset_root_matches_checkout = asset_root == script_checkout_root.resolve()
+    configured_engine_root_matches_checkout = engine_root == script_checkout_root.resolve()
+    doc_ready = restore_doc_path.exists() and not missing_doc_tokens
+    missing_reports_expected = bool(missing_reports)
+
+    checks: List[Dict[str, Any]] = []
+
+    def add_check(name: str, status: str, detail: str) -> None:
+        checks.append({"name": name, "status": status, "detail": detail})
+
+    add_check(
+        "restore-readiness-doc",
+        "pass" if doc_ready else "fail",
+        "present and documents private/public restore boundaries" if doc_ready else "missing required restore readiness tokens",
+    )
+    add_check(
+        "explicit-asset-root-guidance",
+        "pass" if "--asset-root" in restore_doc_text else "fail",
+        "restore smoke docs require explicit --asset-root for fresh/temp clones",
+    )
+    add_check(
+        "asset-root-points-at-current-checkout",
+        "pass" if configured_asset_root_matches_checkout else "warn",
+        f"asset_root={asset_root}; script_checkout_root={script_checkout_root.resolve()}",
+    )
+    add_check(
+        "engine-root-points-at-current-checkout",
+        "pass" if configured_engine_root_matches_checkout else "warn",
+        f"engine_root={engine_root}; script_checkout_root={script_checkout_root.resolve()}",
+    )
+    add_check(
+        "runtime-prerequisite-reports",
+        "pass" if not missing_reports else "warn",
+        "all prerequisite reports present" if not missing_reports else "fresh clones may miss ignored runtime reports until regenerated",
+    )
+    add_check(
+        "public-release-boundary",
+        "pass" if "do not move v0.1.0" in restore_doc_text and "v0.1.1" in restore_doc_text else "fail",
+        "public release remains separate; do not move v0.1.0; use a new tag such as v0.1.1",
+    )
+
+    has_failures = any(check["status"] == "fail" for check in checks)
+    if has_failures:
+        status = "blocked"
+    elif missing_reports and (not configured_asset_root_matches_checkout or not configured_engine_root_matches_checkout):
+        status = "ready-with-config-redirection-and-prerequisite-regeneration-needed"
+    elif missing_reports:
+        status = "ready-with-prerequisite-regeneration-needed"
+    elif not configured_asset_root_matches_checkout or not configured_engine_root_matches_checkout:
+        status = "ready-with-config-redirection-warning"
+    else:
+        status = "ready"
+
+    return {
+        "mode": "restore-smoke-check",
+        "generated_at": generated_at,
+        "host_home": str(HOME),
+        "summary": {
+            "status": status,
+            "executes_anything": False,
+            "mutates_repositories": False,
+            "safe_for_fresh_clone": not has_failures,
+        },
+        "paths": {
+            "script_checkout_root": str(script_checkout_root.resolve()),
+            "engine_root": str(engine_root),
+            "asset_root": str(asset_root),
+            "reports_dir": str(reports_dir),
+            "restore_readiness_doc": str(restore_doc_path),
+        },
+        "config_diagnostics": {
+            "asset_root_matches_script_checkout": configured_asset_root_matches_checkout,
+            "engine_root_matches_script_checkout": configured_engine_root_matches_checkout,
+            "config_path": CURRENT_RUNTIME_PATHS.get("config_path"),
+        },
+        "restore_readiness_doc": {
+            "present": restore_doc_path.exists(),
+            "missing_required_tokens": missing_doc_tokens,
+        },
+        "fresh_clone_prerequisites": {
+            "required_reports": prerequisite_report_files,
+            "present_reports": present_reports,
+            "missing_reports": missing_reports,
+            "missing_reports_expected_in_fresh_clone": missing_reports_expected,
+            "expected_blocked_states_before_regeneration": [
+                "completed_status: blocked",
+                "external_learning: warn",
+            ] if missing_reports else [],
+        },
+        "public_release_boundary": "do not move v0.1.0; keep public release separate; use a new tag such as v0.1.1",
+        "recommendations": [
+            "Run restore checks from a fresh/temp clone with: ./bootstrap/setup/bootstrap-ai-assets.sh --engine-root \"$PWD\" --asset-root \"$PWD\" --restore-smoke-check --both",
+            "If prerequisite runtime reports are missing, regenerate them before interpreting completed-work-review as final evidence.",
+            "Do not move v0.1.0; keep any future public release on a new tag such as v0.1.1.",
+        ],
+        "checks": checks,
+    }
+
+
+
+def markdown_for_restore_smoke_check(report: Dict[str, object]) -> str:
+    summary = report["summary"]  # type: ignore[index]
+    paths = report["paths"]  # type: ignore[index]
+    prerequisites = report["fresh_clone_prerequisites"]  # type: ignore[index]
+    lines: List[str] = []
+    lines.append("# Restore Smoke Check Report")
+    lines.append("")
+    lines.append(f"Generated: {report['generated_at']}")
+    lines.append(f"Status: `{summary['status']}`")  # type: ignore[index]
+    lines.append(f"Executes anything: `{summary['executes_anything']}`")  # type: ignore[index]
+    lines.append("")
+    lines.append("## Paths")
+    lines.append("")
+    for key in ["script_checkout_root", "engine_root", "asset_root", "reports_dir", "restore_readiness_doc"]:
+        lines.append(f"- {key}: `{paths[key]}`")  # type: ignore[index]
+    lines.append("")
+    lines.append("## Fresh-clone prerequisites")
+    lines.append("")
+    lines.append(f"- Present reports: {', '.join(prerequisites['present_reports']) or 'none'}")  # type: ignore[index]
+    lines.append(f"- Missing reports: {', '.join(prerequisites['missing_reports']) or 'none'}")  # type: ignore[index]
+    lines.append(f"- Missing reports expected in fresh clone: `{prerequisites['missing_reports_expected_in_fresh_clone']}`")  # type: ignore[index]
+    lines.append("")
+    lines.append("## Checks")
+    lines.append("")
+    for check in report["checks"]:  # type: ignore[index]
+        lines.append(f"- `{check['status']}` {check['name']}: {check['detail']}")
+    lines.append("")
+    lines.append("## Recommendations")
+    lines.append("")
+    for recommendation in report["recommendations"]:  # type: ignore[index]
+        lines.append(f"- {recommendation}")
+    return "\n".join(lines) + "\n"
+
+
+
 def markdown_for_apply(report: Dict[str, object]) -> str:
     lines: List[str] = []
     lines.append("# AI-Assets Bootstrap Apply Report")
@@ -14516,6 +14704,8 @@ def write_outputs(report: Dict[str, object], output_format: str) -> None:
         md_text = markdown_for_capability_policy_baseline_apply(report)
     elif report["mode"] == "completed-work-review":
         md_text = markdown_for_completed_work_review(report)
+    elif report["mode"] == "restore-smoke-check":
+        md_text = markdown_for_restore_smoke_check(report)
     else:
         md_text = markdown_for_apply(report)
 
@@ -14538,14 +14728,15 @@ def write_outputs(report: Dict[str, object], output_format: str) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--mode", default="inspect", choices=["inspect", "plan", "apply", "diff", "merge-apply", "merge-candidates", "review-apply", "validate-schemas", "connectors", "skills-inventory", "skill-projection-preview", "skill-projection-candidates", "skill-projection-status", "skill-projection-review-apply", "public-safety-scan", "release-readiness", "public-release-pack", "public-release-archive", "public-release-smoke-test", "github-publish-check", "public-repo-staging", "public-repo-staging-status", "public-repo-staging-history-preflight", "manual-publication-decision-packet", "github-publish-dry-run", "github-handoff-pack", "github-final-preflight", "release-provenance", "verify-release-provenance", "release-closure", "public-package-freshness-review", "public-docs-external-reader-review", "release-candidate-closure-review", "release-reviewer-packet-index", "release-reviewer-decision-log", "external-reviewer-quickstart", "external-reviewer-feedback-plan", "external-reviewer-feedback-status", "external-reviewer-feedback-template", "external-reviewer-feedback-followup-index", "external-reviewer-feedback-followup-candidates", "external-reviewer-feedback-followup-candidate-status", "initial-completion-review", "human-action-closure-checklist", "manual-reviewer-execution-packet", "manual-reviewer-public-surface-freshness", "manual-reviewer-handoff-readiness", "manual-reviewer-handoff-packet-index", "manual-reviewer-handoff-freeze-check", "agent-owner-delegation-review", "agent-complete-external-actions-reserved", "agent-complete-failclosed-hardening-review", "agent-complete-regression-evidence-integrity", "agent-complete-syntax-invalid-evidence-failclosed-review", "agent-complete-phase102-rollup-evidence-failclosed-review", "manual-release-reviewer-checklist", "external-reference-inventory", "external-reference-backlog", "team-pack-preview", "project-pack-preview", "capability-risk-inventory", "capability-policy-preview", "capability-policy-candidate-generation", "capability-policy-candidate-status", "capability-policy-baseline-apply", "completed-work-review", "connector-preview", "redacted-examples", "demo-story", "public-demo-pack", "refresh-canonical-assets", "init-private-assets", "private-assets-status", "memos-health", "memos-import-preview", "memos-skill-candidates", "skill-candidates-status", "skill-review-apply"])
+    parser.add_argument("--mode", default="inspect", choices=["inspect", "plan", "apply", "diff", "merge-apply", "merge-candidates", "review-apply", "validate-schemas", "connectors", "skills-inventory", "skill-projection-preview", "skill-projection-candidates", "skill-projection-status", "skill-projection-review-apply", "public-safety-scan", "release-readiness", "public-release-pack", "public-release-archive", "public-release-smoke-test", "github-publish-check", "public-repo-staging", "public-repo-staging-status", "public-repo-staging-history-preflight", "manual-publication-decision-packet", "github-publish-dry-run", "github-handoff-pack", "github-final-preflight", "release-provenance", "verify-release-provenance", "release-closure", "public-package-freshness-review", "public-docs-external-reader-review", "release-candidate-closure-review", "release-reviewer-packet-index", "release-reviewer-decision-log", "external-reviewer-quickstart", "external-reviewer-feedback-plan", "external-reviewer-feedback-status", "external-reviewer-feedback-template", "external-reviewer-feedback-followup-index", "external-reviewer-feedback-followup-candidates", "external-reviewer-feedback-followup-candidate-status", "initial-completion-review", "human-action-closure-checklist", "manual-reviewer-execution-packet", "manual-reviewer-public-surface-freshness", "manual-reviewer-handoff-readiness", "manual-reviewer-handoff-packet-index", "manual-reviewer-handoff-freeze-check", "agent-owner-delegation-review", "agent-complete-external-actions-reserved", "agent-complete-failclosed-hardening-review", "agent-complete-regression-evidence-integrity", "agent-complete-syntax-invalid-evidence-failclosed-review", "agent-complete-phase102-rollup-evidence-failclosed-review", "manual-release-reviewer-checklist", "external-reference-inventory", "external-reference-backlog", "team-pack-preview", "project-pack-preview", "capability-risk-inventory", "capability-policy-preview", "capability-policy-candidate-generation", "capability-policy-candidate-status", "capability-policy-baseline-apply", "completed-work-review", "restore-smoke-check", "connector-preview", "redacted-examples", "demo-story", "public-demo-pack", "refresh-canonical-assets", "init-private-assets", "private-assets-status", "memos-health", "memos-import-preview", "memos-skill-candidates", "skill-candidates-status", "skill-review-apply"])
     parser.add_argument("--output-format", default="both", choices=["json", "markdown", "both"])
     parser.add_argument("--config")
     parser.add_argument("--asset-root")
+    parser.add_argument("--engine-root")
     parser.add_argument("--asset-repo-remote")
     args = parser.parse_args()
 
-    configure_runtime_paths(config_path=args.config, asset_root_override=args.asset_root)
+    runtime_paths = configure_runtime_paths(config_path=args.config, asset_root_override=args.asset_root, engine_root_override=args.engine_root)
     inspect_report = build_inspect_report()
     if args.mode == "inspect":
         write_outputs(inspect_report, args.output_format)
@@ -14749,6 +14940,9 @@ def main() -> int:
     elif args.mode == "completed-work-review":
         completed_review_report = build_completed_work_review_report()
         write_outputs(completed_review_report, args.output_format)
+    elif args.mode == "restore-smoke-check":
+        restore_smoke_report = build_restore_smoke_check_report()
+        write_outputs(restore_smoke_report, args.output_format)
     elif args.mode == "connector-preview":
         preview_report = build_connector_preview_report()
         write_outputs(preview_report, args.output_format)

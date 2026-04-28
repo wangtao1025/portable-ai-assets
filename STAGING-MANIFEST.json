@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-28T10:03:01",
+  "generated_at": "2026-04-28T17:13:27",
   "asset_class": "public",
   "pack_kind": "github-staging-repo",
-  "file_count": 181,
+  "file_count": 183,
   "files": [
     "BACKUP-POLICY.md",
     "CHANGELOG.md",
@@ -19,6 +19,7 @@
     "adapters/registry/codex-instructions.yaml",
     "adapters/registry/memos-local-plugin-hermes.yaml",
     "bin/paa",
+    "bootstrap/reports/README.md",
     "bootstrap/reports/latest-agent-complete-external-actions-reserved.json",
     "bootstrap/reports/latest-agent-complete-external-actions-reserved.md",
     "bootstrap/reports/latest-agent-complete-failclosed-hardening-review.json",
@@ -144,6 +145,7 @@
     "docs/reference-reproducible-environment-portability.md",
     "docs/reference-supply-chain-provenance.md",
     "docs/reference-workflow-builders.md",
+    "docs/restore-readiness.md",
     "docs/security-model.md",
     "docs/team-grade-packaging.md",
     "examples/README.md",
@@ -200,7 +202,7 @@
     {
       "name": "shell-cli-public-safety-scan",
       "ok": true,
-      "detail": "Public-safety-scan report generated for /Users/example\nJSON: /Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/public-safety-scan-20260428-100300.json\nJSON latest: /Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-public-safety-scan.json\n"
+      "detail": "Public-safety-scan report generated for /Users/example\nJSON: /Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/public-safety-scan-20260428-171326.json\nJSON latest: /Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-public-safety-scan.json\n"
     },
     {
       "name": "forbidden-text-scan",

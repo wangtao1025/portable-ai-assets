@@ -8,6 +8,7 @@ PATH_HELPER="${SCRIPT_DIR}/portable_ai_assets_paths.py"
 MODE="inspect"
 OUTPUT_FORMAT="both"
 CONFIG_PATH=""
+ENGINE_ROOT=""
 ASSET_ROOT=""
 ASSET_REPO_REMOTE=""
 SHOW_CONFIG="false"
@@ -278,6 +279,10 @@ while [[ $# -gt 0 ]]; do
       MODE="completed-work-review"
       shift
       ;;
+    --restore-smoke-check)
+      MODE="restore-smoke-check"
+      shift
+      ;;
     --connector-preview)
       MODE="connector-preview"
       shift
@@ -347,6 +352,10 @@ while [[ $# -gt 0 ]]; do
       ASSET_ROOT="$2"
       shift 2
       ;;
+    --engine-root)
+      ENGINE_ROOT="$2"
+      shift 2
+      ;;
     --asset-repo-remote)
       ASSET_REPO_REMOTE="$2"
       shift 2
@@ -372,6 +381,9 @@ HELPER_ARGS=()
 if [[ -n "${CONFIG_PATH}" ]]; then
   HELPER_ARGS+=(--config "${CONFIG_PATH}")
 fi
+if [[ -n "${ENGINE_ROOT}" ]]; then
+  HELPER_ARGS+=(--engine-root "${ENGINE_ROOT}")
+fi
 if [[ -n "${ASSET_ROOT}" ]]; then
   HELPER_ARGS+=(--asset-root "${ASSET_ROOT}")
 fi
@@ -393,6 +405,9 @@ fi
 PY_ARGS=(--mode "${MODE}" --output-format "${OUTPUT_FORMAT}")
 if [[ -n "${CONFIG_PATH}" ]]; then
   PY_ARGS+=(--config "${CONFIG_PATH}")
+fi
+if [[ -n "${ENGINE_ROOT}" ]]; then
+  PY_ARGS+=(--engine-root "${ENGINE_ROOT}")
 fi
 if [[ -n "${ASSET_ROOT}" ]]; then
   PY_ARGS+=(--asset-root "${ASSET_ROOT}")

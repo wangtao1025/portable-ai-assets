@@ -1,26 +1,26 @@
 {
   "mode": "manual-publication-decision-packet",
-  "generated_at": "2026-04-28T10:01:19",
+  "generated_at": "2026-04-28T17:10:56",
   "host_home": "/Users/example",
   "engine_root": "/Users/example/AI-Assets",
   "root": "/Users/example/AI-Assets",
   "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
   "summary": {
     "status": "owner-decision-required",
-    "checks": 7,
-    "pass": 7,
+    "checks": 8,
+    "pass": 8,
     "warn": 0,
     "fail": 0,
     "executes_anything": false,
     "suggested_release_tag": "v0.1.1",
-    "history_status": "needs-history-reattach",
+    "history_status": "ready",
     "dry_run_status": "needs-review"
   },
   "checks": [
     {
       "name": "history-preflight-present",
       "status": "pass",
-      "detail": "{'status': 'needs-history-reattach', 'checks': 8, 'pass': 5, 'warn': 1, 'fail': 2, 'executes_anything': False, 'remote_configured': False, 'forbidden_findings': 0, 'head_rev': None, 'v010_rev': None, 'v010_behind_head': False, 'checklist_declares_existing_v010': True}"
+      "detail": "{'status': 'ready', 'checks': 8, 'pass': 8, 'warn': 0, 'fail': 0, 'executes_anything': False, 'remote_configured': False, 'forbidden_findings': 0, 'head_rev': 'd73c3653302cb38ac24f8e1048b882322594badb', 'v010_rev': '724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc', 'v010_behind_head': True, 'checklist_declares_existing_v010': True}"
     },
     {
       "name": "history-preflight-non-executing",
@@ -35,7 +35,12 @@
     {
       "name": "public-safety-pass",
       "status": "pass",
-      "detail": "{'status': 'pass', 'scanned_files': 131, 'findings': 0, 'blockers': 0, 'warnings': 0, 'unreadable_files': 0}"
+      "detail": "{'status': 'pass', 'scanned_files': 132, 'findings': 0, 'blockers': 0, 'warnings': 0, 'unreadable_files': 0}"
+    },
+    {
+      "name": "restore-smoke-boundary-reviewed",
+      "status": "pass",
+      "detail": "{'status': 'ready', 'executes_anything': False, 'mutates_repositories': False, 'safe_for_fresh_clone': True}"
     },
     {
       "name": "completed-work-aligned",
@@ -55,31 +60,31 @@
   ],
   "source_summaries": {
     "public_repo_staging_history_preflight": {
-      "status": "needs-history-reattach",
+      "status": "ready",
       "checks": 8,
-      "pass": 5,
-      "warn": 1,
-      "fail": 2,
+      "pass": 8,
+      "warn": 0,
+      "fail": 0,
       "executes_anything": false,
       "remote_configured": false,
       "forbidden_findings": 0,
-      "head_rev": null,
-      "v010_rev": null,
-      "v010_behind_head": false,
+      "head_rev": "d73c3653302cb38ac24f8e1048b882322594badb",
+      "v010_rev": "724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc",
+      "v010_behind_head": true,
       "checklist_declares_existing_v010": true
     },
     "github_publish_dry_run": {
       "status": "needs-review",
       "checks": 5,
-      "pass": 4,
-      "warn": 1,
+      "pass": 3,
+      "warn": 2,
       "fail": 0,
       "commands": 8,
       "executes_anything": false
     },
     "public_safety_scan": {
       "status": "pass",
-      "scanned_files": 131,
+      "scanned_files": 132,
       "findings": 0,
       "blockers": 0,
       "warnings": 0,
@@ -102,6 +107,12 @@
         "high_priority_candidates=none"
       ],
       "recommendation": "Promote a high-priority reference/candidate through a written review before implementing comparable behavior."
+    },
+    "restore_smoke_check": {
+      "status": "ready",
+      "executes_anything": false,
+      "mutates_repositories": false,
+      "safe_for_fresh_clone": true
     }
   },
   "decision_options": [
@@ -179,6 +190,7 @@
   ],
   "recommendations": [
     "Use this packet for owner choice only; it does not approve or perform publication.",
+    "Restore is not release work; before any future release decision, rerun `./bootstrap/setup/bootstrap-ai-assets.sh --engine-root \"$PWD\" --asset-root \"$PWD\" --restore-smoke-check --both` and review the non-mutating restore boundary.",
     "If publishing later, reattach public history first, review main, and never move v0.1.0.",
     "Treat v0.1.1 as a future follow-up tag candidate only after main is reviewed and owner-approved."
   ],

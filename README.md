@@ -38,6 +38,8 @@ Typical use cases:
 
 For the longer public thesis, see `docs/public-facing-thesis.md`.
 
+For a private/public split restore smoke plan, see `docs/restore-readiness.md`. It documents how to restore from the private canonical assets repo plus the public engine repo without mixing private assets into public release work.
+
 ## Fast public demo
 
 To see the smallest public-safe story, run:

@@ -1,23 +1,23 @@
 {
   "mode": "public-repo-staging-history-preflight",
-  "generated_at": "2026-04-28T09:52:22",
+  "generated_at": "2026-04-28T17:10:49",
   "host_home": "/Users/example",
   "engine_root": "/Users/example/AI-Assets",
   "root": "/Users/example/AI-Assets",
   "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
   "staging_dir": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
   "summary": {
-    "status": "needs-history-reattach",
+    "status": "ready",
     "checks": 8,
-    "pass": 5,
-    "warn": 1,
-    "fail": 2,
+    "pass": 8,
+    "warn": 0,
+    "fail": 0,
     "executes_anything": false,
     "remote_configured": false,
     "forbidden_findings": 0,
-    "head_rev": null,
-    "v010_rev": null,
-    "v010_behind_head": false,
+    "head_rev": "d73c3653302cb38ac24f8e1048b882322594badb",
+    "v010_rev": "724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc",
+    "v010_behind_head": true,
     "checklist_declares_existing_v010": true
   },
   "checks": [
@@ -48,23 +48,23 @@
     },
     {
       "name": "staging-head-exists",
-      "status": "fail",
-      "detail": "missing HEAD"
+      "status": "pass",
+      "detail": "d73c3653302cb38ac24f8e1048b882322594badb"
     },
     {
       "name": "v010-tag-exists",
-      "status": "fail",
-      "detail": "missing v0.1.0^{commit}"
+      "status": "pass",
+      "detail": "724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc"
     },
     {
-      "name": "existing-tag-context-without-history",
-      "status": "warn",
-      "detail": "checklist says v0.1.0 exists, but generated staging lacks HEAD and/or v0.1.0 tag history"
+      "name": "v010-behind-head",
+      "status": "pass",
+      "detail": "v0.1.0=724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc; HEAD=d73c3653302cb38ac24f8e1048b882322594badb"
     }
   ],
   "based_on_status": {
     "mode": "public-repo-staging-status",
-    "generated_at": "2026-04-28T09:52:22",
+    "generated_at": "2026-04-28T17:10:49",
     "host_home": "/Users/example",
     "engine_root": "/Users/example/AI-Assets",
     "root": "/Users/example/AI-Assets",
@@ -76,126 +76,13 @@
       "git_initialized": true,
       "branch": "main",
       "remote_configured": false,
-      "changed_files": 18,
-      "category_counts": {
-        "adapters": 1,
-        "docs_policy": 4,
-        "other": 13
-      },
+      "changed_files": 0,
+      "category_counts": {},
       "forbidden_findings": 0
     },
     "git": {
-      "status_short": "?? BACKUP-POLICY.md\n?? CHANGELOG.md\n?? CONTRIBUTING.md\n?? GIT-POLICY.md\n?? GITHUB-PUBLISH-CHECKLIST.md\n?? LICENSE\n?? README.md\n?? RELEASE_NOTES-v0.1.md\n?? SECURITY.md\n?? STAGING-MANIFEST.json\n?? adapters/\n?? bin/\n?? bootstrap/\n?? docs/\n?? examples/\n?? sample-assets/\n?? schemas/\n?? tests/",
-      "status_entries": [
-        {
-          "status": "??",
-          "path": "BACKUP-POLICY.md",
-          "raw": "?? BACKUP-POLICY.md",
-          "category": "docs_policy"
-        },
-        {
-          "status": "??",
-          "path": "CHANGELOG.md",
-          "raw": "?? CHANGELOG.md",
-          "category": "other"
-        },
-        {
-          "status": "??",
-          "path": "CONTRIBUTING.md",
-          "raw": "?? CONTRIBUTING.md",
-          "category": "other"
-        },
-        {
-          "status": "??",
-          "path": "GIT-POLICY.md",
-          "raw": "?? GIT-POLICY.md",
-          "category": "docs_policy"
-        },
-        {
-          "status": "??",
-          "path": "GITHUB-PUBLISH-CHECKLIST.md",
-          "raw": "?? GITHUB-PUBLISH-CHECKLIST.md",
-          "category": "other"
-        },
-        {
-          "status": "??",
-          "path": "LICENSE",
-          "raw": "?? LICENSE",
-          "category": "other"
-        },
-        {
-          "status": "??",
-          "path": "README.md",
-          "raw": "?? README.md",
-          "category": "docs_policy"
-        },
-        {
-          "status": "??",
-          "path": "RELEASE_NOTES-v0.1.md",
-          "raw": "?? RELEASE_NOTES-v0.1.md",
-          "category": "other"
-        },
-        {
-          "status": "??",
-          "path": "SECURITY.md",
-          "raw": "?? SECURITY.md",
-          "category": "other"
-        },
-        {
-          "status": "??",
-          "path": "STAGING-MANIFEST.json",
-          "raw": "?? STAGING-MANIFEST.json",
-          "category": "other"
-        },
-        {
-          "status": "??",
-          "path": "adapters/",
-          "raw": "?? adapters/",
-          "category": "adapters"
-        },
-        {
-          "status": "??",
-          "path": "bin/",
-          "raw": "?? bin/",
-          "category": "other"
-        },
-        {
-          "status": "??",
-          "path": "bootstrap/",
-          "raw": "?? bootstrap/",
-          "category": "other"
-        },
-        {
-          "status": "??",
-          "path": "docs/",
-          "raw": "?? docs/",
-          "category": "docs_policy"
-        },
-        {
-          "status": "??",
-          "path": "examples/",
-          "raw": "?? examples/",
-          "category": "other"
-        },
-        {
-          "status": "??",
-          "path": "sample-assets/",
-          "raw": "?? sample-assets/",
-          "category": "other"
-        },
-        {
-          "status": "??",
-          "path": "schemas/",
-          "raw": "?? schemas/",
-          "category": "other"
-        },
-        {
-          "status": "??",
-          "path": "tests/",
-          "raw": "?? tests/",
-          "category": "other"
-        }
-      ],
+      "status_short": "",
+      "status_entries": [],
       "branch": "main",
       "remotes": "",
       "diff_stat": ""

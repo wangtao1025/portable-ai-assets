@@ -810,6 +810,139 @@ class BootstrapPhase4Tests(unittest.TestCase):
         self.assertIn("### Phase 136 — Public checklist/report-surface clarity ✅", roadmap)
         self.assertIn("bootstrap/reports/latest-*", roadmap)
 
+    def test_restore_readiness_smoke_plan_documents_private_public_recovery_path(self):
+        repo_root = Path(__file__).resolve().parents[1]
+        restore_doc = (repo_root / "docs" / "restore-readiness.md").read_text(encoding="utf-8")
+        readme = (repo_root / "README.md").read_text(encoding="utf-8")
+
+        required_restore_tokens = [
+            "wangtao1025/ai-assets-private",
+            "wangtao1025/portable-ai-assets",
+            "asset_root",
+            "public engine repo",
+            "private canonical assets repo",
+            "restore smoke test",
+            "do not move v0.1.0",
+            "v0.1.1",
+            "bootstrap/setup/bootstrap-ai-assets.sh --engine-root \"$PWD\" --asset-root \"$PWD\" --completed-work-review --both",
+            "python3 -m unittest discover -s tests -p test_bootstrap_phase4.py",
+            "--engine-root",
+            "--asset-root",
+            "--restore-smoke-check --both",
+            "--engine-root \"$PWD\" --asset-root \"$PWD\"",
+            "fresh clone may report blocked",
+            "regenerate prerequisite reports",
+        ]
+        for token in required_restore_tokens:
+            self.assertIn(token, restore_doc)
+        self.assertIn("docs/restore-readiness.md", readme)
+        self.assertIn("restore smoke", readme)
+
+    def test_restore_readiness_command_snippets_use_both_root_overrides(self):
+        repo_root = Path(__file__).resolve().parents[1]
+        docs = (repo_root / "docs" / "restore-readiness.md").read_text(encoding="utf-8")
+        command_lines = [
+            line.strip()
+            for line in docs.splitlines()
+            if "bootstrap/setup/bootstrap-ai-assets.sh" in line
+        ]
+
+        self.assertTrue(command_lines, "restore-readiness.md should document bootstrap command snippets")
+        stale_restore_commands = [
+            line
+            for line in command_lines
+            if ("--restore-smoke-check" in line or "--completed-work-review" in line or "--show-config" in line)
+            and ("--engine-root \"$PWD\"" not in line or "--asset-root \"$PWD\"" not in line)
+        ]
+
+        self.assertEqual([], stale_restore_commands)
+
+    def test_restore_smoke_check_reports_fresh_clone_prerequisite_regeneration(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            (tmp / "docs").mkdir(parents=True)
+            (tmp / "bootstrap" / "reports").mkdir(parents=True)
+            (tmp / "docs" / "restore-readiness.md").write_text(
+                "wangtao1025/ai-assets-private\n"
+                "wangtao1025/portable-ai-assets\n"
+                "asset_root\n"
+                "public engine repo\n"
+                "private canonical assets repo\n"
+                "restore smoke test\n"
+                "do not move v0.1.0\n"
+                "v0.1.1\n"
+                "bootstrap/setup/bootstrap-ai-assets.sh --completed-work-review --both\n"
+                "--engine-root\n"
+                "--asset-root\n"
+                "--restore-smoke-check --both\n"
+                "fresh clone may report blocked\n"
+                "regenerate prerequisite reports\n",
+                encoding="utf-8",
+            )
+            previous_paths = dict(bootstrap_ai_assets.CURRENT_RUNTIME_PATHS)
+            try:
+                bootstrap_ai_assets.configure_runtime_paths(asset_root_override=str(tmp), engine_root_override=str(tmp))
+                report = bootstrap_ai_assets.build_restore_smoke_check_report()
+            finally:
+                bootstrap_ai_assets.configure_runtime_paths(
+                    config_path=previous_paths.get("config_path"),
+                    asset_root_override=previous_paths.get("asset_root"),
+                )
+
+        self.assertEqual(report["mode"], "restore-smoke-check")
+        self.assertIn(report["summary"]["status"], [
+            "ready-with-prerequisite-regeneration-needed",
+            "ready-with-config-redirection-and-prerequisite-regeneration-needed",
+        ])
+        self.assertFalse(report["summary"]["executes_anything"])
+        self.assertTrue(report["restore_readiness_doc"]["present"])
+        self.assertIn("latest-completed-work-review.json", report["fresh_clone_prerequisites"]["missing_reports"])
+        self.assertTrue(report["fresh_clone_prerequisites"]["missing_reports_expected_in_fresh_clone"])
+        recommendations = "\n".join(report["recommendations"])
+        self.assertIn("--engine-root", recommendations)
+        self.assertIn("--asset-root", recommendations)
+        self.assertIn("--restore-smoke-check --both", recommendations)
+        self.assertIn("do not move v0.1.0", report["public_release_boundary"])
+
+    def test_restore_smoke_check_reports_config_redirection_even_when_prerequisites_missing(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            engine = tmp / "configured-engine"
+            checkout = tmp / "asset-checkout"
+            (checkout / "docs").mkdir(parents=True)
+            (checkout / "bootstrap" / "reports").mkdir(parents=True)
+            (checkout / "docs" / "restore-readiness.md").write_text(
+                "wangtao1025/ai-assets-private\n"
+                "wangtao1025/portable-ai-assets\n"
+                "asset_root\n"
+                "restore smoke test\n"
+                "do not move v0.1.0\n"
+                "v0.1.1\n"
+                "--engine-root\n"
+                "--asset-root\n"
+                "fresh clone may report blocked\n"
+                "regenerate prerequisite reports\n",
+                encoding="utf-8",
+            )
+            engine.mkdir(parents=True)
+            previous_paths = dict(bootstrap_ai_assets.CURRENT_RUNTIME_PATHS)
+            previous_engine = bootstrap_ai_assets.ENGINE_ROOT
+            try:
+                bootstrap_ai_assets.configure_runtime_paths(asset_root_override=str(checkout))
+                bootstrap_ai_assets.ENGINE_ROOT = engine
+                report = bootstrap_ai_assets.build_restore_smoke_check_report()
+            finally:
+                bootstrap_ai_assets.ENGINE_ROOT = previous_engine
+                bootstrap_ai_assets.configure_runtime_paths(
+                    config_path=previous_paths.get("config_path"),
+                    asset_root_override=previous_paths.get("asset_root"),
+                )
+
+        self.assertEqual(report["summary"]["status"], "ready-with-config-redirection-and-prerequisite-regeneration-needed")
+        self.assertTrue(report["fresh_clone_prerequisites"]["missing_reports_expected_in_fresh_clone"])
+        self.assertFalse(report["config_diagnostics"]["engine_root_matches_script_checkout"])
+        self.assertIn("--engine-root", "\n".join(report["recommendations"]))
+
     def test_public_release_pack_and_staging_preserve_markdown_diagnostics_reports(self):
         diagnostics_text = (
             "# Diagnostics\n"
@@ -1013,6 +1146,42 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertEqual(options_by_id["prepare-v011-tag-release"]["blocked_until"], "history-reattached-and-main-reviewed")
             self.assertTrue(all(step["executes"] is False for option in report["decision_options"] for step in option["steps"]))
             self.assertIn("never move v0.1.0", "\n".join(report["recommendations"]).lower())
+
+    def test_manual_publication_decision_packet_surfaces_restore_smoke_boundary(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            reports = tmp / "bootstrap" / "reports"
+            reports.mkdir(parents=True)
+            (reports / "latest-public-repo-staging-history-preflight.json").write_text(__import__("json").dumps({
+                "summary": {"status": "ready", "executes_anything": False, "remote_configured": False, "forbidden_findings": 0, "head_rev": "new", "v010_rev": "old"},
+            }), encoding="utf-8")
+            (reports / "latest-github-publish-dry-run.json").write_text(__import__("json").dumps({
+                "summary": {"status": "needs-review", "executes_anything": False, "fail": 0},
+                "suggested_release_tag": "v0.1.1",
+            }), encoding="utf-8")
+            (reports / "latest-public-safety-scan.json").write_text('{"summary":{"status":"pass","findings":0,"blockers":0}}', encoding="utf-8")
+            (reports / "latest-completed-work-review.json").write_text(__import__("json").dumps({
+                "summary": {"status": "aligned", "executes_anything": False},
+                "review_axes": {"external_learning": {"status": "pass"}},
+            }), encoding="utf-8")
+            (reports / "latest-restore-smoke-check.json").write_text(__import__("json").dumps({
+                "summary": {
+                    "status": "ready-with-prerequisite-regeneration-needed",
+                    "executes_anything": False,
+                    "mutates_repositories": False,
+                    "safe_for_fresh_clone": True,
+                }
+            }), encoding="utf-8")
+
+            report = bootstrap_ai_assets.build_manual_publication_decision_packet_report(tmp)
+            checks_by_name = {check["name"]: check for check in report["checks"]}
+            recommendations = "\n".join(report["recommendations"])
+
+            self.assertEqual(report["summary"]["status"], "owner-decision-required")
+            self.assertEqual(checks_by_name["restore-smoke-boundary-reviewed"]["status"], "pass")
+            self.assertEqual(report["source_summaries"]["restore_smoke_check"]["status"], "ready-with-prerequisite-regeneration-needed")
+            self.assertIn("restore is not release work", recommendations.lower())
+            self.assertIn('--engine-root "$PWD" --asset-root "$PWD" --restore-smoke-check --both', recommendations)
 
     def test_github_handoff_pack_collects_public_safe_review_materials(self):
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -4405,7 +4574,7 @@ class BootstrapPhase4Tests(unittest.TestCase):
                 f"private path {private_home}\napi_key: abcdefghijklmnop\n",
                 encoding="utf-8",
             )
-            (tmp / "docs" / "redacted.md").write_text("api_key: [REDACTED]\n", encoding="utf-8")
+            (tmp / "docs" / "redacted.md").write_text("api_key: [REDACTED]", encoding="utf-8")
             (tmp / "bin").mkdir(parents=True)
             (tmp / "bin" / "paa").write_text("#!/usr/bin/env bash\ntoken: abcdefghijklmnop\n", encoding="utf-8")
             report = bootstrap_ai_assets.build_public_safety_scan_report(tmp)
