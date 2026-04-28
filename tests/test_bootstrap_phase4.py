@@ -1139,7 +1139,7 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertEqual(report["summary"]["status"], "owner-decision-required")
             self.assertFalse(report["summary"]["executes_anything"])
             self.assertEqual(report["summary"]["suggested_release_tag"], "v0.1.1")
-            self.assertIn("keep-local-only", options_by_id)
+            self.assertIn("keep-local-review", options_by_id)
             self.assertIn("prepare-history-reattachment-main-push", options_by_id)
             self.assertIn("prepare-v011-tag-release", options_by_id)
             self.assertEqual(options_by_id["prepare-history-reattachment-main-push"]["requires_owner_approval"], True)
@@ -1182,6 +1182,55 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertEqual(report["source_summaries"]["restore_smoke_check"]["status"], "ready-with-prerequisite-regeneration-needed")
             self.assertIn("restore is not release work", recommendations.lower())
             self.assertIn('--engine-root "$PWD" --asset-root "$PWD" --restore-smoke-check --both', recommendations)
+
+    def test_manual_publication_decision_packet_uses_post_main_language_when_history_ready(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            reports = tmp / "bootstrap" / "reports"
+            reports.mkdir(parents=True)
+            (reports / "latest-public-repo-staging-history-preflight.json").write_text(__import__("json").dumps({
+                "summary": {
+                    "status": "ready",
+                    "executes_anything": False,
+                    "remote_configured": False,
+                    "forbidden_findings": 0,
+                    "head_rev": "new-main",
+                    "v010_rev": "old-release",
+                    "v010_behind_head": True,
+                },
+            }), encoding="utf-8")
+            (reports / "latest-github-publish-dry-run.json").write_text(__import__("json").dumps({
+                "summary": {"status": "needs-review", "executes_anything": False, "fail": 0},
+                "suggested_release_tag": "v0.1.1",
+            }), encoding="utf-8")
+            (reports / "latest-public-safety-scan.json").write_text('{"summary":{"status":"pass","findings":0,"blockers":0}}', encoding="utf-8")
+            (reports / "latest-completed-work-review.json").write_text(__import__("json").dumps({
+                "summary": {"status": "aligned", "executes_anything": False},
+                "review_axes": {"external_learning": {"status": "pass"}},
+            }), encoding="utf-8")
+            (reports / "latest-restore-smoke-check.json").write_text(__import__("json").dumps({
+                "summary": {
+                    "status": "ready",
+                    "executes_anything": False,
+                    "mutates_repositories": False,
+                    "safe_for_fresh_clone": True,
+                }
+            }), encoding="utf-8")
+
+            report = bootstrap_ai_assets.build_manual_publication_decision_packet_report(tmp)
+            options_by_id = {option["id"]: option for option in report["decision_options"]}
+            packet_text = __import__("json").dumps(report)
+
+            self.assertEqual(report["summary"]["status"], "owner-decision-required")
+            self.assertNotIn("prepare-history-reattachment-main-push", options_by_id)
+            self.assertIn("review-public-main-before-release", options_by_id)
+            self.assertEqual(options_by_id["prepare-v011-tag-release"]["blocked_until"], "public-main-reviewed-and-owner-approved")
+            self.assertNotIn("Phase127", packet_text)
+            self.assertNotIn("Public GitHub main remains behind", packet_text)
+            self.assertIn("public history is attached", packet_text.lower())
+            self.assertNotIn("reattach public history first", packet_text.lower())
+            self.assertIn("never move v0.1.0", packet_text.lower())
+            self.assertTrue(all(step["executes"] is False for option in report["decision_options"] for step in option["steps"]))
 
     def test_github_handoff_pack_collects_public_safe_review_materials(self):
         with tempfile.TemporaryDirectory() as tmpdir:

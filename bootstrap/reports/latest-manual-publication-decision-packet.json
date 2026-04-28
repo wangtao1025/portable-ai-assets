@@ -1,6 +1,6 @@
 {
   "mode": "manual-publication-decision-packet",
-  "generated_at": "2026-04-28T17:10:56",
+  "generated_at": "2026-04-28T17:58:23",
   "host_home": "/Users/example",
   "engine_root": "/Users/example/AI-Assets",
   "root": "/Users/example/AI-Assets",
@@ -20,7 +20,7 @@
     {
       "name": "history-preflight-present",
       "status": "pass",
-      "detail": "{'status': 'ready', 'checks': 8, 'pass': 8, 'warn': 0, 'fail': 0, 'executes_anything': False, 'remote_configured': False, 'forbidden_findings': 0, 'head_rev': 'd73c3653302cb38ac24f8e1048b882322594badb', 'v010_rev': '724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc', 'v010_behind_head': True, 'checklist_declares_existing_v010': True}"
+      "detail": "{'status': 'ready', 'checks': 8, 'pass': 8, 'warn': 0, 'fail': 0, 'executes_anything': False, 'remote_configured': False, 'forbidden_findings': 0, 'head_rev': '7565cf69a01518bdd42a7684c7ed5db53acab2e9', 'v010_rev': '724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc', 'v010_behind_head': True, 'checklist_declares_existing_v010': True}"
     },
     {
       "name": "history-preflight-non-executing",
@@ -68,7 +68,7 @@
       "executes_anything": false,
       "remote_configured": false,
       "forbidden_findings": 0,
-      "head_rev": "d73c3653302cb38ac24f8e1048b882322594badb",
+      "head_rev": "7565cf69a01518bdd42a7684c7ed5db53acab2e9",
       "v010_rev": "724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc",
       "v010_behind_head": true,
       "checklist_declares_existing_v010": true
@@ -76,8 +76,8 @@
     "github_publish_dry_run": {
       "status": "needs-review",
       "checks": 5,
-      "pass": 3,
-      "warn": 2,
+      "pass": 4,
+      "warn": 1,
       "fail": 0,
       "commands": 8,
       "executes_anything": false
@@ -117,8 +117,8 @@
   },
   "decision_options": [
     {
-      "id": "keep-local-only",
-      "title": "Keep Phase127+ changes local/staged only",
+      "id": "keep-local-review",
+      "title": "Keep current state local/report-only for additional review",
       "recommended_when": "Owner wants more local review before any external mutation.",
       "requires_owner_approval": false,
       "blocked_until": null,
@@ -130,34 +130,29 @@
         }
       ],
       "risks": [
-        "Public GitHub main remains behind local hardening until a later approved push."
+        "No external publication/tag/release state changes are made by this option."
       ]
     },
     {
-      "id": "prepare-history-reattachment-main-push",
-      "title": "Prepare owner-approved public-history reattachment and main push plan",
-      "recommended_when": "Owner wants Phase127+ public on GitHub main but no new release yet.",
-      "requires_owner_approval": true,
-      "blocked_until": "explicit-owner-approval",
+      "id": "review-public-main-before-release",
+      "title": "Review attached public main state before any tag/release",
+      "recommended_when": "Public history is attached in staging and the next useful external step would be release/tag review.",
+      "requires_owner_approval": false,
+      "blocked_until": null,
       "steps": [
         {
-          "step": "reattach-history",
-          "command": "Reattach public main/v0.1.0 history in staging after owner approval; do not move v0.1.0.",
+          "step": "verify-public-main",
+          "command": "Review public main, v0.1.0, releases, and sanitized surfaces without mutating GitHub.",
           "executes": false
         },
         {
-          "step": "review-and-commit",
-          "command": "Review staged diff, then create a local staging commit only after approval.",
-          "executes": false
-        },
-        {
-          "step": "push-main",
-          "command": "Push public main only after final owner confirmation.",
+          "step": "confirm-release-boundary",
+          "command": "Confirm any future release uses a new tag and never moves v0.1.0.",
           "executes": false
         }
       ],
       "risks": [
-        "Requires exact public history context; a fresh generated repo is not enough."
+        "Read-only review can prepare an owner decision but must not create tags, releases, artifacts, or reviewer invitations."
       ]
     },
     {
@@ -165,11 +160,11 @@
       "title": "Prepare later v0.1.1 tag/release plan",
       "recommended_when": "Owner wants a formal follow-up release after main is updated and reviewed.",
       "requires_owner_approval": true,
-      "blocked_until": "history-reattached-and-main-reviewed",
+      "blocked_until": "public-main-reviewed-and-owner-approved",
       "steps": [
         {
           "step": "confirm-main",
-          "command": "Confirm public main contains intended follow-up commit after owner-approved push.",
+          "command": "Confirm public main contains intended follow-up commit after owner-approved push or read-only post-push review.",
           "executes": false
         },
         {
@@ -191,7 +186,7 @@
   "recommendations": [
     "Use this packet for owner choice only; it does not approve or perform publication.",
     "Restore is not release work; before any future release decision, rerun `./bootstrap/setup/bootstrap-ai-assets.sh --engine-root \"$PWD\" --asset-root \"$PWD\" --restore-smoke-check --both` and review the non-mutating restore boundary.",
-    "If publishing later, reattach public history first, review main, and never move v0.1.0.",
+    "Public history is attached in staging; review public main and never move v0.1.0 before any release decision.",
     "Treat v0.1.1 as a future follow-up tag candidate only after main is reviewed and owner-approved."
   ],
   "public_snapshot_notice": {

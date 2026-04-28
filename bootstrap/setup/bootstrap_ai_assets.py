@@ -3839,22 +3839,39 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
     external_learning = completed_axes.get("external_learning", {}) if isinstance(completed_axes.get("external_learning"), dict) else {}
     suggested_release_tag = dry_run.get("suggested_release_tag") or "v0.1.1"
 
+    history_status = str(history_summary.get("status") or "missing")
+    history_ready = history_status == "ready"
     options = [
         {
-            "id": "keep-local-only",
-            "title": "Keep Phase127+ changes local/staged only",
+            "id": "keep-local-review",
+            "title": "Keep current state local/report-only for additional review",
             "recommended_when": "Owner wants more local review before any external mutation.",
             "requires_owner_approval": False,
             "blocked_until": None,
             "steps": [
                 {"step": "continue-local-hardening", "command": "Run local/report-only gates and update handoffs only.", "executes": False},
             ],
-            "risks": ["Public GitHub main remains behind local hardening until a later approved push."],
+            "risks": ["No external publication/tag/release state changes are made by this option."],
         },
-        {
+    ]
+    if history_ready:
+        options.append({
+            "id": "review-public-main-before-release",
+            "title": "Review attached public main state before any tag/release",
+            "recommended_when": "Public history is attached in staging and the next useful external step would be release/tag review.",
+            "requires_owner_approval": False,
+            "blocked_until": None,
+            "steps": [
+                {"step": "verify-public-main", "command": "Review public main, v0.1.0, releases, and sanitized surfaces without mutating GitHub.", "executes": False},
+                {"step": "confirm-release-boundary", "command": "Confirm any future release uses a new tag and never moves v0.1.0.", "executes": False},
+            ],
+            "risks": ["Read-only review can prepare an owner decision but must not create tags, releases, artifacts, or reviewer invitations."],
+        })
+    else:
+        options.append({
             "id": "prepare-history-reattachment-main-push",
             "title": "Prepare owner-approved public-history reattachment and main push plan",
-            "recommended_when": "Owner wants Phase127+ public on GitHub main but no new release yet.",
+            "recommended_when": "Owner wants local public-safe changes on GitHub main but no new release yet.",
             "requires_owner_approval": True,
             "blocked_until": "explicit-owner-approval",
             "steps": [
@@ -3863,21 +3880,20 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
                 {"step": "push-main", "command": "Push public main only after final owner confirmation.", "executes": False},
             ],
             "risks": ["Requires exact public history context; a fresh generated repo is not enough."],
-        },
-        {
-            "id": "prepare-v011-tag-release",
-            "title": f"Prepare later {suggested_release_tag} tag/release plan",
-            "recommended_when": "Owner wants a formal follow-up release after main is updated and reviewed.",
-            "requires_owner_approval": True,
-            "blocked_until": "history-reattached-and-main-reviewed",
-            "steps": [
-                {"step": "confirm-main", "command": "Confirm public main contains intended follow-up commit after owner-approved push.", "executes": False},
-                {"step": "create-new-tag", "command": f"Draft new tag {suggested_release_tag}; never move v0.1.0.", "executes": False},
-                {"step": "release-review", "command": "Draft release notes/upload checklist only after explicit owner approval.", "executes": False},
-            ],
-            "risks": ["Tag/release before main review could publish stale or unintended content."],
-        },
-    ]
+        })
+    options.append({
+        "id": "prepare-v011-tag-release",
+        "title": f"Prepare later {suggested_release_tag} tag/release plan",
+        "recommended_when": "Owner wants a formal follow-up release after main is updated and reviewed.",
+        "requires_owner_approval": True,
+        "blocked_until": "public-main-reviewed-and-owner-approved" if history_ready else "history-reattached-and-main-reviewed",
+        "steps": [
+            {"step": "confirm-main", "command": "Confirm public main contains intended follow-up commit after owner-approved push or read-only post-push review.", "executes": False},
+            {"step": "create-new-tag", "command": f"Draft new tag {suggested_release_tag}; never move v0.1.0.", "executes": False},
+            {"step": "release-review", "command": "Draft release notes/upload checklist only after explicit owner approval.", "executes": False},
+        ],
+        "risks": ["Tag/release before main review could publish stale or unintended content."],
+    })
 
     checks: List[Dict[str, str]] = []
     def add(name: str, ok: bool, detail: str, warn: bool = False) -> None:
@@ -3933,7 +3949,11 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
         "recommendations": [
             "Use this packet for owner choice only; it does not approve or perform publication.",
             "Restore is not release work; before any future release decision, rerun `./bootstrap/setup/bootstrap-ai-assets.sh --engine-root \"$PWD\" --asset-root \"$PWD\" --restore-smoke-check --both` and review the non-mutating restore boundary.",
-            "If publishing later, reattach public history first, review main, and never move v0.1.0.",
+            (
+                "Public history is attached in staging; review public main and never move v0.1.0 before any release decision."
+                if history_ready
+                else "If publishing later, reattach public history first, review main, and never move v0.1.0."
+            ),
             f"Treat {suggested_release_tag} as a future follow-up tag candidate only after main is reviewed and owner-approved.",
         ],
     }

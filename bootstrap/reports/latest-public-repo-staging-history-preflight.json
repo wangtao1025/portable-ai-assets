@@ -1,6 +1,6 @@
 {
   "mode": "public-repo-staging-history-preflight",
-  "generated_at": "2026-04-28T17:10:49",
+  "generated_at": "2026-04-28T17:58:21",
   "host_home": "/Users/example",
   "engine_root": "/Users/example/AI-Assets",
   "root": "/Users/example/AI-Assets",
@@ -15,7 +15,7 @@
     "executes_anything": false,
     "remote_configured": false,
     "forbidden_findings": 0,
-    "head_rev": "d73c3653302cb38ac24f8e1048b882322594badb",
+    "head_rev": "7565cf69a01518bdd42a7684c7ed5db53acab2e9",
     "v010_rev": "724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc",
     "v010_behind_head": true,
     "checklist_declares_existing_v010": true
@@ -49,7 +49,7 @@
     {
       "name": "staging-head-exists",
       "status": "pass",
-      "detail": "d73c3653302cb38ac24f8e1048b882322594badb"
+      "detail": "7565cf69a01518bdd42a7684c7ed5db53acab2e9"
     },
     {
       "name": "v010-tag-exists",
@@ -59,12 +59,12 @@
     {
       "name": "v010-behind-head",
       "status": "pass",
-      "detail": "v0.1.0=724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc; HEAD=d73c3653302cb38ac24f8e1048b882322594badb"
+      "detail": "v0.1.0=724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc; HEAD=7565cf69a01518bdd42a7684c7ed5db53acab2e9"
     }
   ],
   "based_on_status": {
     "mode": "public-repo-staging-status",
-    "generated_at": "2026-04-28T17:10:49",
+    "generated_at": "2026-04-28T17:58:21",
     "host_home": "/Users/example",
     "engine_root": "/Users/example/AI-Assets",
     "root": "/Users/example/AI-Assets",
@@ -76,16 +76,86 @@
       "git_initialized": true,
       "branch": "main",
       "remote_configured": false,
-      "changed_files": 0,
-      "category_counts": {},
+      "changed_files": 11,
+      "category_counts": {
+        "other": 3,
+        "reports": 8
+      },
       "forbidden_findings": 0
     },
     "git": {
-      "status_short": "",
-      "status_entries": [],
+      "status_short": "M STAGING-MANIFEST.json\n M bootstrap/reports/latest-completed-work-review.json\n M bootstrap/reports/latest-completed-work-review.md\n M bootstrap/reports/latest-manual-publication-decision-packet.json\n M bootstrap/reports/latest-manual-publication-decision-packet.md\n M bootstrap/reports/latest-public-repo-staging-history-preflight.json\n M bootstrap/reports/latest-public-repo-staging-history-preflight.md\n M bootstrap/reports/latest-public-safety-scan.json\n M bootstrap/reports/latest-public-safety-scan.md\n M bootstrap/setup/bootstrap_ai_assets.py\n M tests/test_bootstrap_phase4.py",
+      "status_entries": [
+        {
+          "status": "M ",
+          "path": "STAGING-MANIFEST.json",
+          "raw": "M STAGING-MANIFEST.json",
+          "category": "other"
+        },
+        {
+          "status": " M",
+          "path": "bootstrap/reports/latest-completed-work-review.json",
+          "raw": " M bootstrap/reports/latest-completed-work-review.json",
+          "category": "reports"
+        },
+        {
+          "status": " M",
+          "path": "bootstrap/reports/latest-completed-work-review.md",
+          "raw": " M bootstrap/reports/latest-completed-work-review.md",
+          "category": "reports"
+        },
+        {
+          "status": " M",
+          "path": "bootstrap/reports/latest-manual-publication-decision-packet.json",
+          "raw": " M bootstrap/reports/latest-manual-publication-decision-packet.json",
+          "category": "reports"
+        },
+        {
+          "status": " M",
+          "path": "bootstrap/reports/latest-manual-publication-decision-packet.md",
+          "raw": " M bootstrap/reports/latest-manual-publication-decision-packet.md",
+          "category": "reports"
+        },
+        {
+          "status": " M",
+          "path": "bootstrap/reports/latest-public-repo-staging-history-preflight.json",
+          "raw": " M bootstrap/reports/latest-public-repo-staging-history-preflight.json",
+          "category": "reports"
+        },
+        {
+          "status": " M",
+          "path": "bootstrap/reports/latest-public-repo-staging-history-preflight.md",
+          "raw": " M bootstrap/reports/latest-public-repo-staging-history-preflight.md",
+          "category": "reports"
+        },
+        {
+          "status": " M",
+          "path": "bootstrap/reports/latest-public-safety-scan.json",
+          "raw": " M bootstrap/reports/latest-public-safety-scan.json",
+          "category": "reports"
+        },
+        {
+          "status": " M",
+          "path": "bootstrap/reports/latest-public-safety-scan.md",
+          "raw": " M bootstrap/reports/latest-public-safety-scan.md",
+          "category": "reports"
+        },
+        {
+          "status": " M",
+          "path": "bootstrap/setup/bootstrap_ai_assets.py",
+          "raw": " M bootstrap/setup/bootstrap_ai_assets.py",
+          "category": "other"
+        },
+        {
+          "status": " M",
+          "path": "tests/test_bootstrap_phase4.py",
+          "raw": " M tests/test_bootstrap_phase4.py",
+          "category": "other"
+        }
+      ],
       "branch": "main",
       "remotes": "",
-      "diff_stat": ""
+      "diff_stat": "STAGING-MANIFEST.json                              |  4 +-\n .../reports/latest-completed-work-review.json      |  2 +-\n bootstrap/reports/latest-completed-work-review.md  |  2 +-\n .../latest-manual-publication-decision-packet.json | 43 +++++++--------\n .../latest-manual-publication-decision-packet.md   |  6 +--\n ...test-public-repo-staging-history-preflight.json | 10 ++--\n ...latest-public-repo-staging-history-preflight.md |  8 +--\n bootstrap/reports/latest-public-safety-scan.json   |  2 +-\n bootstrap/reports/latest-public-safety-scan.md     |  2 +-\n bootstrap/setup/bootstrap_ai_assets.py             | 62 ++++++++++++++--------\n tests/test_bootstrap_phase4.py                     | 51 +++++++++++++++++-\n 11 files changed, 128 insertions(+), 64 deletions(-)"
     },
     "forbidden_findings": [],
     "recommendations": [
