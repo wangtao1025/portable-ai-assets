@@ -1429,6 +1429,10 @@ PUBLIC_RELEASE_REPORTS = [
     "latest-agent-complete-phase102-rollup-evidence-failclosed-review.json",
     "latest-completed-work-review.md",
     "latest-completed-work-review.json",
+    "latest-public-repo-staging-history-preflight.md",
+    "latest-public-repo-staging-history-preflight.json",
+    "latest-manual-publication-decision-packet.md",
+    "latest-manual-publication-decision-packet.json",
 ]
 
 PUBLIC_RELEASE_EXCLUDE_PARTS = {
@@ -3478,7 +3482,7 @@ def _write_github_publish_checklist(staging_dir: Path) -> Path:
         "",
         "- Description: Portable AI Assets is a cross-agent continuity layer for owning AI memory, skills, adapters, schemas, and migration workflows outside any single runtime.",
         "- Topics: ai-agents, ai-memory, mcp, local-first, agentic-workflows, ai-portability, developer-tools, schemas",
-        "- First tag: v0.1.0",
+        "- Existing release tag: v0.1.0; do not move it. Use a new tag (for example v0.1.1) for follow-up releases.",
     ]
     checklist.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return checklist
@@ -3657,12 +3661,230 @@ def build_public_repo_staging_status_report(root: Path = ASSETS) -> Dict[str, An
     }
 
 
+def _git_rev_parse_if_available(repo_dir: Path, rev: str) -> Optional[str]:
+    result = run_git_command(repo_dir, ["rev-parse", "--verify", rev])
+    return result.get("output") if result.get("ok") and result.get("output") else None
+
+
+def build_public_repo_staging_history_preflight_report(root: Path = ASSETS) -> Dict[str, Any]:
+    """Report-only check for whether generated GitHub staging has publication history context.
+
+    This command never fetches, adds remotes, commits, tags, pushes, creates releases,
+    validates credentials, or calls providers. It only inspects the local staging git
+    metadata and checklist text so humans can distinguish a freshly generated staging
+    tree from a staging tree whose public `main` / `v0.1.0` history has been
+    intentionally reattached.
+    """
+    status_report = build_public_repo_staging_status_report(root)
+    staging_dir = Path(status_report["staging_dir"])
+    git_initialized = bool(status_report.get("summary", {}).get("git_initialized"))
+    remote_configured = bool(status_report.get("summary", {}).get("remote_configured"))
+    forbidden_findings = int(status_report.get("summary", {}).get("forbidden_findings") or 0)
+    head_rev = _git_rev_parse_if_available(staging_dir, "HEAD") if git_initialized else None
+    v010_rev = _git_rev_parse_if_available(staging_dir, "v0.1.0^{commit}") if git_initialized else None
+    checklist_path = staging_dir / "GITHUB-PUBLISH-CHECKLIST.md"
+    checklist_text = checklist_path.read_text(encoding="utf-8", errors="replace") if checklist_path.is_file() else ""
+    checklist_declares_existing_v010 = "Existing release tag: v0.1.0" in checklist_text
+    v010_behind_head = bool(head_rev and v010_rev and head_rev != v010_rev)
+    generated_without_history = checklist_declares_existing_v010 and (not head_rev or not v010_rev)
+
+    checks: List[Dict[str, str]] = []
+    def add(name: str, status: str, detail: str) -> None:
+        checks.append({"name": name, "status": status, "detail": _redact_public_text(detail)})
+
+    add("staging-dir-exists", "pass" if staging_dir.is_dir() else "fail", str(staging_dir))
+    add("staging-git-initialized", "pass" if git_initialized else "fail", str(git_initialized))
+    add("staging-remote-empty", "pass" if not remote_configured else "fail", str(remote_configured))
+    add("staging-forbidden-clean", "pass" if forbidden_findings == 0 else "fail", f"forbidden_findings={forbidden_findings}")
+    add("checklist-declares-existing-v010", "pass" if checklist_declares_existing_v010 else "warn", "Existing release tag: v0.1.0" if checklist_declares_existing_v010 else "missing existing-tag checklist wording")
+    add("staging-head-exists", "pass" if head_rev else "fail", head_rev or "missing HEAD")
+    add("v010-tag-exists", "pass" if v010_rev else "fail", v010_rev or "missing v0.1.0^{commit}")
+    if head_rev and v010_rev:
+        add("v010-behind-head", "pass" if v010_behind_head else "warn", f"v0.1.0={v010_rev}; HEAD={head_rev}")
+    if generated_without_history:
+        add("existing-tag-context-without-history", "warn", "checklist says v0.1.0 exists, but generated staging lacks HEAD and/or v0.1.0 tag history")
+
+    fail_count = sum(1 for check in checks if check["status"] == "fail")
+    warn_count = sum(1 for check in checks if check["status"] == "warn")
+    pass_count = sum(1 for check in checks if check["status"] == "pass")
+    if remote_configured or forbidden_findings:
+        status = "blocked"
+    elif generated_without_history:
+        status = "needs-history-reattach"
+    elif fail_count:
+        status = "blocked"
+    elif warn_count:
+        status = "needs-review"
+    else:
+        status = "ready"
+
+    manual_steps = [
+        {"step": "review-staging-status", "command": "git status --short", "cwd": str(staging_dir), "executes": False, "owner_approval_required": True},
+        {"step": "review-current-history", "command": "git log --oneline --decorate -5", "cwd": str(staging_dir), "executes": False, "owner_approval_required": True},
+        {"step": "review-v010-tag", "command": "git rev-parse --verify v0.1.0^{commit}", "cwd": str(staging_dir), "executes": False, "owner_approval_required": True},
+        {"step": "reattach-public-history-if-approved", "command": "Reattach public main/v0.1.0 history only after explicit owner approval; do not move v0.1.0.", "cwd": str(staging_dir), "executes": False, "owner_approval_required": True},
+    ]
+    return {
+        "mode": "public-repo-staging-history-preflight",
+        "generated_at": dt.datetime.now().isoformat(timespec="seconds"),
+        "host_home": str(HOME),
+        "engine_root": str(ENGINE_ROOT),
+        "root": str(root),
+        "config_path": CURRENT_RUNTIME_PATHS.get("config_path"),
+        "staging_dir": str(staging_dir),
+        "summary": {
+            "status": status,
+            "checks": len(checks),
+            "pass": pass_count,
+            "warn": warn_count,
+            "fail": fail_count,
+            "executes_anything": False,
+            "remote_configured": remote_configured,
+            "forbidden_findings": forbidden_findings,
+            "head_rev": head_rev,
+            "v010_rev": v010_rev,
+            "v010_behind_head": v010_behind_head,
+            "checklist_declares_existing_v010": checklist_declares_existing_v010,
+        },
+        "checks": checks,
+        "based_on_status": status_report,
+        "manual_history_context_steps": manual_steps,
+        "recommendations": [
+            "Treat needs-history-reattach as expected for freshly generated staging; reattach public history before any manual publication.",
+            "Do not move v0.1.0; if a follow-up release is approved later, use a new tag such as v0.1.1.",
+            "This report is local/read-only: it never fetches, creates remotes, commits, tags, pushes, uploads, or releases anything.",
+        ],
+    }
+
+
+def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict[str, Any]:
+    reports_dir = root / "bootstrap" / "reports"
+    history = _load_json_if_exists(reports_dir / "latest-public-repo-staging-history-preflight.json")
+    if not history:
+        history = build_public_repo_staging_history_preflight_report(root)
+    dry_run = _load_json_if_exists(reports_dir / "latest-github-publish-dry-run.json")
+    if not dry_run:
+        dry_run = build_github_publish_dry_run_report(root)
+    safety = _load_json_if_exists(reports_dir / "latest-public-safety-scan.json")
+    completed = _load_json_if_exists(reports_dir / "latest-completed-work-review.json")
+
+    history_summary = history.get("summary", {}) if isinstance(history.get("summary"), dict) else {}
+    dry_summary = dry_run.get("summary", {}) if isinstance(dry_run.get("summary"), dict) else {}
+    safety_summary = safety.get("summary", {}) if isinstance(safety.get("summary"), dict) else {}
+    completed_summary = completed.get("summary", {}) if isinstance(completed.get("summary"), dict) else {}
+    completed_axes = completed.get("review_axes", {}) if isinstance(completed.get("review_axes"), dict) else {}
+    external_learning = completed_axes.get("external_learning", {}) if isinstance(completed_axes.get("external_learning"), dict) else {}
+    suggested_release_tag = dry_run.get("suggested_release_tag") or "v0.1.1"
+
+    options = [
+        {
+            "id": "keep-local-only",
+            "title": "Keep Phase127+ changes local/staged only",
+            "recommended_when": "Owner wants more local review before any external mutation.",
+            "requires_owner_approval": False,
+            "blocked_until": None,
+            "steps": [
+                {"step": "continue-local-hardening", "command": "Run local/report-only gates and update handoffs only.", "executes": False},
+            ],
+            "risks": ["Public GitHub main remains behind local hardening until a later approved push."],
+        },
+        {
+            "id": "prepare-history-reattachment-main-push",
+            "title": "Prepare owner-approved public-history reattachment and main push plan",
+            "recommended_when": "Owner wants Phase127+ public on GitHub main but no new release yet.",
+            "requires_owner_approval": True,
+            "blocked_until": "explicit-owner-approval",
+            "steps": [
+                {"step": "reattach-history", "command": "Reattach public main/v0.1.0 history in staging after owner approval; do not move v0.1.0.", "executes": False},
+                {"step": "review-and-commit", "command": "Review staged diff, then create a local staging commit only after approval.", "executes": False},
+                {"step": "push-main", "command": "Push public main only after final owner confirmation.", "executes": False},
+            ],
+            "risks": ["Requires exact public history context; a fresh generated repo is not enough."],
+        },
+        {
+            "id": "prepare-v011-tag-release",
+            "title": f"Prepare later {suggested_release_tag} tag/release plan",
+            "recommended_when": "Owner wants a formal follow-up release after main is updated and reviewed.",
+            "requires_owner_approval": True,
+            "blocked_until": "history-reattached-and-main-reviewed",
+            "steps": [
+                {"step": "confirm-main", "command": "Confirm public main contains intended follow-up commit after owner-approved push.", "executes": False},
+                {"step": "create-new-tag", "command": f"Draft new tag {suggested_release_tag}; never move v0.1.0.", "executes": False},
+                {"step": "release-review", "command": "Draft release notes/upload checklist only after explicit owner approval.", "executes": False},
+            ],
+            "risks": ["Tag/release before main review could publish stale or unintended content."],
+        },
+    ]
+
+    checks: List[Dict[str, str]] = []
+    def add(name: str, ok: bool, detail: str, warn: bool = False) -> None:
+        checks.append({"name": name, "status": "pass" if ok else ("warn" if warn else "fail"), "detail": _redact_public_text(detail)})
+
+    add("history-preflight-present", bool(history), str(history_summary or "missing"))
+    add("history-preflight-non-executing", history_summary.get("executes_anything") is False, str(history_summary.get("executes_anything")))
+    add("dry-run-non-executing", dry_summary.get("executes_anything") is False, str(dry_summary.get("executes_anything")))
+    add("public-safety-pass", safety_summary.get("status") == "pass" and int(safety_summary.get("findings") or 0) == 0, str(safety_summary or "missing"))
+    add("completed-work-aligned", completed_summary.get("status") == "aligned", str(completed_summary.get("status") or "missing"), warn=True)
+    add("external-learning-pass", external_learning.get("status") == "pass", str(external_learning.get("status") or "missing"), warn=True)
+    add("owner-options-non-executing", all(step.get("executes") is False for option in options for step in option.get("steps", [])), "all option steps are non-executing drafts")
+
+    fail_count = sum(1 for check in checks if check["status"] == "fail")
+    warn_count = sum(1 for check in checks if check["status"] == "warn")
+    pass_count = sum(1 for check in checks if check["status"] == "pass")
+    return {
+        "mode": "manual-publication-decision-packet",
+        "generated_at": dt.datetime.now().isoformat(timespec="seconds"),
+        "host_home": str(HOME),
+        "engine_root": str(ENGINE_ROOT),
+        "root": str(root),
+        "config_path": CURRENT_RUNTIME_PATHS.get("config_path"),
+        "summary": {
+            "status": "blocked" if fail_count else "owner-decision-required",
+            "checks": len(checks),
+            "pass": pass_count,
+            "warn": warn_count,
+            "fail": fail_count,
+            "executes_anything": False,
+            "suggested_release_tag": suggested_release_tag,
+            "history_status": history_summary.get("status"),
+            "dry_run_status": dry_summary.get("status"),
+        },
+        "checks": checks,
+        "source_summaries": {
+            "public_repo_staging_history_preflight": history_summary,
+            "github_publish_dry_run": dry_summary,
+            "public_safety_scan": safety_summary,
+            "completed_work_review": completed_summary,
+            "external_learning": external_learning,
+        },
+        "decision_options": options,
+        "recommendations": [
+            "Use this packet for owner choice only; it does not approve or perform publication.",
+            "If publishing later, reattach public history first, review main, and never move v0.1.0.",
+            f"Treat {suggested_release_tag} as a future follow-up tag candidate only after main is reviewed and owner-approved.",
+        ],
+    }
+
+
 def build_github_publish_dry_run_report(root: Path = ASSETS) -> Dict[str, Any]:
     status_report = build_public_repo_staging_status_report(root)
     staging_dir = Path(status_report["staging_dir"])
     repo_name = "portable-ai-assets"
-    release_tag = "v0.1.0"
-    commit_message = "Initial public release: Portable AI Assets v0.1.0"
+    head_rev = _git_rev_parse_if_available(staging_dir, "HEAD")
+    v010_rev = _git_rev_parse_if_available(staging_dir, "v0.1.0^{commit}")
+    checklist_text = ""
+    checklist_path = staging_dir / "GITHUB-PUBLISH-CHECKLIST.md"
+    if checklist_path.is_file():
+        checklist_text = checklist_path.read_text(encoding="utf-8", errors="replace")
+    existing_v010_tag_behind_head = bool(head_rev and v010_rev and head_rev != v010_rev)
+    existing_v010_context_without_git_history = (
+        "Existing release tag: v0.1.0" in checklist_text
+        and not head_rev
+        and not v010_rev
+    )
+    should_use_followup_tag = existing_v010_tag_behind_head or existing_v010_context_without_git_history
+    release_tag = "v0.1.1" if should_use_followup_tag else "v0.1.0"
+    commit_message = "Update Portable AI Assets after v0.1.0" if should_use_followup_tag else "Initial public release: Portable AI Assets v0.1.0"
     branch = status_report["summary"].get("branch") or "main"
     remote_configured = status_report["summary"].get("remote_configured")
     commands = [
@@ -3681,6 +3903,18 @@ def build_github_publish_dry_run_report(root: Path = ASSETS) -> Dict[str, Any]:
         {"name": "remote-empty", "status": "pass" if not remote_configured else "warn", "detail": status_report["git"].get("remotes") or "no remotes"},
         {"name": "forbidden-findings", "status": "pass" if status_report["summary"]["forbidden_findings"] == 0 else "fail", "detail": str(status_report["summary"]["forbidden_findings"])},
     ]
+    if existing_v010_tag_behind_head:
+        checks.append({
+            "name": "existing-v010-tag-behind-head",
+            "status": "warn",
+            "detail": f"v0.1.0={v010_rev}; HEAD={head_rev}; suggested_release_tag={release_tag}; do not move v0.1.0",
+        })
+    if existing_v010_context_without_git_history:
+        checks.append({
+            "name": "release-tag-context-without-git-history",
+            "status": "warn",
+            "detail": f"GITHUB-PUBLISH-CHECKLIST.md says v0.1.0 already exists, but staging has no HEAD or v0.1.0 tag; suggested_release_tag={release_tag}; reattach public history before manual publication",
+        })
     fail_count = sum(1 for check in checks if check["status"] == "fail")
     warn_count = sum(1 for check in checks if check["status"] == "warn")
     return {
@@ -3709,7 +3943,9 @@ def build_github_publish_dry_run_report(root: Path = ASSETS) -> Dict[str, Any]:
         "recommendations": [
             "This is a dry run only; no commit, push, tag, release, repo, or remote is created.",
             "Review the staging tree and command drafts before executing anything manually.",
-            "Prefer creating the GitHub repo only after public safety and staging status are clean.",
+            "Do not move v0.1.0; if it already points behind HEAD, use the suggested follow-up tag instead.",
+            "If the generated staging repo has no commit history but the checklist says v0.1.0 already exists, reattach public history before any manual publication.",
+            "Prefer creating or updating the GitHub repo only after public safety and staging status are clean.",
         ],
     }
 
@@ -11738,6 +11974,41 @@ def markdown_for_public_repo_staging_status(report: Dict[str, object]) -> str:
 
 
 
+def markdown_for_report_checks(report: Dict[str, object], title: str) -> str:
+    lines: List[str] = []
+    lines.append(f"# AI-Assets {title}")
+    lines.append("")
+    lines.append(f"Generated: {report['generated_at']}")
+    if report.get("staging_dir"):
+        lines.append(f"Staging dir: `{report['staging_dir']}`")
+    lines.append("")
+    lines.append("## Summary")
+    lines.append("")
+    for key, value in report.get("summary", {}).items():
+        lines.append(f"- {key}: `{value}`")
+    lines.append("")
+    lines.append("## Checks")
+    lines.append("")
+    for check in report.get("checks", []):
+        lines.append(f"- **{check['status']}** `{check['name']}`: {check['detail']}")
+    if report.get("manual_history_context_steps"):
+        lines.append("")
+        lines.append("## Manual history context steps — not executed")
+        lines.append("")
+        for step in report.get("manual_history_context_steps", []):
+            lines.append(f"### {step['step']}")
+            lines.append("")
+            lines.append("```bash")
+            lines.append(step["command"])
+            lines.append("```")
+            lines.append("")
+    lines.append("## Recommendations")
+    lines.append("")
+    for recommendation in report.get("recommendations", []):
+        lines.append(f"- {recommendation}")
+    return "\n".join(lines) + "\n"
+
+
 def markdown_for_github_publish_dry_run(report: Dict[str, object]) -> str:
     lines: List[str] = []
     lines.append("# AI-Assets GitHub Publish Dry Run")
@@ -14101,6 +14372,10 @@ def write_outputs(report: Dict[str, object], output_format: str) -> None:
         md_text = markdown_for_public_repo_staging(report)
     elif report["mode"] == "public-repo-staging-status":
         md_text = markdown_for_public_repo_staging_status(report)
+    elif report["mode"] == "public-repo-staging-history-preflight":
+        md_text = markdown_for_report_checks(report, "Public Repo Staging History Preflight")
+    elif report["mode"] == "manual-publication-decision-packet":
+        md_text = markdown_for_report_checks(report, "Manual Publication Decision Packet")
     elif report["mode"] == "github-publish-dry-run":
         md_text = markdown_for_github_publish_dry_run(report)
     elif report["mode"] == "github-handoff-pack":
@@ -14207,7 +14482,7 @@ def write_outputs(report: Dict[str, object], output_format: str) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--mode", default="inspect", choices=["inspect", "plan", "apply", "diff", "merge-apply", "merge-candidates", "review-apply", "validate-schemas", "connectors", "skills-inventory", "skill-projection-preview", "skill-projection-candidates", "skill-projection-status", "skill-projection-review-apply", "public-safety-scan", "release-readiness", "public-release-pack", "public-release-archive", "public-release-smoke-test", "github-publish-check", "public-repo-staging", "public-repo-staging-status", "github-publish-dry-run", "github-handoff-pack", "github-final-preflight", "release-provenance", "verify-release-provenance", "release-closure", "public-package-freshness-review", "public-docs-external-reader-review", "release-candidate-closure-review", "release-reviewer-packet-index", "release-reviewer-decision-log", "external-reviewer-quickstart", "external-reviewer-feedback-plan", "external-reviewer-feedback-status", "external-reviewer-feedback-template", "external-reviewer-feedback-followup-index", "external-reviewer-feedback-followup-candidates", "external-reviewer-feedback-followup-candidate-status", "initial-completion-review", "human-action-closure-checklist", "manual-reviewer-execution-packet", "manual-reviewer-public-surface-freshness", "manual-reviewer-handoff-readiness", "manual-reviewer-handoff-packet-index", "manual-reviewer-handoff-freeze-check", "agent-owner-delegation-review", "agent-complete-external-actions-reserved", "agent-complete-failclosed-hardening-review", "agent-complete-regression-evidence-integrity", "agent-complete-syntax-invalid-evidence-failclosed-review", "agent-complete-phase102-rollup-evidence-failclosed-review", "manual-release-reviewer-checklist", "external-reference-inventory", "external-reference-backlog", "team-pack-preview", "project-pack-preview", "capability-risk-inventory", "capability-policy-preview", "capability-policy-candidate-generation", "capability-policy-candidate-status", "capability-policy-baseline-apply", "completed-work-review", "connector-preview", "redacted-examples", "demo-story", "public-demo-pack", "refresh-canonical-assets", "init-private-assets", "private-assets-status", "memos-health", "memos-import-preview", "memos-skill-candidates", "skill-candidates-status", "skill-review-apply"])
+    parser.add_argument("--mode", default="inspect", choices=["inspect", "plan", "apply", "diff", "merge-apply", "merge-candidates", "review-apply", "validate-schemas", "connectors", "skills-inventory", "skill-projection-preview", "skill-projection-candidates", "skill-projection-status", "skill-projection-review-apply", "public-safety-scan", "release-readiness", "public-release-pack", "public-release-archive", "public-release-smoke-test", "github-publish-check", "public-repo-staging", "public-repo-staging-status", "public-repo-staging-history-preflight", "manual-publication-decision-packet", "github-publish-dry-run", "github-handoff-pack", "github-final-preflight", "release-provenance", "verify-release-provenance", "release-closure", "public-package-freshness-review", "public-docs-external-reader-review", "release-candidate-closure-review", "release-reviewer-packet-index", "release-reviewer-decision-log", "external-reviewer-quickstart", "external-reviewer-feedback-plan", "external-reviewer-feedback-status", "external-reviewer-feedback-template", "external-reviewer-feedback-followup-index", "external-reviewer-feedback-followup-candidates", "external-reviewer-feedback-followup-candidate-status", "initial-completion-review", "human-action-closure-checklist", "manual-reviewer-execution-packet", "manual-reviewer-public-surface-freshness", "manual-reviewer-handoff-readiness", "manual-reviewer-handoff-packet-index", "manual-reviewer-handoff-freeze-check", "agent-owner-delegation-review", "agent-complete-external-actions-reserved", "agent-complete-failclosed-hardening-review", "agent-complete-regression-evidence-integrity", "agent-complete-syntax-invalid-evidence-failclosed-review", "agent-complete-phase102-rollup-evidence-failclosed-review", "manual-release-reviewer-checklist", "external-reference-inventory", "external-reference-backlog", "team-pack-preview", "project-pack-preview", "capability-risk-inventory", "capability-policy-preview", "capability-policy-candidate-generation", "capability-policy-candidate-status", "capability-policy-baseline-apply", "completed-work-review", "connector-preview", "redacted-examples", "demo-story", "public-demo-pack", "refresh-canonical-assets", "init-private-assets", "private-assets-status", "memos-health", "memos-import-preview", "memos-skill-candidates", "skill-candidates-status", "skill-review-apply"])
     parser.add_argument("--output-format", default="both", choices=["json", "markdown", "both"])
     parser.add_argument("--config")
     parser.add_argument("--asset-root")
@@ -14286,6 +14561,12 @@ def main() -> int:
     elif args.mode == "public-repo-staging-status":
         staging_status_report = build_public_repo_staging_status_report()
         write_outputs(staging_status_report, args.output_format)
+    elif args.mode == "public-repo-staging-history-preflight":
+        staging_history_preflight_report = build_public_repo_staging_history_preflight_report()
+        write_outputs(staging_history_preflight_report, args.output_format)
+    elif args.mode == "manual-publication-decision-packet":
+        decision_packet_report = build_manual_publication_decision_packet_report()
+        write_outputs(decision_packet_report, args.output_format)
     elif args.mode == "github-publish-dry-run":
         dry_run_report = build_github_publish_dry_run_report()
         write_outputs(dry_run_report, args.output_format)

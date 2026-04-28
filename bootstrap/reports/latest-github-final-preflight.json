@@ -1,6 +1,6 @@
 {
   "mode": "github-final-preflight",
-  "generated_at": "2026-04-27T19:43:46",
+  "generated_at": "2026-04-27T19:45:29",
   "host_home": "/Users/example",
   "engine_root": "/Users/example/AI-Assets",
   "root": "/Users/example/AI-Assets",
@@ -217,11 +217,11 @@
       "git_initialized": true,
       "branch": "main",
       "remote_configured": false,
-      "changed_files": 18,
+      "changed_files": 24,
       "category_counts": {
-        "adapters": 1,
-        "docs_policy": 4,
-        "other": 13
+        "docs_policy": 2,
+        "other": 12,
+        "reports": 10
       },
       "forbidden_findings": 0
     },

@@ -712,3 +712,33 @@ The project is succeeding if users can say:
 - add explicit regressions proving `paa uninstall` refuses to delete a regular `paa` file or a symlink pointing at another target
 - verify refused targets remain in place and that the command emits a clear refusal message instead of silently deleting user files
 - keep uninstall hardening local-only and non-networked: no credential validation, provider/API calls, publishing, remote mutation, upload, reviewer invitation, handoff sharing, or issue/backlog mutation
+
+### Phase 126 — Public staging refresh for CLI lifecycle polish ✅
+- refresh the GitHub-facing public staging tree so `paa setup/install/doctor/list/version/uninstall`, aliases, and uninstall safety regressions are included in public `main`
+- reattach staging history to the actual public baseline before owner-approved push so the resulting update is a normal descendant commit
+- keep the v0.1.0 tag unchanged and avoid release/tag/upload/reviewer/issue mutations during staging prep
+
+### Phase 127 — Post-main-push tag reuse guard ✅
+- update non-executing GitHub dry-run and handoff command drafts to detect when `v0.1.0` already points behind staging `HEAD`
+- warn reviewers not to move `v0.1.0` and suggest the follow-up tag `v0.1.1` instead of emitting stale `git tag v0.1.0` drafts
+- update the generated GitHub publish checklist to describe `v0.1.0` as an existing tag and keep follow-up release/tag decisions owner-only
+
+### Phase 128 — Public staging refresh with tag-context fail-closed guard ✅
+- refresh GitHub-facing public staging so the Phase127 tag reuse guard, tests, checklist wording, and roadmap entries are present in the staging tree
+- make the non-executing GitHub publish dry-run fail closed with `release-tag-context-without-git-history` when a regenerated staging repo has no commits/tags but its checklist says `v0.1.0` already exists
+- keep generated staging local-only and require public-history reattachment before any manual publication decision; no commit, push, tag, release, upload, reviewer invitation, credential validation, or remote mutation
+
+### Phase 129 — Public staging history preflight ✅
+- add `--public-repo-staging-history-preflight` as a local/read-only report that distinguishes fresh generated staging with no commit/tag history from staging that has been reattached to public `main` / `v0.1.0` history
+- report `needs-history-reattach` when the checklist says `v0.1.0` exists but staging lacks `HEAD` and/or `v0.1.0^{commit}`; keep all manual history-context steps non-executing and owner-approved
+- preserve release safety boundaries: no fetch, remote creation, commit, tag, push, release, upload, reviewer invitation, credential validation, provider/API call, or issue mutation
+
+### Phase 130 — Local clean patch/staging review ✅
+- review source and generated GitHub staging state after Phase127–129 without staging, committing, pushing, tagging, adding remotes, releasing, uploading, inviting reviewers, validating credentials, or mutating issues
+- classify remaining changes into public engine/docs/tests/reports/staging artifacts versus private memory/runtime/backups and owner-only external actions
+- confirm current publication boundary: public staging is safety-clean but freshly generated with no `HEAD` or `v0.1.0` history, so history reattachment remains required before any manual publication
+
+### Phase 131 — Manual publication decision packet ✅
+- add `--manual-publication-decision-packet` as a non-executing owner-choice packet comparing keep-local-only, prepare public-history reattachment/main push, and later `v0.1.1` tag/release options
+- summarize latest staging history preflight, dry-run, safety, completed-work, and anti-closed-door evidence without approving or performing publication
+- keep all option steps as drafts with explicit owner approval requirements and preserve the rule to never move `v0.1.0`

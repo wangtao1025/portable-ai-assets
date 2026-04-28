@@ -1,0 +1,245 @@
+{
+  "mode": "public-repo-staging-history-preflight",
+  "generated_at": "2026-04-28T09:52:22",
+  "host_home": "/Users/example",
+  "engine_root": "/Users/example/AI-Assets",
+  "root": "/Users/example/AI-Assets",
+  "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+  "staging_dir": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+  "summary": {
+    "status": "needs-history-reattach",
+    "checks": 8,
+    "pass": 5,
+    "warn": 1,
+    "fail": 2,
+    "executes_anything": false,
+    "remote_configured": false,
+    "forbidden_findings": 0,
+    "head_rev": null,
+    "v010_rev": null,
+    "v010_behind_head": false,
+    "checklist_declares_existing_v010": true
+  },
+  "checks": [
+    {
+      "name": "staging-dir-exists",
+      "status": "pass",
+      "detail": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets"
+    },
+    {
+      "name": "staging-git-initialized",
+      "status": "pass",
+      "detail": "True"
+    },
+    {
+      "name": "staging-remote-empty",
+      "status": "pass",
+      "detail": "False"
+    },
+    {
+      "name": "staging-forbidden-clean",
+      "status": "pass",
+      "detail": "forbidden_findings=0"
+    },
+    {
+      "name": "checklist-declares-existing-v010",
+      "status": "pass",
+      "detail": "Existing release tag: v0.1.0"
+    },
+    {
+      "name": "staging-head-exists",
+      "status": "fail",
+      "detail": "missing HEAD"
+    },
+    {
+      "name": "v010-tag-exists",
+      "status": "fail",
+      "detail": "missing v0.1.0^{commit}"
+    },
+    {
+      "name": "existing-tag-context-without-history",
+      "status": "warn",
+      "detail": "checklist says v0.1.0 exists, but generated staging lacks HEAD and/or v0.1.0 tag history"
+    }
+  ],
+  "based_on_status": {
+    "mode": "public-repo-staging-status",
+    "generated_at": "2026-04-28T09:52:22",
+    "host_home": "/Users/example",
+    "engine_root": "/Users/example/AI-Assets",
+    "root": "/Users/example/AI-Assets",
+    "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
+    "staging_dir": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+    "summary": {
+      "status": "ready",
+      "staging_exists": true,
+      "git_initialized": true,
+      "branch": "main",
+      "remote_configured": false,
+      "changed_files": 18,
+      "category_counts": {
+        "adapters": 1,
+        "docs_policy": 4,
+        "other": 13
+      },
+      "forbidden_findings": 0
+    },
+    "git": {
+      "status_short": "?? BACKUP-POLICY.md\n?? CHANGELOG.md\n?? CONTRIBUTING.md\n?? GIT-POLICY.md\n?? GITHUB-PUBLISH-CHECKLIST.md\n?? LICENSE\n?? README.md\n?? RELEASE_NOTES-v0.1.md\n?? SECURITY.md\n?? STAGING-MANIFEST.json\n?? adapters/\n?? bin/\n?? bootstrap/\n?? docs/\n?? examples/\n?? sample-assets/\n?? schemas/\n?? tests/",
+      "status_entries": [
+        {
+          "status": "??",
+          "path": "BACKUP-POLICY.md",
+          "raw": "?? BACKUP-POLICY.md",
+          "category": "docs_policy"
+        },
+        {
+          "status": "??",
+          "path": "CHANGELOG.md",
+          "raw": "?? CHANGELOG.md",
+          "category": "other"
+        },
+        {
+          "status": "??",
+          "path": "CONTRIBUTING.md",
+          "raw": "?? CONTRIBUTING.md",
+          "category": "other"
+        },
+        {
+          "status": "??",
+          "path": "GIT-POLICY.md",
+          "raw": "?? GIT-POLICY.md",
+          "category": "docs_policy"
+        },
+        {
+          "status": "??",
+          "path": "GITHUB-PUBLISH-CHECKLIST.md",
+          "raw": "?? GITHUB-PUBLISH-CHECKLIST.md",
+          "category": "other"
+        },
+        {
+          "status": "??",
+          "path": "LICENSE",
+          "raw": "?? LICENSE",
+          "category": "other"
+        },
+        {
+          "status": "??",
+          "path": "README.md",
+          "raw": "?? README.md",
+          "category": "docs_policy"
+        },
+        {
+          "status": "??",
+          "path": "RELEASE_NOTES-v0.1.md",
+          "raw": "?? RELEASE_NOTES-v0.1.md",
+          "category": "other"
+        },
+        {
+          "status": "??",
+          "path": "SECURITY.md",
+          "raw": "?? SECURITY.md",
+          "category": "other"
+        },
+        {
+          "status": "??",
+          "path": "STAGING-MANIFEST.json",
+          "raw": "?? STAGING-MANIFEST.json",
+          "category": "other"
+        },
+        {
+          "status": "??",
+          "path": "adapters/",
+          "raw": "?? adapters/",
+          "category": "adapters"
+        },
+        {
+          "status": "??",
+          "path": "bin/",
+          "raw": "?? bin/",
+          "category": "other"
+        },
+        {
+          "status": "??",
+          "path": "bootstrap/",
+          "raw": "?? bootstrap/",
+          "category": "other"
+        },
+        {
+          "status": "??",
+          "path": "docs/",
+          "raw": "?? docs/",
+          "category": "docs_policy"
+        },
+        {
+          "status": "??",
+          "path": "examples/",
+          "raw": "?? examples/",
+          "category": "other"
+        },
+        {
+          "status": "??",
+          "path": "sample-assets/",
+          "raw": "?? sample-assets/",
+          "category": "other"
+        },
+        {
+          "status": "??",
+          "path": "schemas/",
+          "raw": "?? schemas/",
+          "category": "other"
+        },
+        {
+          "status": "??",
+          "path": "tests/",
+          "raw": "?? tests/",
+          "category": "other"
+        }
+      ],
+      "branch": "main",
+      "remotes": "",
+      "diff_stat": ""
+    },
+    "forbidden_findings": [],
+    "recommendations": [
+      "Run --public-repo-staging first if the staging repo is missing.",
+      "Review all staged public source files before committing.",
+      "Keep remotes empty until the target GitHub repository is chosen intentionally."
+    ]
+  },
+  "manual_history_context_steps": [
+    {
+      "step": "review-staging-status",
+      "command": "git status --short",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "owner_approval_required": true
+    },
+    {
+      "step": "review-current-history",
+      "command": "git log --oneline --decorate -5",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "owner_approval_required": true
+    },
+    {
+      "step": "review-v010-tag",
+      "command": "git rev-parse --verify v0.1.0^{commit}",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "owner_approval_required": true
+    },
+    {
+      "step": "reattach-public-history-if-approved",
+      "command": "Reattach public main/v0.1.0 history only after explicit owner approval; do not move v0.1.0.",
+      "cwd": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
+      "executes": false,
+      "owner_approval_required": true
+    }
+  ],
+  "recommendations": [
+    "Treat needs-history-reattach as expected for freshly generated staging; reattach public history before any manual publication.",
+    "Do not move v0.1.0; if a follow-up release is approved later, use a new tag such as v0.1.1.",
+    "This report is local/read-only: it never fetches, creates remotes, commits, tags, pushes, uploads, or releases anything."
+  ]
+}

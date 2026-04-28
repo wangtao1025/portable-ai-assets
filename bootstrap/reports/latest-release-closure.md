@@ -1,6 +1,6 @@
 # AI-Assets Release Closure
 
-Generated: 2026-04-27T19:43:46
+Generated: 2026-04-27T19:45:29
 
 This is a report-only closure gate for manual release review. It does not publish, push, create remotes, or execute command drafts.
 
@@ -28,7 +28,7 @@ This is a report-only closure gate for manual release review. It does not publis
 - `public-release-smoke-test`: `{'status': 'pass', 'checks': 11, 'passed': 11, 'failed': 0, 'forbidden_findings': 0}`
 - `github-publish-check`: `{'status': 'ready', 'checks': 18, 'pass': 18, 'warn': 0, 'fail': 0}`
 - `public-repo-staging`: `{'status': 'ready', 'files_in_staging': 177, 'skipped': 0, 'checks': 6, 'passed': 6, 'failed': 0, 'forbidden_findings': 0, 'git_initialized': True}`
-- `public-repo-staging-status`: `{'status': 'ready', 'staging_exists': True, 'git_initialized': True, 'branch': 'main', 'remote_configured': False, 'changed_files': 18, 'category_counts': {'adapters': 1, 'docs_policy': 4, 'other': 13}, 'forbidden_findings': 0}`
+- `public-repo-staging-status`: `{'status': 'ready', 'staging_exists': True, 'git_initialized': True, 'branch': 'main', 'remote_configured': False, 'changed_files': 24, 'category_counts': {'docs_policy': 2, 'other': 12, 'reports': 10}, 'forbidden_findings': 0}`
 - `github-publish-dry-run`: `{'status': 'ready', 'checks': 4, 'pass': 4, 'warn': 0, 'fail': 0, 'commands': 8, 'executes_anything': False}`
 - `github-handoff-pack`: `{'status': 'ready', 'checks': 12, 'pass': 12, 'warn': 0, 'fail': 0, 'included_files': 14, 'executes_anything': False, 'forbidden_findings': 0}`
 - `manual-reviewer-handoff-freeze-check`: `{'status': 'frozen-for-human-handoff', 'checks': 10, 'pass': 10, 'warn': 0, 'fail': 0, 'manual_review_required': True, 'human_feedback_pending': True, 'shares_anything': False, 'sends_invitations': False, 'writes_anything': False, 'writes': 0, 'executes_anything': False, 'remote_mutation_allowed': False, 'credential_validation_allowed': False, 'auto_approves_release': False, 'remote_issues_created': 0, 'issue_backlog_mutation_allowed': False, 'remote_configured': False}`

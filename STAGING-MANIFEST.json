@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-27T19:43:48",
+  "generated_at": "2026-04-28T10:03:01",
   "asset_class": "public",
   "pack_kind": "github-staging-repo",
-  "file_count": 177,
+  "file_count": 181,
   "files": [
     "BACKUP-POLICY.md",
     "CHANGELOG.md",
@@ -57,6 +57,8 @@
     "bootstrap/reports/latest-human-action-closure-checklist.md",
     "bootstrap/reports/latest-initial-completion-review.json",
     "bootstrap/reports/latest-initial-completion-review.md",
+    "bootstrap/reports/latest-manual-publication-decision-packet.json",
+    "bootstrap/reports/latest-manual-publication-decision-packet.md",
     "bootstrap/reports/latest-manual-release-reviewer-checklist.json",
     "bootstrap/reports/latest-manual-release-reviewer-checklist.md",
     "bootstrap/reports/latest-manual-reviewer-execution-packet.json",
@@ -73,6 +75,8 @@
     "bootstrap/reports/latest-public-demo-pack.md",
     "bootstrap/reports/latest-public-docs-external-reader-review.json",
     "bootstrap/reports/latest-public-docs-external-reader-review.md",
+    "bootstrap/reports/latest-public-repo-staging-history-preflight.json",
+    "bootstrap/reports/latest-public-repo-staging-history-preflight.md",
     "bootstrap/reports/latest-public-safety-scan.json",
     "bootstrap/reports/latest-public-safety-scan.md",
     "bootstrap/reports/latest-release-candidate-closure-review.json",
@@ -196,7 +200,7 @@
     {
       "name": "shell-cli-public-safety-scan",
       "ok": true,
-      "detail": "Public-safety-scan report generated for /Users/example\nJSON: /Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/public-safety-scan-20260427-194348.json\nJSON latest: /Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-public-safety-scan.json\n"
+      "detail": "Public-safety-scan report generated for /Users/example\nJSON: /Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/public-safety-scan-20260428-100300.json\nJSON latest: /Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-public-safety-scan.json\n"
     },
     {
       "name": "forbidden-text-scan",
