@@ -12,7 +12,8 @@ This document records the minimal restore path for the Portable AI Assets split-
   - Public sanitized engine/docs/tests/sample surface.
   - Public `v0.1.0` already exists and must remain immutable: do not move v0.1.0.
   - Public `v0.1.1` already exists and must remain immutable: do not move v0.1.1.
-  - Future public release planning must use a new tag such as `v0.1.2`.
+  - Public `v0.1.2` already exists and must remain immutable: do not move v0.1.2.
+  - Future public release planning must use a new tag such as `v0.1.3`.
 
 ## Minimal new-machine restore path
 
@@ -76,16 +77,16 @@ This document records the minimal restore path for the Portable AI Assets split-
 7. Confirm public/private boundaries before any publication work. Restore is not release work; do not create, move, or delete public release tags while running restore smoke diagnostics:
 
    ```bash
-   git ls-remote --heads --tags https://github.com/wangtao1025/portable-ai-assets.git main 'refs/tags/v0.1.0' 'refs/tags/v0.1.1'
+   git ls-remote --heads --tags https://github.com/wangtao1025/portable-ai-assets.git main 'refs/tags/v0.1.0' 'refs/tags/v0.1.1' 'refs/tags/v0.1.2'
    ```
 
    Expected current public boundary:
 
    ```text
-   main    b78efecac61b4dd765fb256dad975ae811eec47c
+   main    217e714931c9b467a66ed19804aeea8f95c53e67
    v0.1.0  724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc
    v0.1.1  6f06d98b85e18d629175705c19436a4df199c876 (peeled commit; GitHub ref may be an annotated tag object)
-   no v0.1.2 tag yet
+   v0.1.2  dd7993c5c074a012fedd34f7957672e172041a65
    ```
 
 ## Restore smoke test checklist
@@ -98,12 +99,13 @@ This document records the minimal restore path for the Portable AI Assets split-
 - [ ] `python3 -m unittest discover -s tests -p test_bootstrap_phase4.py` exits 0.
 - [ ] Public `v0.1.0` is not moved.
 - [ ] Public `v0.1.1` is not moved.
-- [ ] Public release planning, if needed, uses `v0.1.2` or another new tag; restore is not release work.
+- [ ] Public `v0.1.2` is not moved.
+- [ ] Public release planning, if needed, uses `v0.1.3` or another new tag; restore is not release work.
 
 ## Non-goals
 
 - Do not publish private root contents to the public engine repo.
 - Do not create public releases during restore; restore is not release work.
-- Do not move public `v0.1.0` or `v0.1.1`, and do not create `v0.1.2` from a restore smoke run.
+- Do not move public `v0.1.0`, `v0.1.1`, or `v0.1.2`, and do not create `v0.1.3` from a restore smoke run.
 - Do not upload artifacts or invite reviewers/collaborators during restore smoke testing.
 - Do not treat committed public `bootstrap/reports/latest-*` snapshots as live GitHub state; rerun local report-only gates for current status.

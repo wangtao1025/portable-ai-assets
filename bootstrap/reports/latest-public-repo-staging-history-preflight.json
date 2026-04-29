@@ -1,6 +1,6 @@
 {
   "mode": "public-repo-staging-history-preflight",
-  "generated_at": "2026-04-29T12:55:30",
+  "generated_at": "2026-04-29T14:18:18",
   "host_home": "/Users/example",
   "engine_root": "/Users/example/AI-Assets",
   "root": "/Users/example/AI-Assets",
@@ -8,16 +8,17 @@
   "staging_dir": "/Users/example/AI-Assets/dist/github-staging/portable-ai-assets",
   "summary": {
     "status": "ready",
-    "checks": 8,
-    "pass": 8,
+    "checks": 10,
+    "pass": 10,
     "warn": 0,
     "fail": 0,
     "executes_anything": false,
     "remote_configured": false,
     "forbidden_findings": 0,
-    "head_rev": "dd7993c5c074a012fedd34f7957672e172041a65",
+    "head_rev": "217e714931c9b467a66ed19804aeea8f95c53e67",
     "v010_rev": "724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc",
     "v011_rev": "6f06d98b85e18d629175705c19436a4df199c876",
+    "v012_rev": "dd7993c5c074a012fedd34f7957672e172041a65",
     "v010_behind_head": true,
     "checklist_declares_existing_v010": true
   },
@@ -50,7 +51,7 @@
     {
       "name": "staging-head-exists",
       "status": "pass",
-      "detail": "dd7993c5c074a012fedd34f7957672e172041a65"
+      "detail": "217e714931c9b467a66ed19804aeea8f95c53e67"
     },
     {
       "name": "v010-tag-exists",
@@ -58,14 +59,24 @@
       "detail": "724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc"
     },
     {
+      "name": "v011-tag-exists",
+      "status": "pass",
+      "detail": "6f06d98b85e18d629175705c19436a4df199c876"
+    },
+    {
+      "name": "v012-tag-exists",
+      "status": "pass",
+      "detail": "dd7993c5c074a012fedd34f7957672e172041a65"
+    },
+    {
       "name": "v010-behind-head",
       "status": "pass",
-      "detail": "v0.1.0=724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc; HEAD=dd7993c5c074a012fedd34f7957672e172041a65"
+      "detail": "v0.1.0=724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc; HEAD=217e714931c9b467a66ed19804aeea8f95c53e67"
     }
   ],
   "based_on_status": {
     "mode": "public-repo-staging-status",
-    "generated_at": "2026-04-29T12:55:30",
+    "generated_at": "2026-04-29T14:18:18",
     "host_home": "/Users/example",
     "engine_root": "/Users/example/AI-Assets",
     "root": "/Users/example/AI-Assets",
@@ -127,7 +138,7 @@
   ],
   "recommendations": [
     "Treat needs-history-reattach as expected for freshly generated staging; reattach public history before any manual publication.",
-    "Do not move v0.1.0. Do not move v0.1.1; if a follow-up release is approved later, use a new tag such as v0.1.2.",
+    "Do not move v0.1.0. Do not move v0.1.1. Do not move v0.1.2; if a follow-up release is approved later, use a new tag such as v0.1.3.",
     "This report is local/read-only: it never fetches, creates remotes, commits, tags, pushes, uploads, or releases anything."
   ],
   "public_snapshot_notice": {

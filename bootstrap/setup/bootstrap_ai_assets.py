@@ -3540,7 +3540,7 @@ def _write_github_publish_checklist(staging_dir: Path) -> Path:
         "",
         "- Description: Portable AI Assets is a cross-agent continuity layer for owning AI memory, skills, adapters, schemas, and migration workflows outside any single runtime.",
         "- Topics: ai-agents, ai-memory, mcp, local-first, agentic-workflows, ai-portability, developer-tools, schemas",
-        "- Existing release tag: v0.1.0; do not move it. Use a new tag (for example v0.1.1) for follow-up releases.",
+        "- Existing release tag: v0.1.0; do not move it. v0.1.1 already exists and v0.1.2 already exists; do not move them. Use a new tag (for example v0.1.3) for follow-up releases.",
     ]
     checklist.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return checklist
@@ -3744,6 +3744,7 @@ def build_public_repo_staging_history_preflight_report(root: Path = ASSETS) -> D
     head_rev = _git_rev_parse_if_available(staging_dir, "HEAD") if git_initialized else None
     v010_rev = _git_rev_parse_if_available(staging_dir, "v0.1.0^{commit}") if git_initialized else None
     v011_rev = _git_rev_parse_if_available(staging_dir, "v0.1.1^{commit}") if git_initialized else None
+    v012_rev = _git_rev_parse_if_available(staging_dir, "v0.1.2^{commit}") if git_initialized else None
     checklist_path = staging_dir / "GITHUB-PUBLISH-CHECKLIST.md"
     checklist_text = checklist_path.read_text(encoding="utf-8", errors="replace") if checklist_path.is_file() else ""
     checklist_declares_existing_v010 = "Existing release tag: v0.1.0" in checklist_text
@@ -3761,6 +3762,10 @@ def build_public_repo_staging_history_preflight_report(root: Path = ASSETS) -> D
     add("checklist-declares-existing-v010", "pass" if checklist_declares_existing_v010 else "warn", "Existing release tag: v0.1.0" if checklist_declares_existing_v010 else "missing existing-tag checklist wording")
     add("staging-head-exists", "pass" if head_rev else "fail", head_rev or "missing HEAD")
     add("v010-tag-exists", "pass" if v010_rev else "fail", v010_rev or "missing v0.1.0^{commit}")
+    if v011_rev:
+        add("v011-tag-exists", "pass", v011_rev)
+    if v012_rev:
+        add("v012-tag-exists", "pass", v012_rev)
     if head_rev and v010_rev:
         add("v010-behind-head", "pass" if v010_behind_head else "warn", f"v0.1.0={v010_rev}; HEAD={head_rev}")
     if generated_without_history:
@@ -3786,12 +3791,23 @@ def build_public_repo_staging_history_preflight_report(root: Path = ASSETS) -> D
         {"step": "review-v010-tag", "command": "git rev-parse --verify v0.1.0^{commit}", "cwd": str(staging_dir), "executes": False, "owner_approval_required": True},
         {"step": "reattach-public-history-if-approved", "command": "Reattach public main/v0.1.0 history only after explicit owner approval; do not move v0.1.0.", "cwd": str(staging_dir), "executes": False, "owner_approval_required": True},
     ]
-    followup_tag = "v0.1.2" if v011_rev else "v0.1.1"
-    release_boundary_recommendation = (
-        f"Do not move v0.1.0. Do not move v0.1.1; if a follow-up release is approved later, use a new tag such as {followup_tag}."
-        if v011_rev
-        else f"Do not move v0.1.0; if a follow-up release is approved later, use a new tag such as {followup_tag}."
-    )
+    if v012_rev:
+        followup_tag = "v0.1.3"
+        release_boundary_recommendation = (
+            "Do not move v0.1.0. Do not move v0.1.1. Do not move v0.1.2; "
+            f"if a follow-up release is approved later, use a new tag such as {followup_tag}."
+        )
+    elif v011_rev:
+        followup_tag = "v0.1.2"
+        release_boundary_recommendation = (
+            "Do not move v0.1.0. Do not move v0.1.1; "
+            f"if a follow-up release is approved later, use a new tag such as {followup_tag}."
+        )
+    else:
+        followup_tag = "v0.1.1"
+        release_boundary_recommendation = (
+            f"Do not move v0.1.0; if a follow-up release is approved later, use a new tag such as {followup_tag}."
+        )
     return {
         "mode": "public-repo-staging-history-preflight",
         "generated_at": dt.datetime.now().isoformat(timespec="seconds"),
@@ -3812,6 +3828,7 @@ def build_public_repo_staging_history_preflight_report(root: Path = ASSETS) -> D
             "head_rev": head_rev,
             "v010_rev": v010_rev,
             "v011_rev": v011_rev,
+            "v012_rev": v012_rev,
             "v010_behind_head": v010_behind_head,
             "checklist_declares_existing_v010": checklist_declares_existing_v010,
         },
@@ -11198,7 +11215,11 @@ def build_restore_smoke_check_report() -> Dict[str, Any]:
         "fresh clone may report blocked",
         "regenerate prerequisite reports",
         "do not move v0.1.0",
+        "do not move v0.1.1",
+        "do not move v0.1.2",
         "v0.1.1",
+        "v0.1.2",
+        "v0.1.3",
         "restore smoke test",
     ]
     missing_doc_tokens = [token for token in required_doc_tokens if token not in restore_doc_text]
@@ -11246,10 +11267,15 @@ def build_restore_smoke_check_report() -> Dict[str, Any]:
         "pass" if not missing_reports else "warn",
         "all prerequisite reports present" if not missing_reports else "fresh clones may miss ignored runtime reports until regenerated",
     )
+    public_boundary_ready = all(
+        token in restore_doc_text
+        for token in ["do not move v0.1.0", "do not move v0.1.1", "do not move v0.1.2", "v0.1.3"]
+    )
+    public_release_boundary = "do not move v0.1.0; do not move v0.1.1; do not move v0.1.2; keep public release separate; use a new tag such as v0.1.3"
     add_check(
         "public-release-boundary",
-        "pass" if "do not move v0.1.0" in restore_doc_text and "v0.1.1" in restore_doc_text else "fail",
-        "public release remains separate; do not move v0.1.0; use a new tag such as v0.1.1",
+        "pass" if public_boundary_ready else "fail",
+        f"public release remains separate; {public_release_boundary}",
     )
 
     has_failures = any(check["status"] == "fail" for check in checks)
@@ -11300,11 +11326,11 @@ def build_restore_smoke_check_report() -> Dict[str, Any]:
                 "external_learning: warn",
             ] if missing_reports else [],
         },
-        "public_release_boundary": "do not move v0.1.0; keep public release separate; use a new tag such as v0.1.1",
+        "public_release_boundary": public_release_boundary,
         "recommendations": [
             "Run restore checks from a fresh/temp clone with: ./bootstrap/setup/bootstrap-ai-assets.sh --engine-root \"$PWD\" --asset-root \"$PWD\" --restore-smoke-check --both",
             "If prerequisite runtime reports are missing, regenerate them before interpreting completed-work-review as final evidence.",
-            "Do not move v0.1.0; keep any future public release on a new tag such as v0.1.1.",
+            "Do not move v0.1.0, v0.1.1, or v0.1.2; keep any future public release on a new tag such as v0.1.3.",
         ],
         "checks": checks,
     }
