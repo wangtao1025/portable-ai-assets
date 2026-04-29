@@ -2,7 +2,7 @@
 
 # AI-Assets Manual Publication Decision Packet
 
-Generated: 2026-04-29T08:59:06
+Generated: 2026-04-29T10:03:40
 
 ## Summary
 
@@ -19,7 +19,7 @@ Generated: 2026-04-29T08:59:06
 
 ## Checks
 
-- **pass** `history-preflight-present`: {'status': 'ready', 'checks': 8, 'pass': 8, 'warn': 0, 'fail': 0, 'executes_anything': False, 'remote_configured': False, 'forbidden_findings': 0, 'head_rev': 'b78efecac61b4dd765fb256dad975ae811eec47c', 'v010_rev': '724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc', 'v010_behind_head': True, 'checklist_declares_existing_v010': True}
+- **pass** `history-preflight-present`: {'status': 'ready', 'checks': 8, 'pass': 8, 'warn': 0, 'fail': 0, 'executes_anything': False, 'remote_configured': False, 'forbidden_findings': 0, 'head_rev': 'a7d685482c0b771bc049cc63de2e220190139237', 'v010_rev': '724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc', 'v011_rev': '6f06d98b85e18d629175705c19436a4df199c876', 'v010_behind_head': True, 'checklist_declares_existing_v010': True}
 - **pass** `history-preflight-non-executing`: False
 - **pass** `dry-run-non-executing`: False
 - **pass** `public-safety-pass`: {'status': 'pass', 'scanned_files': 132, 'findings': 0, 'blockers': 0, 'warnings': 0, 'unreadable_files': 0}

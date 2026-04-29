@@ -3743,6 +3743,7 @@ def build_public_repo_staging_history_preflight_report(root: Path = ASSETS) -> D
     forbidden_findings = int(status_report.get("summary", {}).get("forbidden_findings") or 0)
     head_rev = _git_rev_parse_if_available(staging_dir, "HEAD") if git_initialized else None
     v010_rev = _git_rev_parse_if_available(staging_dir, "v0.1.0^{commit}") if git_initialized else None
+    v011_rev = _git_rev_parse_if_available(staging_dir, "v0.1.1^{commit}") if git_initialized else None
     checklist_path = staging_dir / "GITHUB-PUBLISH-CHECKLIST.md"
     checklist_text = checklist_path.read_text(encoding="utf-8", errors="replace") if checklist_path.is_file() else ""
     checklist_declares_existing_v010 = "Existing release tag: v0.1.0" in checklist_text
@@ -3785,6 +3786,12 @@ def build_public_repo_staging_history_preflight_report(root: Path = ASSETS) -> D
         {"step": "review-v010-tag", "command": "git rev-parse --verify v0.1.0^{commit}", "cwd": str(staging_dir), "executes": False, "owner_approval_required": True},
         {"step": "reattach-public-history-if-approved", "command": "Reattach public main/v0.1.0 history only after explicit owner approval; do not move v0.1.0.", "cwd": str(staging_dir), "executes": False, "owner_approval_required": True},
     ]
+    followup_tag = "v0.1.2" if v011_rev else "v0.1.1"
+    release_boundary_recommendation = (
+        f"Do not move v0.1.0. Do not move v0.1.1; if a follow-up release is approved later, use a new tag such as {followup_tag}."
+        if v011_rev
+        else f"Do not move v0.1.0; if a follow-up release is approved later, use a new tag such as {followup_tag}."
+    )
     return {
         "mode": "public-repo-staging-history-preflight",
         "generated_at": dt.datetime.now().isoformat(timespec="seconds"),
@@ -3804,6 +3811,7 @@ def build_public_repo_staging_history_preflight_report(root: Path = ASSETS) -> D
             "forbidden_findings": forbidden_findings,
             "head_rev": head_rev,
             "v010_rev": v010_rev,
+            "v011_rev": v011_rev,
             "v010_behind_head": v010_behind_head,
             "checklist_declares_existing_v010": checklist_declares_existing_v010,
         },
@@ -3812,7 +3820,7 @@ def build_public_repo_staging_history_preflight_report(root: Path = ASSETS) -> D
         "manual_history_context_steps": manual_steps,
         "recommendations": [
             "Treat needs-history-reattach as expected for freshly generated staging; reattach public history before any manual publication.",
-            "Do not move v0.1.0; if a follow-up release is approved later, use a new tag such as v0.1.1.",
+            release_boundary_recommendation,
             "This report is local/read-only: it never fetches, creates remotes, commits, tags, pushes, uploads, or releases anything.",
         ],
     }

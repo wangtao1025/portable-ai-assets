@@ -1176,6 +1176,41 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertFalse(report["summary"]["remote_configured"])
             self.assertFalse(report["summary"]["executes_anything"])
 
+    def test_public_repo_staging_history_preflight_advances_recommendation_after_v011_exists(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            staging = tmp / "dist" / "github-staging" / "portable-ai-assets"
+            staging.mkdir(parents=True)
+            (staging / "README.md").write_text("# Demo\n", encoding="utf-8")
+            (staging / "GITHUB-PUBLISH-CHECKLIST.md").write_text(
+                "# Checklist\n- Existing release tag: v0.1.0; do not move it. v0.1.1 already exists; use v0.1.2 for follow-up releases.\n",
+                encoding="utf-8",
+            )
+            bootstrap_ai_assets.run_git_command(staging, ["init"])
+            bootstrap_ai_assets.run_git_command(staging, ["config", "user.email", "test@example.invalid"])
+            bootstrap_ai_assets.run_git_command(staging, ["config", "user.name", "Test User"])
+            bootstrap_ai_assets.run_git_command(staging, ["add", "README.md"])
+            bootstrap_ai_assets.run_git_command(staging, ["commit", "-m", "Initial public release: Portable AI Assets v0.1.0"])
+            bootstrap_ai_assets.run_git_command(staging, ["tag", "v0.1.0"])
+            (staging / "README.md").write_text("# Demo\n\nRelease v0.1.1\n", encoding="utf-8")
+            bootstrap_ai_assets.run_git_command(staging, ["add", "README.md"])
+            bootstrap_ai_assets.run_git_command(staging, ["commit", "-m", "Release v0.1.1"])
+            bootstrap_ai_assets.run_git_command(staging, ["tag", "v0.1.1"])
+            (staging / "README.md").write_text("# Demo\n\nPost v0.1.1 hardening\n", encoding="utf-8")
+            bootstrap_ai_assets.run_git_command(staging, ["add", "README.md"])
+            bootstrap_ai_assets.run_git_command(staging, ["commit", "-m", "Post v0.1.1 hardening"])
+
+            report = bootstrap_ai_assets.build_public_repo_staging_history_preflight_report(tmp)
+            recommendations = "\n".join(report["recommendations"])
+
+            self.assertEqual(report["summary"]["status"], "ready")
+            expected_v011 = bootstrap_ai_assets.run_git_command(staging, ["rev-parse", "--verify", "v0.1.1^{commit}"])["output"]
+            self.assertEqual(report["summary"]["v011_rev"], expected_v011)
+            self.assertIn("v0.1.2", recommendations)
+            self.assertIn("Do not move v0.1.1", recommendations)
+            self.assertNotIn("new tag such as v0.1.1", recommendations)
+            self.assertFalse(report["summary"]["executes_anything"])
+
     def test_manual_publication_decision_packet_summarizes_options_without_execution(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
