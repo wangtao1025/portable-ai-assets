@@ -80,14 +80,16 @@ This document records the minimal restore path for the Portable AI Assets split-
    git ls-remote --heads --tags https://github.com/wangtao1025/portable-ai-assets.git main 'refs/tags/v0.1.0' 'refs/tags/v0.1.1' 'refs/tags/v0.1.2'
    ```
 
-   Expected current public boundary:
+   Expected immutable tag boundary and live-main check:
 
    ```text
-   main    217e714931c9b467a66ed19804aeea8f95c53e67
+   main    <live SHA from git ls-remote; public main can advance after this document is committed>
    v0.1.0  724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc
    v0.1.1  6f06d98b85e18d629175705c19436a4df199c876 (peeled commit; GitHub ref may be an annotated tag object)
    v0.1.2  dd7993c5c074a012fedd34f7957672e172041a65
    ```
+
+   Rerun this command for live public `main`; do not treat this committed document as live GitHub state. The existing release tag SHAs above are immutable boundary checks, while public `main` may legitimately move forward with later guidance-only syncs.
 
 ## Restore smoke test checklist
 

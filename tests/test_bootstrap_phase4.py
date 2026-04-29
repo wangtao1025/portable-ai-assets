@@ -850,6 +850,17 @@ class BootstrapPhase4Tests(unittest.TestCase):
         ]
         for token in stale_restore_tokens:
             self.assertNotIn(token, restore_doc)
+        hardcoded_live_main_lines = [
+            line.strip()
+            for line in restore_doc.splitlines()
+            if line.strip().startswith("main    ")
+            and len(line.strip().split()) == 2
+            and len(line.strip().split()[1]) == 40
+            and all(ch in "0123456789abcdef" for ch in line.strip().split()[1])
+        ]
+        self.assertEqual([], hardcoded_live_main_lines)
+        self.assertIn("Rerun this command for live public `main`", restore_doc)
+        self.assertIn("do not treat this committed document as live GitHub state", restore_doc)
         self.assertIn("docs/restore-readiness.md", readme)
         self.assertIn("restore smoke", readme)
 
