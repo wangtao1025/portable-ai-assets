@@ -17,4 +17,4 @@ This staging tree is generated for manual review before creating or pushing a pu
 
 - Description: Portable AI Assets is a cross-agent continuity layer for owning AI memory, skills, adapters, schemas, and migration workflows outside any single runtime.
 - Topics: ai-agents, ai-memory, mcp, local-first, agentic-workflows, ai-portability, developer-tools, schemas
-- Existing release tag: v0.1.0; do not move it. v0.1.1 already exists and v0.1.2 already exists; do not move them. Use a new tag (for example v0.1.3) for follow-up releases.
+- Existing release tag: v0.1.0; do not move it. v0.1.1 already exists, v0.1.2 already exists, and v0.1.3 already exists; do not move them. Use a new tag (for example v0.1.4) for follow-up releases.

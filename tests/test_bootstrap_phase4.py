@@ -755,8 +755,10 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertIn("static sanitized snapshots", checklist_text)
             self.assertIn("not live GitHub state", checklist_text)
             self.assertIn("v0.1.2 already exists", checklist_text)
-            self.assertIn("v0.1.3", checklist_text)
+            self.assertIn("v0.1.3 already exists", checklist_text)
+            self.assertIn("v0.1.4", checklist_text)
             self.assertNotIn("Use a new tag (for example v0.1.1)", checklist_text)
+            self.assertNotIn("Use a new tag (for example v0.1.3)", checklist_text)
             self.assertTrue((staging_dir / "STAGING-MANIFEST.json").is_file())
             self.assertTrue((staging_dir / "bin" / "paa").is_file())
             self.assertTrue(os.access(staging_dir / "bin" / "paa", os.X_OK))
@@ -828,10 +830,12 @@ class BootstrapPhase4Tests(unittest.TestCase):
             "do not move v0.1.0",
             "do not move v0.1.1",
             "do not move v0.1.2",
-            "v0.1.3",
+            "do not move v0.1.3",
+            "v0.1.4",
             "restore is not release work",
             "v0.1.1",
             "v0.1.2",
+            "v0.1.3",
             "bootstrap/setup/bootstrap-ai-assets.sh --engine-root \"$PWD\" --asset-root \"$PWD\" --completed-work-review --both",
             "python3 -m unittest discover -s tests -p test_bootstrap_phase4.py",
             "--engine-root",
@@ -845,8 +849,10 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertIn(token, restore_doc)
         stale_restore_tokens = [
             "Future public release planning must use a new tag such as `v0.1.2`",
+            "Future public release planning must use a new tag such as `v0.1.3`",
             "no v0.1.2 tag yet",
             "do not create `v0.1.2` from a restore smoke run",
+            "do not create `v0.1.3` from a restore smoke run",
         ]
         for token in stale_restore_tokens:
             self.assertNotIn(token, restore_doc)
@@ -898,9 +904,11 @@ class BootstrapPhase4Tests(unittest.TestCase):
                 "do not move v0.1.0\n"
                 "do not move v0.1.1\n"
                 "do not move v0.1.2\n"
+                "do not move v0.1.3\n"
                 "v0.1.1\n"
                 "v0.1.2\n"
                 "v0.1.3\n"
+                "v0.1.4\n"
                 "bootstrap/setup/bootstrap-ai-assets.sh --completed-work-review --both\n"
                 "--engine-root\n"
                 "--asset-root\n"
@@ -934,8 +942,9 @@ class BootstrapPhase4Tests(unittest.TestCase):
         self.assertIn("--restore-smoke-check --both", recommendations)
         self.assertIn("do not move v0.1.0", report["public_release_boundary"])
         self.assertIn("do not move v0.1.2", report["public_release_boundary"])
-        self.assertIn("v0.1.3", report["public_release_boundary"])
-        self.assertIn("v0.1.3", recommendations)
+        self.assertIn("do not move v0.1.3", report["public_release_boundary"])
+        self.assertIn("v0.1.4", report["public_release_boundary"])
+        self.assertIn("v0.1.4", recommendations)
         self.assertNotIn("new tag such as v0.1.1", report["public_release_boundary"])
         self.assertNotIn("new tag such as v0.1.1", recommendations)
 
@@ -954,9 +963,11 @@ class BootstrapPhase4Tests(unittest.TestCase):
                 "do not move v0.1.0\n"
                 "do not move v0.1.1\n"
                 "do not move v0.1.2\n"
+                "do not move v0.1.3\n"
                 "v0.1.1\n"
                 "v0.1.2\n"
                 "v0.1.3\n"
+                "v0.1.4\n"
                 "--engine-root\n"
                 "--asset-root\n"
                 "fresh clone may report blocked\n"
@@ -1204,6 +1215,40 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertIn("git tag v0.1.3", command_text)
             self.assertTrue(all(command["executes"] is False for command in dry_run["commands"]))
 
+    def test_github_publish_dry_run_advances_after_v013_tag_points_behind_head(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            staging = tmp / "dist" / "github-staging" / "portable-ai-assets"
+            staging.mkdir(parents=True)
+            (staging / "README.md").write_text("# Demo\n", encoding="utf-8")
+            bootstrap_ai_assets.run_git_command(staging, ["init"])
+            bootstrap_ai_assets.run_git_command(staging, ["config", "user.email", "test@example.invalid"])
+            bootstrap_ai_assets.run_git_command(staging, ["config", "user.name", "Test User"])
+            bootstrap_ai_assets.run_git_command(staging, ["add", "README.md"])
+            bootstrap_ai_assets.run_git_command(staging, ["commit", "-m", "Initial public release: Portable AI Assets v0.1.0"])
+            bootstrap_ai_assets.run_git_command(staging, ["tag", "v0.1.0"])
+            for tag in ["v0.1.1", "v0.1.2", "v0.1.3"]:
+                (staging / "README.md").write_text(f"# Demo\n\nRelease {tag}\n", encoding="utf-8")
+                bootstrap_ai_assets.run_git_command(staging, ["add", "README.md"])
+                bootstrap_ai_assets.run_git_command(staging, ["commit", "-m", f"Portable AI Assets {tag}"])
+                bootstrap_ai_assets.run_git_command(staging, ["tag", tag])
+            (staging / "README.md").write_text("# Demo\n\nPost v0.1.3 hardening\n", encoding="utf-8")
+            bootstrap_ai_assets.run_git_command(staging, ["add", "README.md"])
+            bootstrap_ai_assets.run_git_command(staging, ["commit", "-m", "Post v0.1.3 hardening"])
+
+            dry_run = bootstrap_ai_assets.build_github_publish_dry_run_report(tmp)
+            command_text = "\n".join(command["command"] for command in dry_run["commands"])
+            checks_by_name = {check["name"]: check for check in dry_run["checks"]}
+            recommendations = "\n".join(dry_run["recommendations"])
+
+            self.assertEqual(dry_run["suggested_release_tag"], "v0.1.4")
+            self.assertEqual(checks_by_name["existing-v013-tag-behind-head"]["status"], "warn")
+            self.assertNotIn("git tag v0.1.3", command_text)
+            self.assertIn("git tag v0.1.4", command_text)
+            self.assertIn("v0.1.3 already points at HEAD or already exists", recommendations)
+            self.assertIn("v0.1.4", recommendations)
+            self.assertTrue(all(command["executes"] is False for command in dry_run["commands"]))
+
     def test_github_publish_dry_run_uses_new_tag_when_existing_tag_context_lacks_git_history(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
@@ -1350,6 +1395,44 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertIn("v0.1.3", recommendations)
             self.assertIn("Do not move v0.1.2", recommendations)
             self.assertNotIn("new tag such as v0.1.2", recommendations)
+            self.assertFalse(report["summary"]["executes_anything"])
+
+    def test_public_repo_staging_history_preflight_advances_recommendation_after_v013_exists(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            staging = tmp / "dist" / "github-staging" / "portable-ai-assets"
+            staging.mkdir(parents=True)
+            (staging / "README.md").write_text("# Demo\n", encoding="utf-8")
+            (staging / "GITHUB-PUBLISH-CHECKLIST.md").write_text(
+                "# Checklist\n- Existing release tag: v0.1.0; v0.1.1, v0.1.2, and v0.1.3 already exist; do not move them. Use v0.1.4 for follow-up releases.\n",
+                encoding="utf-8",
+            )
+            bootstrap_ai_assets.run_git_command(staging, ["init"])
+            bootstrap_ai_assets.run_git_command(staging, ["config", "user.email", "test@example.invalid"])
+            bootstrap_ai_assets.run_git_command(staging, ["config", "user.name", "Test User"])
+            bootstrap_ai_assets.run_git_command(staging, ["add", "README.md"])
+            bootstrap_ai_assets.run_git_command(staging, ["commit", "-m", "Initial public release: Portable AI Assets v0.1.0"])
+            bootstrap_ai_assets.run_git_command(staging, ["tag", "v0.1.0"])
+            for tag in ["v0.1.1", "v0.1.2", "v0.1.3"]:
+                (staging / "README.md").write_text(f"# Demo\n\nRelease {tag}\n", encoding="utf-8")
+                bootstrap_ai_assets.run_git_command(staging, ["add", "README.md"])
+                bootstrap_ai_assets.run_git_command(staging, ["commit", "-m", f"Release {tag}"])
+                bootstrap_ai_assets.run_git_command(staging, ["tag", tag])
+            (staging / "README.md").write_text("# Demo\n\nPost v0.1.3 hardening\n", encoding="utf-8")
+            bootstrap_ai_assets.run_git_command(staging, ["add", "README.md"])
+            bootstrap_ai_assets.run_git_command(staging, ["commit", "-m", "Post v0.1.3 hardening"])
+
+            report = bootstrap_ai_assets.build_public_repo_staging_history_preflight_report(tmp)
+            checks_by_name = {check["name"]: check for check in report["checks"]}
+            recommendations = "\n".join(report["recommendations"])
+
+            self.assertEqual(report["summary"]["status"], "ready")
+            expected_v013 = bootstrap_ai_assets.run_git_command(staging, ["rev-parse", "--verify", "v0.1.3^{commit}"])["output"]
+            self.assertEqual(report["summary"]["v013_rev"], expected_v013)
+            self.assertEqual(checks_by_name["v013-tag-exists"]["status"], "pass")
+            self.assertIn("v0.1.4", recommendations)
+            self.assertIn("Do not move v0.1.3", recommendations)
+            self.assertNotIn("new tag such as v0.1.3", recommendations)
             self.assertFalse(report["summary"]["executes_anything"])
 
     def test_manual_publication_decision_packet_summarizes_options_without_execution(self):
@@ -1555,6 +1638,53 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertNotIn("prepare-v012-tag-release", options_by_id)
             self.assertIn("v0.1.2 already exists in staging", packet_text)
             self.assertIn("v0.1.3", packet_text)
+            self.assertTrue(all(step["executes"] is False for option in report["decision_options"] for step in option["steps"]))
+
+    def test_manual_publication_decision_packet_uses_post_v013_release_language(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            reports = tmp / "bootstrap" / "reports"
+            reports.mkdir(parents=True)
+            (reports / "latest-public-repo-staging-history-preflight.json").write_text(__import__("json").dumps({
+                "summary": {
+                    "status": "ready",
+                    "executes_anything": False,
+                    "remote_configured": False,
+                    "forbidden_findings": 0,
+                    "head_rev": "post-v013-main",
+                    "v010_rev": "v010-release",
+                    "v011_rev": "v011-release",
+                    "v012_rev": "v012-release",
+                    "v013_rev": "v013-release",
+                    "v010_behind_head": True,
+                },
+            }), encoding="utf-8")
+            (reports / "latest-github-publish-dry-run.json").write_text(__import__("json").dumps({
+                "summary": {"status": "needs-review", "executes_anything": False, "fail": 0},
+                "suggested_release_tag": "v0.1.4",
+                "checks": [{"name": "existing-v013-tag-at-head", "status": "warn", "detail": "v0.1.3 already points at HEAD; suggested_release_tag=v0.1.4"}],
+            }), encoding="utf-8")
+            (reports / "latest-public-safety-scan.json").write_text('{"summary":{"status":"pass","findings":0,"blockers":0}}', encoding="utf-8")
+            (reports / "latest-completed-work-review.json").write_text(__import__("json").dumps({
+                "summary": {"status": "aligned", "executes_anything": False},
+                "review_axes": {"external_learning": {"status": "pass"}},
+            }), encoding="utf-8")
+            (reports / "latest-restore-smoke-check.json").write_text(__import__("json").dumps({
+                "summary": {"status": "ready", "executes_anything": False, "mutates_repositories": False, "safe_for_fresh_clone": True}
+            }), encoding="utf-8")
+
+            report = bootstrap_ai_assets.build_manual_publication_decision_packet_report(tmp)
+            options_by_id = {option["id"]: option for option in report["decision_options"]}
+            packet_text = __import__("json").dumps(report)
+
+            self.assertEqual(report["summary"]["suggested_release_tag"], "v0.1.4")
+            self.assertEqual(report["summary"]["latest_published_tag"], "v0.1.3")
+            self.assertIn("review-post-v013-release", options_by_id)
+            self.assertIn("prepare-v014-tag-release", options_by_id)
+            self.assertNotIn("prepare-v013-tag-release", options_by_id)
+            self.assertIn("v0.1.3 already exists in staging", packet_text)
+            self.assertIn("v0.1.4", packet_text)
+            self.assertIn("never move v0.1.0, v0.1.1, v0.1.2, or v0.1.3", packet_text)
             self.assertTrue(all(step["executes"] is False for option in report["decision_options"] for step in option["steps"]))
 
     def test_github_handoff_pack_collects_public_safe_review_materials(self):

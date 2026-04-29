@@ -3540,7 +3540,7 @@ def _write_github_publish_checklist(staging_dir: Path) -> Path:
         "",
         "- Description: Portable AI Assets is a cross-agent continuity layer for owning AI memory, skills, adapters, schemas, and migration workflows outside any single runtime.",
         "- Topics: ai-agents, ai-memory, mcp, local-first, agentic-workflows, ai-portability, developer-tools, schemas",
-        "- Existing release tag: v0.1.0; do not move it. v0.1.1 already exists and v0.1.2 already exists; do not move them. Use a new tag (for example v0.1.3) for follow-up releases.",
+        "- Existing release tag: v0.1.0; do not move it. v0.1.1 already exists, v0.1.2 already exists, and v0.1.3 already exists; do not move them. Use a new tag (for example v0.1.4) for follow-up releases.",
     ]
     checklist.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return checklist
@@ -3745,6 +3745,7 @@ def build_public_repo_staging_history_preflight_report(root: Path = ASSETS) -> D
     v010_rev = _git_rev_parse_if_available(staging_dir, "v0.1.0^{commit}") if git_initialized else None
     v011_rev = _git_rev_parse_if_available(staging_dir, "v0.1.1^{commit}") if git_initialized else None
     v012_rev = _git_rev_parse_if_available(staging_dir, "v0.1.2^{commit}") if git_initialized else None
+    v013_rev = _git_rev_parse_if_available(staging_dir, "v0.1.3^{commit}") if git_initialized else None
     checklist_path = staging_dir / "GITHUB-PUBLISH-CHECKLIST.md"
     checklist_text = checklist_path.read_text(encoding="utf-8", errors="replace") if checklist_path.is_file() else ""
     checklist_declares_existing_v010 = "Existing release tag: v0.1.0" in checklist_text
@@ -3766,6 +3767,8 @@ def build_public_repo_staging_history_preflight_report(root: Path = ASSETS) -> D
         add("v011-tag-exists", "pass", v011_rev)
     if v012_rev:
         add("v012-tag-exists", "pass", v012_rev)
+    if v013_rev:
+        add("v013-tag-exists", "pass", v013_rev)
     if head_rev and v010_rev:
         add("v010-behind-head", "pass" if v010_behind_head else "warn", f"v0.1.0={v010_rev}; HEAD={head_rev}")
     if generated_without_history:
@@ -3791,7 +3794,13 @@ def build_public_repo_staging_history_preflight_report(root: Path = ASSETS) -> D
         {"step": "review-v010-tag", "command": "git rev-parse --verify v0.1.0^{commit}", "cwd": str(staging_dir), "executes": False, "owner_approval_required": True},
         {"step": "reattach-public-history-if-approved", "command": "Reattach public main/v0.1.0 history only after explicit owner approval; do not move v0.1.0.", "cwd": str(staging_dir), "executes": False, "owner_approval_required": True},
     ]
-    if v012_rev:
+    if v013_rev:
+        followup_tag = "v0.1.4"
+        release_boundary_recommendation = (
+            "Do not move v0.1.0. Do not move v0.1.1. Do not move v0.1.2. Do not move v0.1.3; "
+            f"if a follow-up release is approved later, use a new tag such as {followup_tag}."
+        )
+    elif v012_rev:
         followup_tag = "v0.1.3"
         release_boundary_recommendation = (
             "Do not move v0.1.0. Do not move v0.1.1. Do not move v0.1.2; "
@@ -3829,6 +3838,7 @@ def build_public_repo_staging_history_preflight_report(root: Path = ASSETS) -> D
             "v010_rev": v010_rev,
             "v011_rev": v011_rev,
             "v012_rev": v012_rev,
+            "v013_rev": v013_rev,
             "v010_behind_head": v010_behind_head,
             "checklist_declares_existing_v010": checklist_declares_existing_v010,
         },
@@ -3864,6 +3874,10 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
     external_learning = completed_axes.get("external_learning", {}) if isinstance(completed_axes.get("external_learning"), dict) else {}
     suggested_release_tag = dry_run.get("suggested_release_tag") or "v0.1.1"
     dry_checks = dry_run.get("checks", []) if isinstance(dry_run.get("checks"), list) else []
+    v013_tag_known = any(
+        isinstance(check, dict) and check.get("name") in {"existing-v013-tag-at-head", "existing-v013-tag-behind-head"}
+        for check in dry_checks
+    )
     v012_tag_known = any(
         isinstance(check, dict) and check.get("name") in {"existing-v012-tag-at-head", "existing-v012-tag-behind-head"}
         for check in dry_checks
@@ -3872,7 +3886,7 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
         isinstance(check, dict) and check.get("name") in {"existing-v011-tag-at-head", "existing-v011-tag-behind-head"}
         for check in dry_checks
     )
-    latest_published_tag = "v0.1.2" if v012_tag_known else ("v0.1.1" if v011_tag_known else None)
+    latest_published_tag = "v0.1.3" if v013_tag_known else ("v0.1.2" if v012_tag_known else ("v0.1.1" if v011_tag_known else None))
 
     history_status = str(history_summary.get("status") or "missing")
     history_ready = history_status == "ready"
@@ -3891,7 +3905,15 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
     ]
     if history_ready:
         if latest_published_tag:
-            immutable_tags = "v0.1.0 or v0.1.1" if latest_published_tag == "v0.1.1" else "v0.1.0, v0.1.1, or v0.1.2"
+            immutable_tags = (
+                "v0.1.0 or v0.1.1"
+                if latest_published_tag == "v0.1.1"
+                else (
+                    "v0.1.0, v0.1.1, or v0.1.2"
+                    if latest_published_tag == "v0.1.2"
+                    else "v0.1.0, v0.1.1, v0.1.2, or v0.1.3"
+                )
+            )
             options.append({
                 "id": f"review-post-{latest_published_tag.replace('.', '')}-release",
                 "title": f"Review published {latest_published_tag} state before any later release",
@@ -3941,7 +3963,7 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
         "blocked_until": "public-main-reviewed-and-owner-approved" if history_ready else "history-reattached-and-main-reviewed",
         "steps": [
             {"step": "confirm-main", "command": "Confirm public main contains intended follow-up commit after owner-approved push or read-only post-push review.", "executes": False},
-            {"step": "create-new-tag", "command": f"Draft new tag {suggested_release_tag}; never move v0.1.0.", "executes": False},
+            {"step": "create-new-tag", "command": f"Draft new tag {suggested_release_tag}; never move {immutable_tags if latest_published_tag else 'v0.1.0'}.", "executes": False},
             {"step": "release-review", "command": "Draft release notes/upload checklist only after explicit owner approval.", "executes": False},
         ],
         "risks": ["Tag/release before main review could publish stale or unintended content."],
@@ -4024,6 +4046,7 @@ def build_github_publish_dry_run_report(root: Path = ASSETS) -> Dict[str, Any]:
     v010_rev = _git_rev_parse_if_available(staging_dir, "v0.1.0^{commit}")
     v011_rev = _git_rev_parse_if_available(staging_dir, "v0.1.1^{commit}")
     v012_rev = _git_rev_parse_if_available(staging_dir, "v0.1.2^{commit}")
+    v013_rev = _git_rev_parse_if_available(staging_dir, "v0.1.3^{commit}")
     checklist_text = ""
     checklist_path = staging_dir / "GITHUB-PUBLISH-CHECKLIST.md"
     if checklist_path.is_file():
@@ -4040,9 +4063,12 @@ def build_github_publish_dry_run_report(root: Path = ASSETS) -> Dict[str, Any]:
     existing_v012_tag_at_head = bool(head_rev and v012_rev and head_rev == v012_rev)
     existing_v012_tag_behind_head = bool(head_rev and v012_rev and head_rev != v012_rev)
     existing_v012_tag_present = bool(v012_rev)
+    existing_v013_tag_at_head = bool(head_rev and v013_rev and head_rev == v013_rev)
+    existing_v013_tag_behind_head = bool(head_rev and v013_rev and head_rev != v013_rev)
+    existing_v013_tag_present = bool(v013_rev)
     should_use_followup_tag = existing_v010_tag_behind_head or existing_v010_context_without_git_history
-    release_tag = "v0.1.3" if existing_v012_tag_present else ("v0.1.2" if existing_v011_tag_present else ("v0.1.1" if should_use_followup_tag else "v0.1.0"))
-    commit_message = "Update Portable AI Assets after v0.1.2" if existing_v012_tag_present else ("Update Portable AI Assets after v0.1.1" if existing_v011_tag_present else ("Update Portable AI Assets after v0.1.0" if should_use_followup_tag else "Initial public release: Portable AI Assets v0.1.0"))
+    release_tag = "v0.1.4" if existing_v013_tag_present else ("v0.1.3" if existing_v012_tag_present else ("v0.1.2" if existing_v011_tag_present else ("v0.1.1" if should_use_followup_tag else "v0.1.0")))
+    commit_message = "Update Portable AI Assets after v0.1.3" if existing_v013_tag_present else ("Update Portable AI Assets after v0.1.2" if existing_v012_tag_present else ("Update Portable AI Assets after v0.1.1" if existing_v011_tag_present else ("Update Portable AI Assets after v0.1.0" if should_use_followup_tag else "Initial public release: Portable AI Assets v0.1.0")))
     branch = status_report["summary"].get("branch") or "main"
     remote_configured = status_report["summary"].get("remote_configured")
     commands = [
@@ -4091,6 +4117,18 @@ def build_github_publish_dry_run_report(root: Path = ASSETS) -> Dict[str, Any]:
             "status": "warn",
             "detail": f"v0.1.2={v012_rev}; HEAD={head_rev}; suggested_release_tag={release_tag}; do not move v0.1.0, v0.1.1, or v0.1.2",
         })
+    if existing_v013_tag_at_head:
+        checks.append({
+            "name": "existing-v013-tag-at-head",
+            "status": "warn",
+            "detail": f"v0.1.3 already points at HEAD={head_rev}; suggested_release_tag={release_tag}; do not move v0.1.0, v0.1.1, v0.1.2, or v0.1.3",
+        })
+    if existing_v013_tag_behind_head:
+        checks.append({
+            "name": "existing-v013-tag-behind-head",
+            "status": "warn",
+            "detail": f"v0.1.3={v013_rev}; HEAD={head_rev}; suggested_release_tag={release_tag}; do not move v0.1.0, v0.1.1, v0.1.2, or v0.1.3",
+        })
     if existing_v010_context_without_git_history:
         checks.append({
             "name": "release-tag-context-without-git-history",
@@ -4128,6 +4166,7 @@ def build_github_publish_dry_run_report(root: Path = ASSETS) -> Dict[str, Any]:
             "Do not move v0.1.0; if it already points behind HEAD, use the suggested follow-up tag instead.",
             "If v0.1.1 already points at HEAD or already exists, treat it as published/reviewed and use a later tag such as v0.1.2 for any future release unless v0.1.2 also exists.",
             "If v0.1.2 already points at HEAD or already exists, treat it as published/reviewed and use a later tag such as v0.1.3 for any future release.",
+            "If v0.1.3 already points at HEAD or already exists, treat it as published/reviewed and use a later tag such as v0.1.4 for any future release.",
             "If the generated staging repo has no commit history but the checklist says v0.1.0 already exists, reattach public history before any manual publication.",
             "Prefer creating or updating the GitHub repo only after public safety and staging status are clean.",
         ],
@@ -11217,9 +11256,11 @@ def build_restore_smoke_check_report() -> Dict[str, Any]:
         "do not move v0.1.0",
         "do not move v0.1.1",
         "do not move v0.1.2",
+        "do not move v0.1.3",
         "v0.1.1",
         "v0.1.2",
         "v0.1.3",
+        "v0.1.4",
         "restore smoke test",
     ]
     missing_doc_tokens = [token for token in required_doc_tokens if token not in restore_doc_text]
@@ -11269,9 +11310,15 @@ def build_restore_smoke_check_report() -> Dict[str, Any]:
     )
     public_boundary_ready = all(
         token in restore_doc_text
-        for token in ["do not move v0.1.0", "do not move v0.1.1", "do not move v0.1.2", "v0.1.3"]
+        for token in [
+            "do not move v0.1.0",
+            "do not move v0.1.1",
+            "do not move v0.1.2",
+            "do not move v0.1.3",
+            "v0.1.4",
+        ]
     )
-    public_release_boundary = "do not move v0.1.0; do not move v0.1.1; do not move v0.1.2; keep public release separate; use a new tag such as v0.1.3"
+    public_release_boundary = "do not move v0.1.0; do not move v0.1.1; do not move v0.1.2; do not move v0.1.3; keep public release separate; use a new tag such as v0.1.4"
     add_check(
         "public-release-boundary",
         "pass" if public_boundary_ready else "fail",
@@ -11330,7 +11377,7 @@ def build_restore_smoke_check_report() -> Dict[str, Any]:
         "recommendations": [
             "Run restore checks from a fresh/temp clone with: ./bootstrap/setup/bootstrap-ai-assets.sh --engine-root \"$PWD\" --asset-root \"$PWD\" --restore-smoke-check --both",
             "If prerequisite runtime reports are missing, regenerate them before interpreting completed-work-review as final evidence.",
-            "Do not move v0.1.0, v0.1.1, or v0.1.2; keep any future public release on a new tag such as v0.1.3.",
+            "Do not move v0.1.0, v0.1.1, v0.1.2, or v0.1.3; keep any future public release on a new tag such as v0.1.4.",
         ],
         "checks": checks,
     }
