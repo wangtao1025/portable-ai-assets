@@ -3847,11 +3847,15 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
     external_learning = completed_axes.get("external_learning", {}) if isinstance(completed_axes.get("external_learning"), dict) else {}
     suggested_release_tag = dry_run.get("suggested_release_tag") or "v0.1.1"
     dry_checks = dry_run.get("checks", []) if isinstance(dry_run.get("checks"), list) else []
+    v012_tag_known = any(
+        isinstance(check, dict) and check.get("name") in {"existing-v012-tag-at-head", "existing-v012-tag-behind-head"}
+        for check in dry_checks
+    )
     v011_tag_known = any(
         isinstance(check, dict) and check.get("name") in {"existing-v011-tag-at-head", "existing-v011-tag-behind-head"}
         for check in dry_checks
     )
-    latest_published_tag = "v0.1.1" if v011_tag_known else None
+    latest_published_tag = "v0.1.2" if v012_tag_known else ("v0.1.1" if v011_tag_known else None)
 
     history_status = str(history_summary.get("status") or "missing")
     history_ready = history_status == "ready"
@@ -3869,16 +3873,17 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
         },
     ]
     if history_ready:
-        if v011_tag_known:
+        if latest_published_tag:
+            immutable_tags = "v0.1.0 or v0.1.1" if latest_published_tag == "v0.1.1" else "v0.1.0, v0.1.1, or v0.1.2"
             options.append({
-                "id": "review-post-v011-release",
-                "title": "Review published v0.1.1 state before any later release",
-                "recommended_when": "v0.1.1 already points at the current public main; the next release candidate would be a later tag.",
+                "id": f"review-post-{latest_published_tag.replace('.', '')}-release",
+                "title": f"Review published {latest_published_tag} state before any later release",
+                "recommended_when": f"{latest_published_tag} already exists in staging; the next release candidate would be a later tag.",
                 "requires_owner_approval": False,
                 "blocked_until": None,
                 "steps": [
-                    {"step": "verify-v011-release", "command": "Review public main, v0.1.1, v0.1.0, release notes, and sanitized surfaces without mutating GitHub.", "executes": False},
-                    {"step": "confirm-next-release-boundary", "command": f"If another release is later needed, use {suggested_release_tag}; never move v0.1.0 or v0.1.1.", "executes": False},
+                    {"step": f"verify-{latest_published_tag.replace('.', '')}-release", "command": f"Review public main, {latest_published_tag}, older tags, release notes, and sanitized surfaces without mutating GitHub.", "executes": False},
+                    {"step": "confirm-next-release-boundary", "command": f"If another release is later needed, use {suggested_release_tag}; never move {immutable_tags}.", "executes": False},
                 ],
                 "risks": ["Read-only review can prepare a future owner decision but must not create tags, releases, artifacts, or reviewer invitations."],
             })
@@ -3909,7 +3914,8 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
             ],
             "risks": ["Requires exact public history context; a fresh generated repo is not enough."],
         })
-    release_option_id = "prepare-v012-tag-release" if suggested_release_tag == "v0.1.2" else "prepare-v011-tag-release"
+    release_option_suffix = suggested_release_tag.replace("v", "v").replace(".", "")
+    release_option_id = f"prepare-{release_option_suffix}-tag-release"
     options.append({
         "id": release_option_id,
         "title": f"Prepare later {suggested_release_tag} tag/release plan",
@@ -3980,8 +3986,8 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
             "Use this packet for owner choice only; it does not approve or perform publication.",
             "Restore is not release work; before any future release decision, rerun `./bootstrap/setup/bootstrap-ai-assets.sh --engine-root \"$PWD\" --asset-root \"$PWD\" --restore-smoke-check --both` and review the non-mutating restore boundary.",
             (
-                "v0.1.1 already exists in staging; treat v0.1.1 as published/reviewed before considering any later release."
-                if v011_tag_known
+                f"{latest_published_tag} already exists in staging; treat {latest_published_tag} as published/reviewed before considering any later release."
+                if latest_published_tag
                 else (
                     "Public history is attached in staging; review public main and never move v0.1.0 before any release decision."
                     if history_ready
@@ -4000,6 +4006,7 @@ def build_github_publish_dry_run_report(root: Path = ASSETS) -> Dict[str, Any]:
     head_rev = _git_rev_parse_if_available(staging_dir, "HEAD")
     v010_rev = _git_rev_parse_if_available(staging_dir, "v0.1.0^{commit}")
     v011_rev = _git_rev_parse_if_available(staging_dir, "v0.1.1^{commit}")
+    v012_rev = _git_rev_parse_if_available(staging_dir, "v0.1.2^{commit}")
     checklist_text = ""
     checklist_path = staging_dir / "GITHUB-PUBLISH-CHECKLIST.md"
     if checklist_path.is_file():
@@ -4013,9 +4020,12 @@ def build_github_publish_dry_run_report(root: Path = ASSETS) -> Dict[str, Any]:
     existing_v011_tag_at_head = bool(head_rev and v011_rev and head_rev == v011_rev)
     existing_v011_tag_behind_head = bool(head_rev and v011_rev and head_rev != v011_rev)
     existing_v011_tag_present = bool(v011_rev)
+    existing_v012_tag_at_head = bool(head_rev and v012_rev and head_rev == v012_rev)
+    existing_v012_tag_behind_head = bool(head_rev and v012_rev and head_rev != v012_rev)
+    existing_v012_tag_present = bool(v012_rev)
     should_use_followup_tag = existing_v010_tag_behind_head or existing_v010_context_without_git_history
-    release_tag = "v0.1.2" if existing_v011_tag_present else ("v0.1.1" if should_use_followup_tag else "v0.1.0")
-    commit_message = "Update Portable AI Assets after v0.1.1" if existing_v011_tag_present else ("Update Portable AI Assets after v0.1.0" if should_use_followup_tag else "Initial public release: Portable AI Assets v0.1.0")
+    release_tag = "v0.1.3" if existing_v012_tag_present else ("v0.1.2" if existing_v011_tag_present else ("v0.1.1" if should_use_followup_tag else "v0.1.0"))
+    commit_message = "Update Portable AI Assets after v0.1.2" if existing_v012_tag_present else ("Update Portable AI Assets after v0.1.1" if existing_v011_tag_present else ("Update Portable AI Assets after v0.1.0" if should_use_followup_tag else "Initial public release: Portable AI Assets v0.1.0"))
     branch = status_report["summary"].get("branch") or "main"
     remote_configured = status_report["summary"].get("remote_configured")
     commands = [
@@ -4052,6 +4062,18 @@ def build_github_publish_dry_run_report(root: Path = ASSETS) -> Dict[str, Any]:
             "status": "warn",
             "detail": f"v0.1.1={v011_rev}; HEAD={head_rev}; suggested_release_tag={release_tag}; do not move v0.1.0 or v0.1.1",
         })
+    if existing_v012_tag_at_head:
+        checks.append({
+            "name": "existing-v012-tag-at-head",
+            "status": "warn",
+            "detail": f"v0.1.2 already points at HEAD={head_rev}; suggested_release_tag={release_tag}; do not move v0.1.0, v0.1.1, or v0.1.2",
+        })
+    if existing_v012_tag_behind_head:
+        checks.append({
+            "name": "existing-v012-tag-behind-head",
+            "status": "warn",
+            "detail": f"v0.1.2={v012_rev}; HEAD={head_rev}; suggested_release_tag={release_tag}; do not move v0.1.0, v0.1.1, or v0.1.2",
+        })
     if existing_v010_context_without_git_history:
         checks.append({
             "name": "release-tag-context-without-git-history",
@@ -4087,7 +4109,8 @@ def build_github_publish_dry_run_report(root: Path = ASSETS) -> Dict[str, Any]:
             "This is a dry run only; no commit, push, tag, release, repo, or remote is created.",
             "Review the staging tree and command drafts before executing anything manually.",
             "Do not move v0.1.0; if it already points behind HEAD, use the suggested follow-up tag instead.",
-            "If v0.1.1 already points at HEAD, treat it as published/reviewed and use a later tag such as v0.1.2 for any future release.",
+            "If v0.1.1 already points at HEAD or already exists, treat it as published/reviewed and use a later tag such as v0.1.2 for any future release unless v0.1.2 also exists.",
+            "If v0.1.2 already points at HEAD or already exists, treat it as published/reviewed and use a later tag such as v0.1.3 for any future release.",
             "If the generated staging repo has no commit history but the checklist says v0.1.0 already exists, reattach public history before any manual publication.",
             "Prefer creating or updating the GitHub repo only after public safety and staging status are clean.",
         ],

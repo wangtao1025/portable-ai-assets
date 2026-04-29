@@ -2,7 +2,7 @@
 
 # AI-Assets Public Safety Scan
 
-Generated: 2026-04-29T10:03:39
+Generated: 2026-04-29T12:55:31
 Engine root: `/Users/example/AI-Assets`
 Asset root: `/Users/example/AI-Assets`
 
