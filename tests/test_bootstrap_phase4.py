@@ -714,6 +714,10 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertTrue((tmp / "CHANGELOG.md").is_file())
             self.assertTrue((tmp / "RELEASE_NOTES-v0.1.md").is_file())
             self.assertTrue((tmp / "docs" / "github-publishing.md").is_file())
+            github_publishing_text = (tmp / "docs" / "github-publishing.md").read_text(encoding="utf-8")
+            self.assertIn("existing public repository", github_publishing_text)
+            self.assertIn("temporary remote", github_publishing_text)
+            self.assertNotIn("Create the GitHub repo manually", github_publishing_text)
             self.assertIn("ai-memory", report["github"]["topics"])
 
     def test_public_repo_staging_builds_git_ready_tree(self):
@@ -754,6 +758,9 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertIn("bootstrap/reports/latest-*", checklist_text)
             self.assertIn("static sanitized snapshots", checklist_text)
             self.assertIn("not live GitHub state", checklist_text)
+            self.assertIn("already exists, update public `main` only after review", checklist_text)
+            self.assertIn("Do not create a duplicate public repository", checklist_text)
+            self.assertNotIn("Create the GitHub repo manually and push only after review", checklist_text)
             self.assertIn("v0.1.2 already exists", checklist_text)
             self.assertIn("v0.1.3 already exists", checklist_text)
             self.assertIn("v0.1.4", checklist_text)
@@ -814,6 +821,74 @@ class BootstrapPhase4Tests(unittest.TestCase):
         self.assertIn("not live GitHub state", roadmap)
         self.assertIn("### Phase 136 — Public checklist/report-surface clarity ✅", roadmap)
         self.assertIn("bootstrap/reports/latest-*", roadmap)
+
+    def test_public_roadmap_documents_post_phase136_publication_state(self):
+        repo_root = Path(__file__).resolve().parents[1]
+        roadmap = (repo_root / "docs" / "public-roadmap.md").read_text(encoding="utf-8")
+        required_tokens = [
+            "### Phase 137 — Post-v0.1.3 release progression guidance ✅",
+            "v0.1.3",
+            "v0.1.4",
+            "explicit owner approval",
+            "### Phase 138 — Existing public repo update dry-run clarity ✅",
+            "do not create a duplicate public repository",
+            "temporary remote",
+            "### Phase 139 — Private follow-up public-sync boundary ✅",
+            "private-only checklist wording fix",
+            "not yet public until a separately owner-approved public main sync",
+        ]
+        for token in required_tokens:
+            self.assertIn(token, roadmap)
+
+    def test_completed_work_review_warns_when_publication_reports_outpace_roadmap(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            (tmp / "docs").mkdir(parents=True)
+            (tmp / "bootstrap" / "reports").mkdir(parents=True)
+            (tmp / "docs" / "public-roadmap.md").write_text(
+                "# Portable AI Assets System — Public Roadmap\n\n"
+                "Build a portable AI assets layer across agents, models, clients, and machines.\n"
+                "It is not another agent runtime; it keeps canonical ownership and reviewable reconciliation.\n\n"
+                "### Phase 136 — Public checklist/report-surface clarity ✅\n"
+                "- document static sanitized snapshots for bootstrap/reports/latest-*\n",
+                encoding="utf-8",
+            )
+            (tmp / "docs" / "external-reference-backlog.md").write_text(
+                "# Backlog\n\n| id | system | category | state | priority | why review | expected output |\n"
+                "|---|---|---|---|---|---|---|\n"
+                "| memos-local-plugin | MemOS | memory | reviewed | high | learn | `docs/reference-memos-local-plugin.md` |\n",
+                encoding="utf-8",
+            )
+            (tmp / "docs" / "reference-memos-local-plugin.md").write_text("# MemOS\nadopt avoid boundary raw runtime\n", encoding="utf-8")
+            reports = tmp / "bootstrap" / "reports"
+            json_dumps = __import__("json").dumps
+            (reports / "latest-github-publish-dry-run.json").write_text(json_dumps({
+                "summary": {"status": "needs-review", "executes_anything": False},
+                "suggested_release_tag": "v0.1.4",
+                "checks": [{"name": "existing-v013-tag-behind-head", "status": "warn", "detail": "v0.1.3 already exists; suggested_release_tag=v0.1.4; do not move v0.1.3"}],
+            }), encoding="utf-8")
+            (reports / "latest-manual-publication-decision-packet.json").write_text(json_dumps({
+                "summary": {"status": "owner-decision-required", "latest_published_tag": "v0.1.3", "suggested_release_tag": "v0.1.4", "executes_anything": False}
+            }), encoding="utf-8")
+            (reports / "latest-public-repo-staging-history-preflight.json").write_text(json_dumps({
+                "summary": {"status": "ready", "head_rev": "post-v013-main", "v013_rev": "published-v013", "v013_behind_head": True, "remote_configured": False, "executes_anything": False}
+            }), encoding="utf-8")
+            (reports / "latest-release-readiness.json").write_text(json_dumps({"summary": {"readiness": "ready", "fail": 0, "warn": 0}}), encoding="utf-8")
+            (reports / "latest-public-safety-scan.json").write_text(json_dumps({"summary": {"status": "pass", "blockers": 0, "warnings": 0}}), encoding="utf-8")
+            (reports / "latest-external-reference-inventory.json").write_text(json_dumps({"summary": {"status": "ready", "reference_docs": 1, "systems": ["memos-local-plugin"]}}), encoding="utf-8")
+            (reports / "latest-capability-policy-preview.json").write_text(json_dumps({"summary": {"status": "ready", "executes_anything": False, "risk_upgrades": 0}}), encoding="utf-8")
+            (reports / "latest-capability-policy-candidate-generation.json").write_text(json_dumps({"summary": {"status": "generated", "executes_anything": False, "templates_written": 1, "reviewed_baselines_written": 0}}), encoding="utf-8")
+            (reports / "latest-capability-policy-candidate-status.json").write_text(json_dumps({"summary": {"status": "needs-human-review", "apply_readiness": "needs-human-review", "executes_anything": False, "templates_written": 0, "reviewed_baselines_written": 0}}), encoding="utf-8")
+            (reports / "latest-capability-policy-baseline-apply.json").write_text(json_dumps({"summary": {"status": "skipped", "executes_anything": False, "fail": 0}}), encoding="utf-8")
+
+            report = bootstrap_ai_assets.build_completed_work_review_report(tmp)
+            axis = report["review_axes"]["roadmap_publication_drift"]
+
+            self.assertEqual("warn", axis["status"])
+            self.assertEqual("needs-review", report["summary"]["status"])
+            self.assertIn("v0.1.3", axis["evidence"])
+            self.assertIn("v0.1.4", axis["evidence"])
+            self.assertIn("missing=post-v0.1.3 roadmap entry,existing public repo update boundary,private follow-up public-sync boundary", axis["evidence"])
 
     def test_restore_readiness_smoke_plan_documents_private_public_recovery_path(self):
         repo_root = Path(__file__).resolve().parents[1]
@@ -1641,6 +1716,48 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertNotIn("prepare-v012-tag-release", options_by_id)
             self.assertIn("v0.1.2 already exists in staging", packet_text)
             self.assertIn("v0.1.3", packet_text)
+            self.assertTrue(all(step["executes"] is False for option in report["decision_options"] for step in option["steps"]))
+
+    def test_manual_publication_decision_packet_handles_known_latest_tag_when_history_not_ready(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            reports = tmp / "bootstrap" / "reports"
+            reports.mkdir(parents=True)
+            (reports / "latest-public-repo-staging-history-preflight.json").write_text(__import__("json").dumps({
+                "summary": {
+                    "status": "needs-history-reattach",
+                    "executes_anything": False,
+                    "remote_configured": False,
+                    "forbidden_findings": 0,
+                    "head_rev": None,
+                    "v010_rev": None,
+                },
+            }), encoding="utf-8")
+            (reports / "latest-github-publish-dry-run.json").write_text(__import__("json").dumps({
+                "summary": {"status": "needs-review", "executes_anything": False, "fail": 0},
+                "suggested_release_tag": "v0.1.4",
+                "checks": [{"name": "existing-v013-tag-behind-head", "status": "warn", "detail": "v0.1.3 exists; suggested_release_tag=v0.1.4"}],
+            }), encoding="utf-8")
+            (reports / "latest-public-safety-scan.json").write_text('{"summary":{"status":"pass","findings":0,"blockers":0}}', encoding="utf-8")
+            (reports / "latest-completed-work-review.json").write_text(__import__("json").dumps({
+                "summary": {"status": "aligned", "executes_anything": False},
+                "review_axes": {"external_learning": {"status": "pass"}},
+            }), encoding="utf-8")
+            (reports / "latest-restore-smoke-check.json").write_text(__import__("json").dumps({
+                "summary": {"status": "ready", "executes_anything": False, "mutates_repositories": False, "safe_for_fresh_clone": True}
+            }), encoding="utf-8")
+
+            report = bootstrap_ai_assets.build_manual_publication_decision_packet_report(tmp)
+            options_by_id = {option["id"]: option for option in report["decision_options"]}
+            packet_text = __import__("json").dumps(report)
+
+            self.assertEqual(report["summary"]["latest_published_tag"], "v0.1.3")
+            self.assertEqual(report["summary"]["suggested_release_tag"], "v0.1.4")
+            self.assertIn("prepare-history-reattachment-main-push", options_by_id)
+            self.assertIn("prepare-v014-tag-release", options_by_id)
+            self.assertNotIn("review-post-v013-release", options_by_id)
+            self.assertEqual(options_by_id["prepare-v014-tag-release"]["blocked_until"], "history-reattached-and-main-reviewed")
+            self.assertIn("never move v0.1.0, v0.1.1, v0.1.2, or v0.1.3", packet_text)
             self.assertTrue(all(step["executes"] is False for option in report["decision_options"] for step in option["steps"]))
 
     def test_manual_publication_decision_packet_uses_post_v013_release_language(self):

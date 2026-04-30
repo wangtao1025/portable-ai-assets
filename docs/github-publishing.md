@@ -29,4 +29,5 @@ Own your AI assets — memory, skills, adapters, and workflows — across agents
 4. Run `--public-release-archive --both`.
 5. Run `--public-release-smoke-test --both`.
 6. Review `MANIFEST.json`, `CHECKSUMS.sha256`, `CHANGELOG.md`, and `RELEASE_NOTES-v0.1.md`.
-7. Create the GitHub repo manually; do not auto-push private memory.
+7. If `wangtao1025/portable-ai-assets` already exists, treat this as an existing public repository update: review the sanitized tree, use a temporary remote only for an owner-approved public `main` sync, remove the remote immediately after push, and keep tag/release decisions separate.
+8. Never auto-push private memory, runtime state, backups, candidates, machine-local config, or secrets.

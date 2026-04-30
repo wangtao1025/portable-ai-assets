@@ -2,7 +2,7 @@
 
 # AI-Assets Completed Work Review
 
-Generated: 2026-04-30T09:08:31
+Generated: 2026-04-30T11:52:50
 Engine root: `/Users/example/AI-Assets`
 Asset root: `/Users/example/AI-Assets`
 
@@ -10,8 +10,8 @@ Asset root: `/Users/example/AI-Assets`
 
 - Status: aligned
 - Executes anything: False
-- Checks: 5
-- Pass: 5
+- Checks: 6
+- Pass: 6
 - Warn: 0
 - Fail: 0
 
@@ -24,8 +24,14 @@ Asset root: `/Users/example/AI-Assets`
 
 ### Vision and roadmap alignment
 - status: pass
-- evidence: roadmap=docs/public-roadmap.md; vision_terms=8/8; latest_completed_phase=Phase 136
+- evidence: roadmap=docs/public-roadmap.md; vision_terms=8/8; latest_completed_phase=Phase 139
 - recommendation: Continue to anchor new work in portability, canonical ownership, safe migration, and reviewable reconciliation rather than runtime replacement.
+
+### Roadmap/publication-state drift
+- status: pass
+- evidence: publication_state_detected=True; v0.1.3; v0.1.4; history_v013_behind_head=None; missing=none
+- missing_requirements: `[]`
+- recommendation: When publication reports show a completed release or post-release main/checklist work, update the roadmap/completed-work narrative before claiming completed work is aligned.
 
 ### Agent completion evidence rollup
 - status: pass
@@ -50,7 +56,8 @@ Asset root: `/Users/example/AI-Assets`
 ## Checks
 
 - **pass** `safety`: release-readiness=ready; public-safety=pass; capability-risk-inventory: executes_anything=False; project-pack-preview: executes_anything=False; capability-policy-preview: executes_anything=False; capability-policy-candidate-generation: executes_anything=False; capability-policy-candidate-status: executes_anything=False; capability-policy-baseline-apply: executes_anything=False
-- **pass** `vision_alignment`: roadmap=docs/public-roadmap.md; vision_terms=8/8; latest_completed_phase=Phase 136
+- **pass** `vision_alignment`: roadmap=docs/public-roadmap.md; vision_terms=8/8; latest_completed_phase=Phase 139
+- **pass** `roadmap_publication_drift`: publication_state_detected=True; v0.1.3; v0.1.4; history_v013_behind_head=None; missing=none
 - **pass** `agent_completion_evidence`: phase103_documented=True; phase102_report_evidence_valid=True; invalid_fields=none; phase102_report_evidence_valid=True; report_type=dict; summary_type=dict; invalid_fields=none; mode=agent-complete-syntax-invalid-evidence-failclosed-review; status=syntax-invalid-failclosed; checks=5; pass=5; fail=0; warn=0
 - **pass** `external_learning`: reviewed_references=25; inventory_status=ready; high_priority_candidates=none
 - **pass** `capability_governance`: policy-preview-status=ready; candidate-generation-status=generated; candidate-reviewed-baselines-written=0; candidate-status=needs-human-review; candidate-status-apply-readiness=needs-human-review; candidate-status-reviewed-baselines-written=0; baseline-apply-status=skipped; baseline-apply-fail=0

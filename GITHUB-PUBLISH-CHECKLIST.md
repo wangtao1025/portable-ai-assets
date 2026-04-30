@@ -1,6 +1,6 @@
 # GitHub Publish Checklist
 
-This staging tree is generated for manual review before creating or pushing a public GitHub repository.
+This staging tree is generated for manual review before creating or updating a public GitHub repository. If `wangtao1025/portable-ai-assets` already exists, update public `main` only after review and separate any tag/release decision.
 
 ## Required before publishing
 
@@ -11,7 +11,7 @@ This staging tree is generated for manual review before creating or pushing a pu
 - [ ] Run `./bin/paa safety --both` (or `/bin/bash bootstrap/setup/bootstrap-ai-assets.sh --public-safety-scan --both`) inside this staging repo.
 - [ ] Treat committed `bootstrap/reports/latest-*` files as static sanitized snapshots, not live GitHub state; rerun local report-only gates for current status.
 - [ ] Confirm no private memory, runtime DBs/logs, backups, candidates, machine-local config, or secrets are present.
-- [ ] Create the GitHub repo manually and push only after review.
+- [ ] Do not create a duplicate public repository; if `wangtao1025/portable-ai-assets` already exists, use a temporary remote for an owner-approved public `main` update and remove it immediately after push.
 
 ## Suggested GitHub metadata
 

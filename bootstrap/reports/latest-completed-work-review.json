@@ -1,14 +1,14 @@
 {
   "mode": "completed-work-review",
-  "generated_at": "2026-04-30T09:08:31",
+  "generated_at": "2026-04-30T11:52:50",
   "host_home": "/Users/example",
   "engine_root": "/Users/example/AI-Assets",
   "root": "/Users/example/AI-Assets",
   "config_path": "/Users/example/.config/portable-ai-assets/config.yaml",
   "summary": {
     "status": "aligned",
-    "checks": 5,
-    "pass": 5,
+    "checks": 6,
+    "pass": 6,
     "warn": 0,
     "fail": 0,
     "executes_anything": false
@@ -35,9 +35,22 @@
       "evidence": [
         "roadmap=docs/public-roadmap.md",
         "vision_terms=8/8",
-        "latest_completed_phase=Phase 136"
+        "latest_completed_phase=Phase 139"
       ],
       "recommendation": "Continue to anchor new work in portability, canonical ownership, safe migration, and reviewable reconciliation rather than runtime replacement."
+    },
+    "roadmap_publication_drift": {
+      "name": "Roadmap/publication-state drift",
+      "status": "pass",
+      "evidence": [
+        "publication_state_detected=True",
+        "v0.1.3",
+        "v0.1.4",
+        "history_v013_behind_head=None",
+        "missing=none"
+      ],
+      "recommendation": "When publication reports show a completed release or post-release main/checklist work, update the roadmap/completed-work narrative before claiming completed work is aligned.",
+      "missing_requirements": []
     },
     "agent_completion_evidence": {
       "name": "Agent completion evidence rollup",
@@ -296,6 +309,44 @@
       "remote_issues_created": 0,
       "issue_backlog_mutation_allowed": false,
       "remote_configured": false
+    },
+    "github-publish-dry-run": {
+      "status": "needs-review",
+      "checks": 8,
+      "pass": 4,
+      "warn": 4,
+      "fail": 0,
+      "commands": 9,
+      "executes_anything": false
+    },
+    "manual-publication-decision-packet": {
+      "status": "owner-decision-required",
+      "checks": 8,
+      "pass": 8,
+      "warn": 0,
+      "fail": 0,
+      "executes_anything": false,
+      "suggested_release_tag": "v0.1.4",
+      "latest_published_tag": "v0.1.3",
+      "history_status": "ready",
+      "dry_run_status": "needs-review"
+    },
+    "public-repo-staging-history-preflight": {
+      "status": "ready",
+      "checks": 11,
+      "pass": 11,
+      "warn": 0,
+      "fail": 0,
+      "executes_anything": false,
+      "remote_configured": false,
+      "forbidden_findings": 0,
+      "head_rev": "585866d5b95ede1974e3c00c2fb0a699135251ed",
+      "v010_rev": "724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc",
+      "v011_rev": "6f06d98b85e18d629175705c19436a4df199c876",
+      "v012_rev": "dd7993c5c074a012fedd34f7957672e172041a65",
+      "v013_rev": "9d67382cdefeddcbbefa3eacc943aabda12a36f1",
+      "v010_behind_head": true,
+      "checklist_declares_existing_v010": true
     }
   },
   "next_recommended_candidates": [],
@@ -308,7 +359,12 @@
     {
       "name": "vision_alignment",
       "status": "pass",
-      "detail": "roadmap=docs/public-roadmap.md; vision_terms=8/8; latest_completed_phase=Phase 136"
+      "detail": "roadmap=docs/public-roadmap.md; vision_terms=8/8; latest_completed_phase=Phase 139"
+    },
+    {
+      "name": "roadmap_publication_drift",
+      "status": "pass",
+      "detail": "publication_state_detected=True; v0.1.3; v0.1.4; history_v013_behind_head=None; missing=none"
     },
     {
       "name": "agent_completion_evidence",

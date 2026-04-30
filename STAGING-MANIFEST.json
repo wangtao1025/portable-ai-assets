@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-30T09:08:52",
+  "generated_at": "2026-04-30T11:53:34",
   "asset_class": "public",
   "pack_kind": "github-staging-repo",
   "file_count": 183,
@@ -202,7 +202,7 @@
     {
       "name": "shell-cli-public-safety-scan",
       "ok": true,
-      "detail": "Public-safety-scan report generated for /Users/example\nJSON: /Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/public-safety-scan-20260430-090851.json\nJSON latest: /Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-public-safety-scan.json\n"
+      "detail": "Public-safety-scan report generated for /Users/example\nJSON: /Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/public-safety-scan-20260430-115334.json\nJSON latest: /Users/example/AI-Assets/dist/github-staging/portable-ai-assets/bootstrap/reports/latest-public-safety-scan.json\n"
     },
     {
       "name": "forbidden-text-scan",

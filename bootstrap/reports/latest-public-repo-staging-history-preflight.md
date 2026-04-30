@@ -2,7 +2,7 @@
 
 # AI-Assets Public Repo Staging History Preflight
 
-Generated: 2026-04-30T08:25:11
+Generated: 2026-04-30T11:52:46
 Staging dir: `/Users/example/AI-Assets/dist/github-staging/portable-ai-assets`
 
 ## Summary
@@ -15,7 +15,7 @@ Staging dir: `/Users/example/AI-Assets/dist/github-staging/portable-ai-assets`
 - executes_anything: `False`
 - remote_configured: `False`
 - forbidden_findings: `0`
-- head_rev: `639afb44f852f0d299d19637676739964797c4bb`
+- head_rev: `585866d5b95ede1974e3c00c2fb0a699135251ed`
 - v010_rev: `724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc`
 - v011_rev: `6f06d98b85e18d629175705c19436a4df199c876`
 - v012_rev: `dd7993c5c074a012fedd34f7957672e172041a65`
@@ -30,12 +30,12 @@ Staging dir: `/Users/example/AI-Assets/dist/github-staging/portable-ai-assets`
 - **pass** `staging-remote-empty`: False
 - **pass** `staging-forbidden-clean`: forbidden_findings=0
 - **pass** `checklist-declares-existing-v010`: Existing release tag: v0.1.0
-- **pass** `staging-head-exists`: 639afb44f852f0d299d19637676739964797c4bb
+- **pass** `staging-head-exists`: 585866d5b95ede1974e3c00c2fb0a699135251ed
 - **pass** `v010-tag-exists`: 724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc
 - **pass** `v011-tag-exists`: 6f06d98b85e18d629175705c19436a4df199c876
 - **pass** `v012-tag-exists`: dd7993c5c074a012fedd34f7957672e172041a65
 - **pass** `v013-tag-exists`: 9d67382cdefeddcbbefa3eacc943aabda12a36f1
-- **pass** `v010-behind-head`: v0.1.0=724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc; HEAD=639afb44f852f0d299d19637676739964797c4bb
+- **pass** `v010-behind-head`: v0.1.0=724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc; HEAD=585866d5b95ede1974e3c00c2fb0a699135251ed
 
 ## Manual history context steps — not executed
 

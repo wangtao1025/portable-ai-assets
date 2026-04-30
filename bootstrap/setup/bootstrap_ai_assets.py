@@ -3374,7 +3374,7 @@ def _github_publish_file_templates(root: Path) -> Dict[str, str]:
         "SECURITY.md": "# Security Policy\n\nPortable AI Assets separates public engine assets from private memory and runtime state.\n\n## Supported versions\n\nThe current prototype branch receives security fixes on a best-effort basis until formal versioning begins.\n\n## Reporting a vulnerability\n\nPlease open a private security advisory or contact the maintainers privately. Do not publish secrets, private memory, runtime databases, logs, or machine-local config in public issues.\n\n## Sensitive data policy\n\n- Replace secrets with `[REDACTED]`.\n- Do not commit raw runtime DBs, logs, histories, session traces, or backups.\n- Use `--public-safety-scan`, `--release-readiness`, and `--public-release-smoke-test` before publishing artifacts.\n",
         "CHANGELOG.md": "# Changelog\n\n## v0.1.0 — Prototype release candidate\n\n### Added\n\n- Portable AI Assets bootstrap engine with inspect, plan, diff, review/apply, and release-pack workflows.\n- JSON schemas for stack, tool, bridge, architecture-note, adapter-contract, and portable-skill manifests.\n- Adapter registry and connector inventory / preview reports.\n- Public-safe sample assets, redacted examples, demo pack, release pack, archive, and smoke test gates.\n- MemOS/Hermes adoption planning with read-only health/import preview and reviewed skill candidate flows.\n\n### Security\n\n- Public/private/secret asset boundary documented.\n- Release safety scans check for secret-like strings and private absolute paths.\n- Runtime DBs/logs/candidates/backups stay outside public release packs.\n",
         "RELEASE_NOTES-v0.1.md": f"# Release Notes — v0.1.0\n\nPortable AI Assets v0.1.0 is a prototype release for a cross-agent continuity layer: canonical assets, schemas, adapters, review gates, and public-safe release tooling.\n\n## Highlights\n\n- Metadata-first schema validation for portable AI assets.\n- Adapter contract registry and connector preview workflow.\n- Review-first candidate/apply gates for memory, skills, and adapter projections.\n- Public release pack, archive, checksum, and smoke-test pipeline.\n\n## Verification snapshot\n\n- Latest archive: `{archive_path}`\n- Archive SHA256: `{archive_sha}`\n- Smoke test status: `{smoke_status}`\n\n## Not included\n\nThis release intentionally excludes private memory, raw runtime state, candidates, backups, DBs, logs, tokens, and machine-local config.\n",
-        "docs/github-publishing.md": "# GitHub Publishing Draft\n\n## Repository description\n\nPortable AI Assets is a cross-agent continuity layer for owning AI memory, skills, adapters, schemas, and migration workflows outside any single runtime.\n\n## Suggested topics\n\n- ai-agents\n- ai-memory\n- mcp\n- local-first\n- agentic-workflows\n- ai-portability\n- developer-tools\n- personal-knowledge-management\n- schemas\n- automation\n\n## Suggested tagline\n\nOwn your AI assets — memory, skills, adapters, and workflows — across agents, machines, and runtimes.\n\n## Publish checklist\n\n1. Run `--public-safety-scan --both`.\n2. Run `--release-readiness --both`.\n3. Run `--public-release-pack --both`.\n4. Run `--public-release-archive --both`.\n5. Run `--public-release-smoke-test --both`.\n6. Review `MANIFEST.json`, `CHECKSUMS.sha256`, `CHANGELOG.md`, and `RELEASE_NOTES-v0.1.md`.\n7. Create the GitHub repo manually; do not auto-push private memory.\n",
+        "docs/github-publishing.md": "# GitHub Publishing Draft\n\n## Repository description\n\nPortable AI Assets is a cross-agent continuity layer for owning AI memory, skills, adapters, schemas, and migration workflows outside any single runtime.\n\n## Suggested topics\n\n- ai-agents\n- ai-memory\n- mcp\n- local-first\n- agentic-workflows\n- ai-portability\n- developer-tools\n- personal-knowledge-management\n- schemas\n- automation\n\n## Suggested tagline\n\nOwn your AI assets — memory, skills, adapters, and workflows — across agents, machines, and runtimes.\n\n## Publish checklist\n\n1. Run `--public-safety-scan --both`.\n2. Run `--release-readiness --both`.\n3. Run `--public-release-pack --both`.\n4. Run `--public-release-archive --both`.\n5. Run `--public-release-smoke-test --both`.\n6. Review `MANIFEST.json`, `CHECKSUMS.sha256`, `CHANGELOG.md`, and `RELEASE_NOTES-v0.1.md`.\n7. If `wangtao1025/portable-ai-assets` already exists, treat this as an existing public repository update: review the sanitized tree, use a temporary remote only for an owner-approved public `main` sync, remove the remote immediately after push, and keep tag/release decisions separate.\n8. Never auto-push private memory, runtime state, backups, candidates, machine-local config, or secrets.\n",
     }
 
 
@@ -3523,7 +3523,7 @@ def _write_github_publish_checklist(staging_dir: Path) -> Path:
     lines = [
         "# GitHub Publish Checklist",
         "",
-        "This staging tree is generated for manual review before creating or pushing a public GitHub repository.",
+        "This staging tree is generated for manual review before creating or updating a public GitHub repository. If `wangtao1025/portable-ai-assets` already exists, update public `main` only after review and separate any tag/release decision.",
         "",
         "## Required before publishing",
         "",
@@ -3534,7 +3534,7 @@ def _write_github_publish_checklist(staging_dir: Path) -> Path:
         "- [ ] Run `./bin/paa safety --both` (or `/bin/bash bootstrap/setup/bootstrap-ai-assets.sh --public-safety-scan --both`) inside this staging repo.",
         "- [ ] Treat committed `bootstrap/reports/latest-*` files as static sanitized snapshots, not live GitHub state; rerun local report-only gates for current status.",
         "- [ ] Confirm no private memory, runtime DBs/logs, backups, candidates, machine-local config, or secrets are present.",
-        "- [ ] Create the GitHub repo manually and push only after review.",
+        "- [ ] Do not create a duplicate public repository; if `wangtao1025/portable-ai-assets` already exists, use a temporary remote for an owner-approved public `main` update and remove it immediately after push.",
         "",
         "## Suggested GitHub metadata",
         "",
@@ -3887,6 +3887,19 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
         for check in dry_checks
     )
     latest_published_tag = "v0.1.3" if v013_tag_known else ("v0.1.2" if v012_tag_known else ("v0.1.1" if v011_tag_known else None))
+    immutable_tags = (
+        "v0.1.0 or v0.1.1"
+        if latest_published_tag == "v0.1.1"
+        else (
+            "v0.1.0, v0.1.1, or v0.1.2"
+            if latest_published_tag == "v0.1.2"
+            else (
+                "v0.1.0, v0.1.1, v0.1.2, or v0.1.3"
+                if latest_published_tag == "v0.1.3"
+                else "v0.1.0"
+            )
+        )
+    )
 
     history_status = str(history_summary.get("status") or "missing")
     history_ready = history_status == "ready"
@@ -3905,15 +3918,6 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
     ]
     if history_ready:
         if latest_published_tag:
-            immutable_tags = (
-                "v0.1.0 or v0.1.1"
-                if latest_published_tag == "v0.1.1"
-                else (
-                    "v0.1.0, v0.1.1, or v0.1.2"
-                    if latest_published_tag == "v0.1.2"
-                    else "v0.1.0, v0.1.1, v0.1.2, or v0.1.3"
-                )
-            )
             options.append({
                 "id": f"review-post-{latest_published_tag.replace('.', '')}-release",
                 "title": f"Review published {latest_published_tag} state before any later release",
@@ -3963,7 +3967,7 @@ def build_manual_publication_decision_packet_report(root: Path = ASSETS) -> Dict
         "blocked_until": "public-main-reviewed-and-owner-approved" if history_ready else "history-reattached-and-main-reviewed",
         "steps": [
             {"step": "confirm-main", "command": "Confirm public main contains intended follow-up commit after owner-approved push or read-only post-push review.", "executes": False},
-            {"step": "create-new-tag", "command": f"Draft new tag {suggested_release_tag}; never move {immutable_tags if latest_published_tag else 'v0.1.0'}.", "executes": False},
+            {"step": "create-new-tag", "command": f"Draft new tag {suggested_release_tag}; never move {immutable_tags}.", "executes": False},
             {"step": "release-review", "command": "Draft release notes/upload checklist only after explicit owner approval.", "executes": False},
         ],
         "risks": ["Tag/release before main review could publish stale or unintended content."],
@@ -8592,6 +8596,9 @@ def build_completed_work_review_report(root: Path = ASSETS) -> Dict[str, Any]:
             "capability-policy-candidate-status",
             "capability-policy-baseline-apply",
             "agent-complete-syntax-invalid-evidence-failclosed-review",
+            "github-publish-dry-run",
+            "manual-publication-decision-packet",
+            "public-repo-staging-history-preflight",
         ]
     }
 
@@ -8632,6 +8639,47 @@ def build_completed_work_review_report(root: Path = ASSETS) -> Dict[str, Any]:
         "pass" if len(present_vision) >= 5 and completed_phases else "warn",
         [f"roadmap={roadmap_path.relative_to(root) if roadmap_path.exists() else 'missing'}", f"vision_terms={len(present_vision)}/{len(vision_keywords)}", f"latest_completed_phase={latest_completed_phase}"],
         "Continue to anchor new work in portability, canonical ownership, safe migration, and reviewable reconciliation rather than runtime replacement.",
+    )
+
+    dry_run_report = latest_reports.get("github-publish-dry-run") or {}
+    manual_packet_summary = latest_summary("manual-publication-decision-packet")
+    history_preflight_summary = latest_summary("public-repo-staging-history-preflight")
+    dry_run_checks = dry_run_report.get("checks") if isinstance(dry_run_report, dict) else None
+    if not isinstance(dry_run_checks, list):
+        dry_run_checks = []
+    latest_published_tag = str(manual_packet_summary.get("latest_published_tag") or "")
+    suggested_release_tag = str(manual_packet_summary.get("suggested_release_tag") or dry_run_report.get("suggested_release_tag") or "") if isinstance(dry_run_report, dict) else str(manual_packet_summary.get("suggested_release_tag") or "")
+    v013_reported = (
+        latest_published_tag == "v0.1.3"
+        or suggested_release_tag == "v0.1.4"
+        or bool(history_preflight_summary.get("v013_behind_head"))
+        or any("v013" in str(check.get("name", "")) or "v0.1.3" in str(check.get("detail", "")) for check in dry_run_checks if isinstance(check, dict))
+    )
+    post_v013_main_reported = bool(history_preflight_summary.get("v013_behind_head")) or suggested_release_tag == "v0.1.4"
+    roadmap_requirements = {
+        "post-v0.1.3 roadmap entry": ["Post-v0.1.3", "v0.1.3", "v0.1.4", "owner approval"],
+        "existing public repo update boundary": ["existing public repo", "duplicate public repository", "temporary remote"],
+        "private follow-up public-sync boundary": ["private-only checklist wording fix", "not yet public", "owner-approved public main sync"],
+    }
+    missing_publication_requirements = [
+        label
+        for label, tokens in roadmap_requirements.items()
+        if not all(token.lower() in roadmap_text.lower() for token in tokens)
+    ]
+    publication_state_detected = v013_reported or post_v013_main_reported
+    publication_axis_status = "warn" if publication_state_detected and missing_publication_requirements else "pass"
+    axes["roadmap_publication_drift"] = _review_axis(
+        "Roadmap/publication-state drift",
+        publication_axis_status,
+        [
+            f"publication_state_detected={publication_state_detected}",
+            latest_published_tag or "latest_published_tag=unknown",
+            suggested_release_tag or "suggested_release_tag=unknown",
+            f"history_v013_behind_head={history_preflight_summary.get('v013_behind_head')}",
+            f"missing={','.join(missing_publication_requirements) if missing_publication_requirements else 'none'}",
+        ],
+        "When publication reports show a completed release or post-release main/checklist work, update the roadmap/completed-work narrative before claiming completed work is aligned.",
+        {"missing_requirements": missing_publication_requirements},
     )
 
     phase103_documented = "### Phase 103 — Agent-complete Phase102 rollup evidence fail-closed review ✅" in roadmap_text

@@ -767,3 +767,18 @@ The project is succeeding if users can say:
 - update the generated GitHub publish checklist so reviewers are explicitly told that committed `bootstrap/reports/latest-*` files are static sanitized snapshots, not live GitHub state
 - document the Phase135 report-snapshot boundary in the public roadmap so the GitHub-facing docs match the generated report labels and reports README
 - keep this clarification local-only until a separately owner-approved main update; no commit, push, tag, release, upload, reviewer invitation, credential validation, provider/API call, or issue mutation
+
+### Phase 137 — Post-v0.1.3 release progression guidance ✅
+- record that public `main` and the latest release/tag have advanced beyond the original `v0.1.0` boundary: `v0.1.3` is the latest published release/tag, while `v0.1.4` is only a future suggested release tag
+- keep any `v0.1.4` tag/release creation behind explicit owner approval; generated reports may draft human commands but must not create, move, delete, upload, or publish anything automatically
+- preserve the existing public tags/releases as immutable release history and keep post-release guidance report-only until a separately owner-approved publication action
+
+### Phase 138 — Existing public repo update dry-run clarity ✅
+- update the non-executing GitHub publish dry-run guidance for an existing public repository instead of a first-publication scenario
+- make the dry run say do not create a duplicate public repository when the public repo already exists; use a temporary remote only for a separately owner-approved main update and remove it afterward
+- keep all command drafts non-executing and separate main updates from tag/release/upload actions
+
+### Phase 139 — Private follow-up public-sync boundary ✅
+- document the private-only checklist wording fix after the public dry-run clarity sync so completed-work review does not imply the public copy already contains that follow-up
+- state that the private-only checklist wording fix is not yet public until a separately owner-approved public main sync
+- keep private commits/pushes separate from public sync, tag, release, upload, reviewer invitation, credential validation, provider/API call, or issue/backlog mutation
