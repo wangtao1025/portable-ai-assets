@@ -4071,16 +4071,51 @@ def build_github_publish_dry_run_report(root: Path = ASSETS) -> Dict[str, Any]:
     commit_message = "Update Portable AI Assets after v0.1.3" if existing_v013_tag_present else ("Update Portable AI Assets after v0.1.2" if existing_v012_tag_present else ("Update Portable AI Assets after v0.1.1" if existing_v011_tag_present else ("Update Portable AI Assets after v0.1.0" if should_use_followup_tag else "Initial public release: Portable AI Assets v0.1.0")))
     branch = status_report["summary"].get("branch") or "main"
     remote_configured = status_report["summary"].get("remote_configured")
+    changed_files = status_report["summary"].get("changed_files", 0)
+    public_repo_already_exists = bool(
+        existing_v010_tag_behind_head
+        or existing_v010_context_without_git_history
+        or existing_v011_tag_present
+        or existing_v012_tag_present
+        or existing_v013_tag_present
+    )
     commands = [
         {"step": "review", "command": "git status --short", "cwd": str(staging_dir), "executes": False},
         {"step": "review-diff", "command": "git diff --stat", "cwd": str(staging_dir), "executes": False},
-        {"step": "stage", "command": "git add .", "cwd": str(staging_dir), "executes": False},
-        {"step": "commit", "command": f"git commit -m {json.dumps(commit_message)}", "cwd": str(staging_dir), "executes": False},
-        {"step": "create-repo", "command": f"gh repo create {repo_name} --public --source=. --remote=origin --description {json.dumps('Portable AI Assets is a cross-agent continuity layer for owning AI memory, skills, adapters, schemas, and migration workflows outside any single runtime.')} --disable-wiki", "cwd": str(staging_dir), "executes": False},
-        {"step": "push", "command": f"git push -u origin {branch}", "cwd": str(staging_dir), "executes": False},
+    ]
+    if changed_files > 0:
+        commands.extend([
+            {"step": "stage", "command": "git add .", "cwd": str(staging_dir), "executes": False},
+            {"step": "commit", "command": f"git commit -m {json.dumps(commit_message)}", "cwd": str(staging_dir), "executes": False},
+        ])
+        if public_repo_already_exists:
+            public_repo_url = f"https://github.com/wangtao1025/{repo_name}.git"
+            commands.extend([
+                {"step": "add-temporary-public-origin", "command": f"git remote add origin {public_repo_url}", "cwd": str(staging_dir), "executes": False},
+                {"step": "push-main", "command": f"git push origin {branch}", "cwd": str(staging_dir), "executes": False},
+                {"step": "remove-temporary-public-origin", "command": "git remote remove origin", "cwd": str(staging_dir), "executes": False},
+            ])
+        else:
+            commands.extend([
+                {"step": "create-repo", "command": f"gh repo create {repo_name} --public --source=. --remote=origin --description {json.dumps('Portable AI Assets is a cross-agent continuity layer for owning AI memory, skills, adapters, schemas, and migration workflows outside any single runtime.')} --disable-wiki", "cwd": str(staging_dir), "executes": False},
+                {"step": "push", "command": f"git push -u origin {branch}", "cwd": str(staging_dir), "executes": False},
+            ])
+    elif public_repo_already_exists:
+        commands.append({
+            "step": "review-public-main-before-release",
+            "command": f"gh repo view wangtao1025/{repo_name} --json nameWithOwner,visibility,defaultBranchRef",
+            "cwd": str(staging_dir),
+            "executes": False,
+        })
+    else:
+        commands.extend([
+            {"step": "create-repo", "command": f"gh repo create {repo_name} --public --source=. --remote=origin --description {json.dumps('Portable AI Assets is a cross-agent continuity layer for owning AI memory, skills, adapters, schemas, and migration workflows outside any single runtime.')} --disable-wiki", "cwd": str(staging_dir), "executes": False},
+            {"step": "push", "command": f"git push -u origin {branch}", "cwd": str(staging_dir), "executes": False},
+        ])
+    commands.extend([
         {"step": "tag", "command": f"git tag {release_tag}", "cwd": str(staging_dir), "executes": False},
         {"step": "push-tag", "command": f"git push origin {release_tag}", "cwd": str(staging_dir), "executes": False},
-    ]
+    ])
     checks = [
         {"name": "staging-ready", "status": "pass" if status_report["summary"]["status"] == "ready" else "fail", "detail": status_report["summary"]["status"]},
         {"name": "changed-files-present", "status": "pass" if status_report["summary"]["changed_files"] > 0 else "warn", "detail": str(status_report["summary"]["changed_files"])},
