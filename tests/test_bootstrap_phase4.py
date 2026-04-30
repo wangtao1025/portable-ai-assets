@@ -660,6 +660,82 @@ class BootstrapPhase4Tests(unittest.TestCase):
             self.assertEqual(manifest["public_safety_status"], "pass")
             self.assertEqual(manifest["release_readiness"], "ready")
 
+    def test_public_safety_scan_blocks_private_repo_identity_on_public_surface(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            (tmp / "docs").mkdir(parents=True)
+            private_slug = "owner123/" + "acme-" + "private" + "-assets"
+            private_remote = "https://github.com/" + private_slug + ".git"
+            (tmp / "docs" / "restore-readiness.md").write_text(
+                "# Restore\n"
+                f"private canonical assets repo: {private_slug}\n"
+                f"git clone {private_remote} ~/AI-Assets\n",
+                encoding="utf-8",
+            )
+
+            report = bootstrap_ai_assets.build_public_safety_scan_report(tmp)
+
+            self.assertEqual("blocked", report["summary"]["status"])
+            self.assertGreaterEqual(report["summary"]["blockers"], 2)
+            finding_types = {finding["type"] for finding in report["findings"]}
+            self.assertIn("private-repo-identity", finding_types)
+
+    def test_public_safety_scan_covers_public_included_tests(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            (tmp / "tests").mkdir(parents=True)
+            private_slug = "owner123/" + "acme-" + "private" + "-assets"
+            (tmp / "tests" / "test_fixture.py").write_text(
+                f"PRIVATE_REMOTE = 'https://github.com/{private_slug}.git'\n",
+                encoding="utf-8",
+            )
+
+            report = bootstrap_ai_assets.build_public_safety_scan_report(tmp)
+
+            self.assertEqual("blocked", report["summary"]["status"])
+            self.assertGreaterEqual(report["summary"]["blockers"], 1)
+            self.assertTrue(all(finding["path"] == "tests/test_fixture.py" for finding in report["findings"]))
+            self.assertIn("private-repo-identity", {finding["type"] for finding in report["findings"]})
+
+    def test_public_repo_staging_redacts_private_repo_identity_from_restore_docs(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            for rel in ["docs", "schemas", "bootstrap/setup", "bootstrap/reports", "sample-assets", "examples/redacted"]:
+                (tmp / rel).mkdir(parents=True)
+            (tmp / "README.md").write_text("# Demo\n", encoding="utf-8")
+            (tmp / "CONTRIBUTING.md").write_text("# Contributing\n", encoding="utf-8")
+            (tmp / ".gitignore").write_text("bootstrap/reports/\nmemory/\n", encoding="utf-8")
+            (tmp / "schemas" / "README.md").write_text("# Schemas\n", encoding="utf-8")
+            (tmp / "docs" / "security-model.md").write_text("# Security\n", encoding="utf-8")
+            (tmp / "docs" / "open-source-release-plan.md").write_text("# Release\n", encoding="utf-8")
+            private_slug = "owner123/" + "acme-" + "private" + "-assets"
+            private_remote = "https://github.com/" + private_slug + ".git"
+            (tmp / "docs" / "restore-readiness.md").write_text(
+                "# Restore\n"
+                f"private canonical assets repo: {private_slug}\n"
+                f"git clone {private_remote} ~/AI-Assets\n"
+                f"asset_repo_remote: {private_remote}\n",
+                encoding="utf-8",
+            )
+            (tmp / "bootstrap" / "reports" / "latest-public-safety-scan.json").write_text('{"summary":{"status":"pass"}}', encoding="utf-8")
+            (tmp / "bootstrap" / "reports" / "latest-release-readiness.json").write_text('{"summary":{"readiness":"ready"}}', encoding="utf-8")
+            repo_root = Path(__file__).resolve().parents[1]
+            (tmp / "bootstrap" / "setup" / "bootstrap_ai_assets.py").write_text(Path(bootstrap_ai_assets.__file__).read_text(encoding="utf-8"), encoding="utf-8")
+            (tmp / "bootstrap" / "setup" / "bootstrap-ai-assets.sh").write_text((repo_root / "bootstrap" / "setup" / "bootstrap-ai-assets.sh").read_text(encoding="utf-8"), encoding="utf-8")
+            (tmp / "bootstrap" / "setup" / "portable_ai_assets_paths.py").write_text((repo_root / "bootstrap" / "setup" / "portable_ai_assets_paths.py").read_text(encoding="utf-8"), encoding="utf-8")
+            (tmp / "bin").mkdir(parents=True)
+            (tmp / "bin" / "paa").write_text((repo_root / "bin" / "paa").read_text(encoding="utf-8"), encoding="utf-8")
+            (tmp / "bin" / "paa").chmod(0o755)
+
+            report = bootstrap_ai_assets.build_public_repo_staging_report(tmp)
+            staging_restore_doc = (Path(report["staging_dir"]) / "docs" / "restore-readiness.md").read_text(encoding="utf-8")
+
+            self.assertEqual(0, report["summary"]["forbidden_findings"])
+            self.assertNotIn(private_slug, staging_restore_doc)
+            self.assertNotIn(private_remote, staging_restore_doc)
+            self.assertIn("<owner>/<private-ai-assets-repo>", staging_restore_doc)
+            self.assertIn("https://github.com/<owner>/<private-ai-assets-repo>.git", staging_restore_doc)
+
     def test_public_release_archive_and_smoke_test_reports_pass_for_generated_pack(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
@@ -896,7 +972,7 @@ class BootstrapPhase4Tests(unittest.TestCase):
         readme = (repo_root / "README.md").read_text(encoding="utf-8")
 
         required_restore_tokens = [
-            "wangtao1025/ai-assets-private",
+            "<owner>/<private-ai-assets-repo>",
             "wangtao1025/portable-ai-assets",
             "asset_root",
             "public engine repo",
@@ -970,7 +1046,7 @@ class BootstrapPhase4Tests(unittest.TestCase):
             (tmp / "docs").mkdir(parents=True)
             (tmp / "bootstrap" / "reports").mkdir(parents=True)
             (tmp / "docs" / "restore-readiness.md").write_text(
-                "wangtao1025/ai-assets-private\n"
+                "<owner>/<private-ai-assets-repo>\n"
                 "wangtao1025/portable-ai-assets\n"
                 "asset_root\n"
                 "public engine repo\n"
@@ -1031,7 +1107,7 @@ class BootstrapPhase4Tests(unittest.TestCase):
             (checkout / "docs").mkdir(parents=True)
             (checkout / "bootstrap" / "reports").mkdir(parents=True)
             (checkout / "docs" / "restore-readiness.md").write_text(
-                "wangtao1025/ai-assets-private\n"
+                "<owner>/<private-ai-assets-repo>\n"
                 "wangtao1025/portable-ai-assets\n"
                 "asset_root\n"
                 "restore smoke test\n"

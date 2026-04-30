@@ -2,7 +2,7 @@
 
 # AI-Assets Manual Publication Decision Packet
 
-Generated: 2026-04-30T11:52:50
+Generated: 2026-04-30T14:53:12
 
 ## Summary
 
@@ -19,10 +19,10 @@ Generated: 2026-04-30T11:52:50
 
 ## Checks
 
-- **pass** `history-preflight-present`: {'status': 'ready', 'checks': 11, 'pass': 11, 'warn': 0, 'fail': 0, 'executes_anything': False, 'remote_configured': False, 'forbidden_findings': 0, 'head_rev': '585866d5b95ede1974e3c00c2fb0a699135251ed', 'v010_rev': '724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc', 'v011_rev': '6f06d98b85e18d629175705c19436a4df199c876', 'v012_rev': 'dd7993c5c074a012fedd34f7957672e172041a65', 'v013_rev': '9d67382cdefeddcbbefa3eacc943aabda12a36f1', 'v010_behind_head': True, 'checklist_declares_existing_v010': True}
+- **pass** `history-preflight-present`: {'status': 'ready', 'checks': 11, 'pass': 11, 'warn': 0, 'fail': 0, 'executes_anything': False, 'remote_configured': False, 'forbidden_findings': 0, 'head_rev': 'edf3cd2892319965341e369295fa7dcb0ccbce87', 'v010_rev': '724e3c1dd1b5bca9bc90f196bde5837c5e6f2bbc', 'v011_rev': '6f06d98b85e18d629175705c19436a4df199c876', 'v012_rev': 'dd7993c5c074a012fedd34f7957672e172041a65', 'v013_rev': '9d67382cdefeddcbbefa3eacc943aabda12a36f1', 'v010_behind_head': True, 'checklist_declares_existing_v010': True}
 - **pass** `history-preflight-non-executing`: False
 - **pass** `dry-run-non-executing`: False
-- **pass** `public-safety-pass`: {'status': 'pass', 'scanned_files': 132, 'findings': 0, 'blockers': 0, 'warnings': 0, 'unreadable_files': 0}
+- **pass** `public-safety-pass`: {'status': 'pass', 'scanned_files': 133, 'findings': 0, 'blockers': 0, 'warnings': 0, 'unreadable_files': 0}
 - **pass** `restore-smoke-boundary-reviewed`: {'status': 'ready', 'executes_anything': False, 'mutates_repositories': False, 'safe_for_fresh_clone': True}
 - **pass** `completed-work-aligned`: aligned
 - **pass** `external-learning-pass`: pass

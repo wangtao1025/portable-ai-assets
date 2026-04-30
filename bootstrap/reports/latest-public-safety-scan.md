@@ -2,14 +2,14 @@
 
 # AI-Assets Public Safety Scan
 
-Generated: 2026-04-30T11:52:49
+Generated: 2026-04-30T14:40:44
 Engine root: `/Users/example/AI-Assets`
 Asset root: `/Users/example/AI-Assets`
 
 ## Summary
 
 - Status: pass
-- Scanned files: 132
+- Scanned files: 133
 - Findings: 0
 - Blockers: 0
 - Warnings: 0

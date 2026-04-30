@@ -4,7 +4,7 @@ This document records the minimal restore path for the Portable AI Assets split-
 
 ## Repository roles
 
-- **private canonical assets repo**: `wangtao1025/ai-assets-private`
+- **private canonical assets repo**: `<owner>/<private-ai-assets-repo>`
   - Visibility must remain PRIVATE.
   - Contains canonical memories, adapter manifests, local restore workflows, private stack metadata, and private/local paths.
   - Do not copy this repo directly to public surfaces.
@@ -21,7 +21,7 @@ This document records the minimal restore path for the Portable AI Assets split-
 1. Clone the private canonical assets repo into the intended local asset root:
 
    ```bash
-   git clone https://github.com/wangtao1025/ai-assets-private.git ~/AI-Assets
+   git clone https://github.com/<owner>/<private-ai-assets-repo>.git ~/AI-Assets
    cd ~/AI-Assets
    ```
 
@@ -36,7 +36,7 @@ This document records the minimal restore path for the Portable AI Assets split-
    Expected remote shape:
 
    ```text
-   origin  https://github.com/wangtao1025/ai-assets-private.git
+   origin  https://github.com/<owner>/<private-ai-assets-repo>.git
    ```
 
 3. Set or verify the local configuration pointer. The important invariant is that `asset_root` points to the private canonical assets checkout, not to a public staging directory:
@@ -44,7 +44,7 @@ This document records the minimal restore path for the Portable AI Assets split-
    ```yaml
    engine_root: ~/portable-ai-assets-engine
    asset_root: ~/AI-Assets
-   asset_repo_remote: https://github.com/wangtao1025/ai-assets-private.git
+   asset_repo_remote: https://github.com/<owner>/<private-ai-assets-repo>.git
    default_sync_mode: review-before-commit
    allow_auto_commit: false
    ```
@@ -96,7 +96,7 @@ This document records the minimal restore path for the Portable AI Assets split-
 ## Restore smoke test checklist
 
 - [ ] `engine_root` and `asset_root` both point to the private canonical assets repo when running fresh-clone smoke diagnostics.
-- [ ] The private remote is `wangtao1025/ai-assets-private` and remains private.
+- [ ] The private remote is `<owner>/<private-ai-assets-repo>` and remains private.
 - [ ] The public engine repo remains a separate checkout or remote reference.
 - [ ] `bootstrap/setup/bootstrap-ai-assets.sh --engine-root "$PWD" --asset-root "$PWD" --restore-smoke-check --both` exits 0 without mutating repositories; a fresh clone may report `ready-with-prerequisite-regeneration-needed` until prerequisite reports are regenerated.
 - [ ] `bootstrap/setup/bootstrap-ai-assets.sh --engine-root "$PWD" --asset-root "$PWD" --completed-work-review --both` exits 0 after prerequisite reports are regenerated; a fresh clone may report blocked until you regenerate prerequisite reports.

@@ -969,9 +969,17 @@ def build_connector_preview_report(root: Path = ASSETS, schema_dir: Path = SCHEM
 
 
 
+PRIVATE_REPO_HTTPS_PATTERN = re.compile(r"https://github\.com/(?!example/|<owner>/)[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]*private[A-Za-z0-9_.-]*(?:\.git)?")
+PRIVATE_REPO_SSH_PATTERN = re.compile(r"git@github\.com:(?!example/|<owner>/)[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]*private[A-Za-z0-9_.-]*(?:\.git)?")
+PRIVATE_REPO_SLUG_PATTERN = re.compile(r"(?<![<\w.-])([A-Za-z0-9_.-]*\d[A-Za-z0-9_.-]*)/[A-Za-z0-9_.-]*private[A-Za-z0-9_.-]*\b")
+
+
 def _redact_public_text(text: str) -> str:
     text = re.sub(r"/Users/(?!example\b|yourname\b|you\b)[A-Za-z0-9._-]+", "/Users/example", text)
     text = re.sub(r"/home/(?!example\b|yourname\b|you\b)[A-Za-z0-9._-]+", "/home/example", text)
+    text = PRIVATE_REPO_HTTPS_PATTERN.sub("https://github.com/<owner>/<private-ai-assets-repo>.git", text)
+    text = PRIVATE_REPO_SSH_PATTERN.sub("git@github.com:<owner>/<private-ai-assets-repo>.git", text)
+    text = PRIVATE_REPO_SLUG_PATTERN.sub("<owner>/<private-ai-assets-repo>", text)
     text = re.sub(r"(?i)(\b(api[_-]?key|secret|token|password|credential)\b\s*[:=]\s*)['\"]?[^\s'\"]{8,}", r"\1[REDACTED]", text)
     text = re.sub(r"\bsk-[A-Za-z0-9_-]{20,}\b", "[REDACTED]", text)
     text = re.sub(r"\bgh[pousr]_[A-Za-z0-9_]{20,}\b", "[REDACTED]", text)
@@ -1246,6 +1254,7 @@ PUBLIC_SAFETY_SCAN_DIRS = [
     "adapters/registry",
     "bootstrap/setup",
     "bin",
+    "tests",
     "sample-assets",
     "examples/redacted",
 ]
@@ -1271,6 +1280,12 @@ SECRET_LIKE_PATTERNS = [
 PRIVATE_PATH_PATTERNS = [
     ("private-macos-home", re.compile(r"/Users/(?!example\b|yourname\b|you\b)[A-Za-z0-9._-]+")),
     ("private-linux-home", re.compile(r"/home/(?!example\b|yourname\b|you\b)[A-Za-z0-9._-]+")),
+]
+
+PRIVATE_REPO_IDENTITY_PATTERNS = [
+    PRIVATE_REPO_HTTPS_PATTERN,
+    PRIVATE_REPO_SSH_PATTERN,
+    PRIVATE_REPO_SLUG_PATTERN,
 ]
 
 TEXT_FILE_SUFFIXES = {
@@ -1339,6 +1354,16 @@ def _scan_text_for_public_safety_findings(path: Path, text: str, root: Path) -> 
                     "line": line_no,
                     "excerpt": match.group(0),
                     "recommendation": "Use /Users/example/... or document this only in private/local reports before publishing.",
+                })
+        for pattern in PRIVATE_REPO_IDENTITY_PATTERNS:
+            for match in pattern.finditer(line):
+                findings.append({
+                    "severity": "blocker",
+                    "type": "private-repo-identity",
+                    "path": relative,
+                    "line": line_no,
+                    "excerpt": _redact_public_text(match.group(0)),
+                    "recommendation": "Replace real private repository names or clone URLs with <owner>/<private-ai-assets-repo> placeholders before publishing.",
                 })
     return findings
 
@@ -11330,7 +11355,7 @@ def build_restore_smoke_check_report() -> Dict[str, Any]:
     restore_doc_path = asset_root / "docs" / "restore-readiness.md"
     restore_doc_text = restore_doc_path.read_text(encoding="utf-8") if restore_doc_path.exists() else ""
     required_doc_tokens = [
-        "wangtao1025/ai-assets-private",
+        "<owner>/<private-ai-assets-repo>",
         "wangtao1025/portable-ai-assets",
         "asset_root",
         "--asset-root",

@@ -1,6 +1,6 @@
 {
   "mode": "public-safety-scan",
-  "generated_at": "2026-04-30T11:52:49",
+  "generated_at": "2026-04-30T14:40:44",
   "host_home": "/Users/example",
   "engine_root": "/Users/example/AI-Assets",
   "root": "/Users/example/AI-Assets",
@@ -19,12 +19,13 @@
     "adapters/registry",
     "bootstrap/setup",
     "bin",
+    "tests",
     "sample-assets",
     "examples/redacted"
   ],
   "summary": {
     "status": "pass",
-    "scanned_files": 132,
+    "scanned_files": 133,
     "findings": 0,
     "blockers": 0,
     "warnings": 0,
